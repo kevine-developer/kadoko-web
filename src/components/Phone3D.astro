@@ -1,0 +1,399 @@
+---
+interface Props {
+  logoSrc?: string;
+  backgroundSrc?: string;
+  className?: string;
+}
+
+const { logoSrc = "/images/native-app/app-icon.png", backgroundSrc, className = "" } = Astro.props;
+---
+
+<div class={`phone-3d-container ${className}`}>
+  <div class="phone-3d">
+    <!-- Cadre iPhone -->
+    <div class="phone-frame">
+      <!-- Encoche Dynamic Island -->
+      <div class="dynamic-island"></div>
+      
+      <!-- Écran -->
+      <div class="phone-screen">
+        <!-- Fond d'écran -->
+        <div class="screen-background" style={backgroundSrc ? `background-image: url('${backgroundSrc}'); background-size: cover; background-position: center;` : ''}>
+          {!backgroundSrc && <div class="abstract-bg"></div>}
+        </div>
+        
+        <!-- Barre de statut -->
+        <div class="status-bar">
+          <div class="status-left">
+            <span class="time">9:41</span>
+          </div>
+          <div class="status-right">   
+            <svg class="status-icon" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="2" y="7" width="20" height="10" rx="2" opacity="0.3"/>
+              <rect x="18" y="9" width="4" height="6" rx="1"/>
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Grille d'icônes d'applications -->
+        <div class="app-grid">
+          <!-- Autres icônes -->
+          {Array.from({ length: 11 }).map((_, i) => (
+            <div class="app-icon">
+              <div class="app-icon-inner"></div>
+            </div>
+          ))}
+
+          <!-- Icône Application Principale (Logo) -->
+          <div class="app-icon">
+            <div class="app-icon-inner logo-icon">
+              <img src={logoSrc} alt="App Icon" class="w-full h-full object-cover rounded-[22%]" />
+            </div>
+            <span class="app-label">Kadô-Kou</span>
+          </div>
+        </div>
+        
+        <!-- Dock -->
+        <div class="dock">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div class="dock-icon">
+              <div class="dock-icon-inner"></div>
+            </div>
+          ))}
+          <!-- Icône Application Principale (Logo dans le Dock) -->
+          <div class="dock-icon">
+            <div class="dock-icon-inner logo-icon">
+               <img src={logoSrc} alt="App Icon Dock" class="w-full h-full object-cover rounded-[22%]" />
+            </div>
+          </div>
+        </div>
+        
+        <!-- Indicateur de geste -->
+        <div class="home-indicator"></div>
+      </div>
+      
+      <!-- Boutons latéraux -->
+      <div class="side-button side-button-left"></div>
+      <div class="side-button side-button-right top"></div>
+      <div class="side-button side-button-right middle"></div>
+      <div class="side-button side-button-right bottom"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .phone-3d-container {
+    perspective: 1500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .phone-3d {
+    transform-style: preserve-3d;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotateY(-15deg) rotateX(5deg);
+    }
+    50% {
+      transform: translateY(-20px) rotateY(-15deg) rotateX(5deg);
+    }
+  }
+
+  .phone-frame {
+    position: relative;
+    width: 320px;
+    height: 650px;
+    background: linear-gradient(145deg, #1a1a1a, #2d2d2d);
+    border-radius: 50px;
+    padding: 12px;
+    box-shadow: 
+      0 30px 60px rgba(0, 0, 0, 0.4),
+      0 10px 20px rgba(0, 0, 0, 0.3),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 2px 4px rgba(255, 255, 255, 0.05);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+  }
+
+  .phone-frame:hover {
+    transform: rotateY(-5deg) rotateX(2deg) scale(1.02);
+  }
+
+  /* Dynamic Island */
+  .dynamic-island {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 32px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 20;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.5),
+      inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Écran */
+  .phone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 42px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Fond d'écran */
+  .screen-background {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .abstract-bg {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+    position: relative;
+  }
+
+  .abstract-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+    animation: rotateBg 20s linear infinite;
+  }
+
+  @keyframes rotateBg {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Barre de statut */
+  .status-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    padding-top: 8px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 10;
+  }
+
+  .status-left,
+  .status-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-icon {
+    width: 18px;
+    height: 18px;
+    color: #fff;
+  }
+
+  /* Grille d'applications */
+  .app-grid {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 24px;
+    z-index: 5;
+  }
+
+  .app-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    height: 100%;
+
+  }
+
+  .app-icon-inner {
+    width: 70%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.1));
+    border-radius: 22%;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 2px rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease;
+  }
+
+  .logo-icon {
+    background: transparent;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+
+  .app-label {
+    font-size: 10px;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  }
+
+  .app-icon-inner:hover {
+    transform: scale(1.05);
+  }
+
+  /* Dock */
+  .dock {
+    position: absolute;
+    bottom: 30px;
+    left: 24px;
+    right: 24px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(30px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 10px;
+    z-index: 10;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  }
+
+  .dock-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dock-icon-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), rgba(212, 175, 55, 0.2));
+    border-radius: 22%;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s ease;
+  }
+
+  .dock-icon-inner:hover {
+    transform: scale(0.9);
+  }
+
+  /* Indicateur de geste */
+  .home-indicator {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    z-index: 15;
+  }
+
+  /* Boutons latéraux */
+  .side-button {
+    position: absolute;
+    background: linear-gradient(145deg, #2d2d2d, #1a1a1a);
+    border-radius: 2px;
+  }
+
+  .side-button-left {
+    left: -3px;
+    top: 120px;
+    width: 3px;
+    height: 30px;
+  }
+
+  .side-button-right {
+    right: -3px;
+    width: 3px;
+  }
+
+  .side-button-right.top {
+    top: 100px;
+    height: 50px;
+  }
+
+  .side-button-right.middle {
+    top: 170px;
+    height: 50px;
+  }
+
+  .side-button-right.bottom {
+    top: 240px;
+    height: 50px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .phone-frame {
+      width: 280px;
+      height: 570px;
+      border-radius: 44px;
+      padding: 10px;
+    }
+
+    .dynamic-island {
+      width: 100px;
+      height: 28px;
+      top: 16px;
+    }
+
+    .phone-screen {
+      border-radius: 38px;
+    }
+
+    .logo-wallpaper {
+      width: 140px;
+      height: 140px;
+    }
+
+    .app-grid {
+      gap: 16px;
+      padding: 0 20px;
+      top: 70px;
+    }
+
+    .dock {
+      bottom: 24px;
+      left: 20px;
+      right: 20px;
+    }
+
+  }
+</style>

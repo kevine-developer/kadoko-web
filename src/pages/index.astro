@@ -1,11 +1,202 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+import { APP_ICON_URL, LINK_APP_ANDROID } from "../const/constant";
+import AppGallery from "../components/AppGallery.astro";
+import Navbar from "../components/Navbar.astro";
+import Manifesto from "../components/Manifesto.astro";
+import Phone3D from "../components/Phone3D.astro";
+import appScreenHome from "../assets/images/native-app/wishlists.jpg";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const slidesData = [
+  {
+    id: 1,
+    tag: "COLLECTIONS",
+    title: "Le Registre d'Envies",
+    description: "Transformez vos désirs en une collection curatée. Fini les listes en vrac, place à une galerie d'objets d'exception.",
+    image: "/images/native-app/wishlists.jpg",
+  },
+  {
+    id: 2,
+    tag: "RÉCEPTIONS",
+    title: "L'Art de Recevoir",
+    description: "Créez des invitations numériques scellées et gérez vos convives avec une élégance rare.",
+    image: "/images/native-app/receptions.jpg",
+  },
+  {
+    id: 3,
+    tag: "SÉCURITÉ",
+    title: "Sceau Privé",
+    description: "Chaque interaction est sécurisée par un code d'accès unique, garantissant la confidentialité.",
+    image: "/images/native-app/seal.jpg",
+  },
+  {
+    id: 4,
+    tag: "COMMUNAUTÉ",
+    title: "Cercle Intime",
+    description: "Un réseau social épuré, débarrassé du bruit, pour ne se concentrer que sur l'essentiel.",
+    image: "/images/native-app/social.jpg",
+  },
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Kadô-Kou | L'Art d'Offrir">
+  <div class="fixed inset-0 pointer-events-none opacity-[0.03] z-9999 mix-blend-overlay noise-overlay"></div>
+
+  <main id="main-content" class="min-h-screen bg-bonesilk text-deepblack selection:bg-brushedgold selection:text-white overflow-x-hidden">
+    
+    <Navbar />
+
+    <header class="relative min-h-[90vh] md:min-h-screen flex flex-col justify-center px-6 md:px-20 pt-28 pb-20 overflow-hidden">
+      
+
+      <div class="max-w-[1400px] w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
+        
+        <div class="md:col-span-7 flex flex-col justify-center space-y-10 md:space-y-12 text-center md:text-left">
+            <div class="overflow-hidden">
+                <span class="inline-block text-xs md:text-sm font-bold text-brushedgold tracking-[0.4em] uppercase animate-slide-up-fade [animation-delay:200ms] opacity-0 fill-mode-forwards hover:tracking-[0.5em] transition-all duration-700 cursor-default">
+                    Édition Numérique • 2026
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-[7rem] font-serif leading-[1.1]  tracking-tight">
+                <span class="block overflow-hidden">
+                    <span class="block animate-slide-up-fade [animation-delay:400ms] opacity-0 fill-mode-forwards">L'élégance</span>
+                </span>
+                <span class="block overflow-hidden">
+                    <span class="block animate-slide-up-fade [animation-delay:550ms] opacity-0 fill-mode-forwards italic text-coolgrey">du geste.</span>
+                </span>
+                <span class="block overflow-hidden">
+                    <span class="block animate-slide-up-fade [animation-delay:700ms] opacity-0 fill-mode-forwards">Le plaisir d'offrir.</span>
+                </span>
+            </h1>
+
+            <div class="max-w-md mx-auto md:mx-0 overflow-hidden">
+                <p class="text-sm md:text-base text-coolgrey/80 font-light leading-relaxed animate-slide-up-fade [animation-delay:900ms] opacity-0 fill-mode-forwards">
+                    Kadô-Kou réinvente la liste de cadeaux et l'art de recevoir. Une expérience digitale conçue pour ceux qui considèrent que chaque attention mérite un écrin d'exception.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 md:gap-8 pt-4 animate-fade-in [animation-delay:1.1s] opacity-0 fill-mode-forwards">
+                <a 
+                  href={LINK_APP_ANDROID} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="group relative inline-flex items-center gap-4 text-xs font-bold uppercase tracking-widest pb-2 border-b border-deepblack hover:border-brushedgold transition-all duration-500 hover:tracking-[0.15em]"
+                >
+                    <span>Télécharger Android</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+                <span class="inline-flex items-center gap-4 text-xs font-bold uppercase tracking-widest pb-2 text-coolgrey/60 cursor-not-allowed">
+                    <span>iOS (Bientôt)</span>
+                </span>
+            </div>
+        </div>
+
+		<!-- Téléphone 3D Premium -->
+        <div class="md:col-span-5 relative h-[45vh] md:h-[70vh] flex items-center justify-center my-16 md:my-0">
+             <Phone3D className="opacity-0 translate-y-10 reveal-on-scroll transition-all duration-1000 ease-out" />
+        </div>
+
+      </div>
+
+    </header>
+
+    <!-- La Galerie (Scroll Reveal) -->
+    <section class="relative z-20 bg-white">
+       <!-- Bandeau de transition -->
+       <div class="py-4 border-y border-hairline flex justify-between px-6 bg-bonesilk overflow-hidden">
+            <!-- Conteneur de défilement infini -->
+           <div class="flex whitespace-nowrap overflow-hidden">
+               <div class="flex gap-12 animate-marquee items-center text-xs font-bold tracking-[0.3em] uppercase text-coolgrey/60 px-6">
+                   <span>Wishlist Curatée</span><span>—</span><span>Événements Privés</span><span>—</span><span>Cercle de Confiance</span><span>—</span><span>Design Éditorial</span><span>—</span>
+               </div>
+               <div class="flex gap-12 animate-marquee items-center text-xs font-bold tracking-[0.3em] uppercase text-coolgrey/60 px-6" aria-hidden="true">
+                   <span>Wishlist Curatée</span><span>—</span><span>Événements Privés</span><span>—</span><span>Cercle de Confiance</span><span>—</span><span>Design Éditorial</span><span>—</span>
+               </div>
+           </div>
+       </div>
+       
+       <AppGallery slides={slidesData} />
+    </section>
+
+    <Manifesto />
+
+    </section>
+  </main>
 </Layout>
+
+<script>
+  // Intersection Observer pour les animations au scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('opacity-0', 'translate-y-10');
+        entry.target.classList.add('opacity-100', 'translate-y-0');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+</script>
+
+<style>
+  /* Ajout des keyframes pour les nouvelles animations */
+  @keyframes slide-up-fade {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .animate-slide-up-fade {
+      animation: slide-up-fade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes float-slow {
+      0%, 100% { transform: translateY(0) rotateY(12deg) rotateZ(3deg); }
+      50% { transform: translateY(-15px) rotateY(12deg) rotateZ(3deg); }
+  }
+  
+  .animate-float-slow {
+      animation: float-slow 6s ease-in-out infinite;
+  }
+
+  @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+  }
+
+  .animate-marquee {
+      animation: marquee 30s linear infinite;
+  }
+
+  /* Utilitaires 3D */
+  .perspective-1000 {
+      perspective: 1000px;
+  }
+  
+  .rotate-y-12 {
+      transform: rotateY(-12deg);
+  }
+  
+  .rotate-z-3 {
+      transform: rotateZ(3deg);
+  }
+
+  @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+  }
+
+  .animate-fade-in {
+      animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .noise-overlay {
+      background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.05) 2px, rgba(0,0,0,.05) 4px);
+      background-size: 4px 4px;
+  }
+
+</style>

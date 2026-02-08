@@ -1,0 +1,94 @@
+---
+import { SEO, SITE_URL } from "../const/seo";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  noindex?: boolean;
+  type?: "website" | "article" | "profile";
+}
+
+const {
+  title = SEO.defaultTitle,
+  description = SEO.defaultDescription,
+  image = SEO.defaultImage,
+  canonical,
+  noindex = false,
+  type = "website",
+} = Astro.props;
+
+const canonicalURL = canonical
+  ? new URL(canonical, SITE_URL)
+  : new URL(Astro.url.pathname, SITE_URL);
+
+const socialImageURL = new URL(image, SITE_URL);
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:site_name" content={SEO.defaultTitle} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={socialImageURL} />
+
+<!-- Fonts Preload (Performance) -->
+<!-- Georgia est une police système safe, mais si on utilise une webfont : -->
+<!-- <link rel="preload" href="/fonts/my-font.woff2" as="font" type="font/woff2" crossorigin /> -->
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": SEO.defaultTitle,
+    "url": SITE_URL,
+    "description": description,
+    "inLanguage": "fr-FR"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Kadô-kou",
+    "operatingSystem": "iOS, Android",
+    "applicationCategory": "LifestyleApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "description": description,
+    "image": socialImageURL
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Kadô-Kou",
+    "url": SITE_URL,
+    "logo": socialImageURL // Idéalement le logo
+  }
+])} />

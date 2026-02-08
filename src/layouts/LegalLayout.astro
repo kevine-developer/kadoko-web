@@ -1,0 +1,92 @@
+---
+import Layout from "./Layout.astro";
+import { APP_ICON_URL } from "../const/constant";
+
+interface Props {
+  title: string;
+  description: string;
+  subtitle: string;
+  lastUpdated?: string;
+}
+
+const { title, description, subtitle, lastUpdated } = Astro.props;
+---
+
+<Layout title={title} description={description} noindex={true}>
+  <!-- Navbar Minimaliste -->
+  <nav class="fixed top-0 left-0 right-0 z-100 px-6 py-6 pointer-events-none">
+    <div class="max-w-[1400px] mx-auto flex justify-between items-center">
+      <a href="/" class="pointer-events-auto group flex items-center gap-3 bg-bonesilk/90 backdrop-blur-md border border-black/5 py-2.5 px-5 rounded-full shadow-sm shadow-black/2 transition-all hover:bg-black hover:text-white">
+        <span class="text-xs transition-transform group-hover:-translate-x-1">←</span>
+        <span class="text-xs font-bold tracking-[0.2em] uppercase"> Kadô-Kou</span>
+      </a>
+      
+      <div class="hidden md:block pointer-events-auto">
+        <div class="bg-bonesilk/50 backdrop-blur-sm border border-black/5 py-2.5 px-5 rounded-full">
+            <span class="text-xs font-bold tracking-[0.3em] uppercase text-brushedgold">Registre Officiel</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="min-h-screen bg-bonesilk text-deepblack selection:bg-brushedgold/10">
+    <div class="max-w-4xl mx-auto px-6 pt-40 pb-32">
+      
+      <!-- En-tête de Document -->
+      <header class="relative flex flex-col items-center mb-32 text-center">
+        <!-- Logo en Sceau -->
+        <div class="mb-12 relative">
+          <div class="w-20 h-20 flex items-center justify-center bg-white border border-black/5 rounded-full shadow-sm">
+             <img src={APP_ICON_URL} alt="Kadô-Kou" class="w-10 h-10 object-contain grayscale" />
+          </div>
+          <!-- Cercle décoratif fin -->
+          <div class="absolute inset-[-10px] border border-brushedgold/20 rounded-full animate-spin-slow"></div>
+        </div>
+        
+        <div class="space-y-6 max-w-2xl">
+            <span class="inline-block text-xs font-bold text-brushedgold tracking-[0.4em] uppercase mb-2">
+                {subtitle}
+            </span>
+            
+            <h1 class="text-4xl md:text-6xl font-serif italic text-deepblack leading-tight tracking-tight px-4" set:html={title}>
+            </h1>
+
+            <div class="flex items-center justify-center gap-6 pt-6">
+                <div class="h-[1px] w-12 bg-brushedgold/20"></div>
+                {lastUpdated && (
+                  <p class="text-xs uppercase tracking-[0.3em] text-coolgrey/80 font-bold">
+                      Révision {lastUpdated}
+                  </p>
+                )}
+                <div class="h-[1px] w-12 bg-brushedgold/20"></div>
+            </div>
+        </div>
+      </header>
+
+      <!-- Zone de Contenu -->
+      <!-- On applique des styles via des sélecteurs Tailwind v4 sur le parent pour remplacer le plugin prose -->
+      <article class="max-w-3xl mx-auto 
+        [&_h2]:font-serif [&_h2]:italic [&_h2]:text-3xl [&_h2]:mt-20 [&_h2]:mb-8 [&_h2]:pb-4 [&_h2]:border-b [&_h2]:border-black/5 [&_h2]:text-deepblack
+        [&_h3]:font-bold [&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:text-deepblack [&_h3]:tracking-wide [&_h3]:uppercase [&_h3]:text-xs
+        [&_p]:text-[15px] [&_p]:leading-relaxed [&_p]:text-coolgrey [&_p]:mb-6 [&_p]:font-light
+        [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-4 [&_ul]:my-8
+        [&_li]:pl-6 [&_li]:relative [&_li]:text-[15px] [&_li]:text-coolgrey [&_li]:font-light
+        [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-2.5 [&_li]:before:w-1.5 [&_li]:before:h-1.5 [&_li]:before:bg-brushedgold [&_li]:before:rounded-full
+        [&_strong]:text-deepblack [&_strong]:font-bold">
+        <slot />
+      </article>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+  }
+
+  .animate-spin-slow {
+      animation: spin-slow 20s linear infinite;
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { LEGAL_CONTENT } from "../const/legal-data";
+
+const content = LEGAL_CONTENT.help;
+const title = `Centre<br/> <span class="italic text-coolgrey">d'Aide.</span>`;
+const description = "Questions fréquentes et support pour l'application Kadô-Kou.";
+const lastUpdated = "12 Février 2026";
+---
+
+<LegalLayout 
+  title={title} 
+  description={description} 
+  subtitle="Support & Assistance"
+  lastUpdated={lastUpdated}
+>
+  <div class="space-y-20">
+    {content.sections.map((section, idx) => (
+      <section>
+          {section.title && (
+            <h2>
+                <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">{String(idx + 1).padStart(2, '0')}</span>
+                {section.title}
+            </h2>
+          )}
+          <p>
+            {section.body}
+          </p>
+      </section>
+    ))}
+
+    <div class="bg-deepblack text-bonesilk p-12 text-center relative overflow-hidden group cursor-default shadow-2xl">
+        <div class="absolute top-0 left-0 w-full h-1 bg-brushedgold transform origin-left scale-x-0 transition-transform duration-500 group-hover:scale-x-100"></div>
+        <p class="text-xs font-bold tracking-[0.3em] uppercase mb-4 text-white/40">Besoin d'assistance directe ?</p>
+        <a href="mailto:contact@kadokou.fr" class="text-xl md:text-3xl font-serif italic hover:text-brushedgold transition-colors inline-block pb-2 border-b border-brushedgold/20">
+            contact@kadokou.fr
+        </a>
+    </div>
+  </div>
+</LegalLayout>
+
