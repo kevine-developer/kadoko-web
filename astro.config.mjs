@@ -4,9 +4,15 @@ import AstroPWA from '@vite-pwa/astro';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import node from '@astrojs/node';
+
 // https://astro.build/config
 export default defineConfig({
   site: import.meta.env.PUBLIC_SITE_URL || 'https://kadokou.gastsar.fr',
+  output: 'server',
+  adapter: node({
+    mode: 'standalone'
+  }),
   integrations: [
     sitemap(),
     AstroPWA({

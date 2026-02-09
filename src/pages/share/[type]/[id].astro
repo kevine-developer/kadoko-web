@@ -1,0 +1,317 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+export const prerender = false;
+
+const { type, id } = Astro.params;
+
+// Titres dynamiques selon le type
+const pageTitle = type === "p" ? "Profil Kadô-Kou" : "Réception Kadô-Kou";
+const description =
+  type === "p"
+    ? "Découvrez ce profil sur l'application Kadô-Kou."
+    : "Consultez cette réception sur l'application Kadô-Kou.";
+
+// Construction des Deep Links
+// Prod: kadokou://profile/friend/123 ou kadokou://reception/456
+// Dev: exp://...
+const deepLinkPath = type === "p" ? `profile/friend/${id}` : `reception/${id}`;
+const appScheme = `kadokou://${deepLinkPath}`;
+
+// Liens des Stores (À remplacer par les vrais IDs quand disponibles)
+const appStoreLink = "https://apps.apple.com/app/kadokou/id6739505777";
+const playStoreLink =
+  "https://play.google.com/store/apps/details?id=com.kadokou.app";
+---
+
+<Layout title={pageTitle} description={description} noindex={true}>
+  <main class="page-container">
+    <div class="card">
+      <div class="logo">KADÔ-KOU <span>Paris</span></div>
+
+      <div class="icon-container">
+        {
+          type === "p" ? (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          ) : (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+          )
+        }
+      </div>
+
+      <h1>{type === "p" ? "Profil Utilisateur" : "Invitation Réception"}</h1>
+      <div class="divider"></div>
+
+      <p>
+        Pour accéder à ce contenu, ouvrez l'application Kadô-Kou sur votre
+        mobile.
+      </p>
+
+      <div class="actions">
+        <button id="openAppBtn" class="btn primary" data-scheme={appScheme}>
+          Ouvrir dans l'application
+        </button>
+      </div>
+
+      <div class="separator">
+        <span>ou télécharger l'application</span>
+      </div>
+
+      <div class="store-buttons">
+        <a href={appStoreLink} class="store-btn ios" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"
+            ><path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.8-1.31.05-2.3-1.23-3.14-2.47-1.72-2.49-2.92-6.91-.77-10.64 1.13-1.99 3.19-3.25 5.51-3.29 1.48-.03 2.76.99 3.63.99.87 0 2.54-1.23 4.28-1.05 1.42.1 2.54.58 3.52 1.83-2.93 1.76-2.45 6.09.64 7.42-.69 1.75-1.65 3.5-2.79 4.73l-.27.24zm-3.8-14.7c.69-1.13 1.16-2.61.99-4.04-1.29.1-2.91.89-3.86 1.99-.81.93-1.48 2.46-1.31 3.86 1.44.11 3.01-.76 4.18-1.81z"
+            ></path></svg
+          >
+          App Store
+        </a>
+        <a href={playStoreLink} class="store-btn android" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"
+            ><path
+              d="M3,20.5V3.5C3,2.91,3.34,2.39,3.84,2.15L13.69,12L3.84,21.85C3.34,21.6,3,21.09,3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.3,13.08L18.17,11.85C18.17,11.85,18.14,11.87,18.12,11.89L15.39,13.7L20.3,16.53C20.53,16.39,20.62,16.08,20.5,15.86C20.39,15.65,20.18,15.53,19.95,15.53L20.3,13.08M16.81,8.88L14.54,11.15L6.05,2.66L16.81,8.88"
+            ></path></svg
+          >
+          Google Play
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Tentative automatique d'ouverture
+  const openAppBtn = document.getElementById("openAppBtn");
+  const appScheme = openAppBtn?.getAttribute("data-scheme");
+
+  // Fonction pour détecter l'OS mobile
+  function getMobileOS() {
+    const userAgent =
+      navigator.userAgent || navigator.vendor || (window as any).opera;
+    if (/android/i.test(userAgent)) return "android";
+    if (/iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream)
+      return "ios";
+    return "unknown";
+  }
+
+  function tryOpenApp() {
+    if (!appScheme) return;
+
+    // Fallback URL (Store)
+    const os = getMobileOS();
+    const fallbackUrl =
+      os === "android"
+        ? "https://play.google.com/store/apps/details?id=com.kadokou.app"
+        : "https://apps.apple.com/app/kadokou/id6739505777";
+
+    const start = Date.now();
+
+    // Tentative d'ouverture de l'app
+    window.location.href = appScheme;
+
+    // Si on est encore là après 2.5s, c'est que l'app ne s'est pas ouverte
+    // On ne redirige pas automatiquement vers le store pour ne pas bloquer l'utilisateur,
+    // mais on pourrait le faire si souhaité. Ici on laisse l'utilisateur cliquer sur les boutons Store.
+    // L'automatisme peut être agressif.
+  }
+
+  openAppBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    tryOpenApp();
+  });
+
+  // Essai automatique au chargement sur mobile seulement
+  if (getMobileOS() !== "unknown") {
+    setTimeout(tryOpenApp, 500);
+  }
+</script>
+
+<style>
+  .page-container {
+    background-color: #fdfbf7;
+    color: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    padding: 50px 30px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+  }
+
+  .logo {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  .logo span {
+    font-family: "Georgia", serif;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 2px;
+  }
+
+  .icon-container {
+    margin: 0 auto 25px;
+    width: 50px;
+    height: 50px;
+    color: #af9062;
+    background-color: #faf8f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-container svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  h1 {
+    font-family: "Georgia", serif;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+  }
+
+  .divider {
+    width: 40px;
+    height: 2px;
+    background-color: #af9062;
+    margin: 0 auto 25px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+
+  .btn.primary {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .btn.primary:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .separator {
+    margin: 30px 0;
+    position: relative;
+    text-align: center;
+  }
+
+  .separator::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background-color: #eee;
+    z-index: 1;
+  }
+
+  .separator span {
+    background-color: #fff;
+    padding: 0 15px;
+    position: relative;
+    z-index: 2;
+    color: #999;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .store-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .store-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+
+  .store-btn:hover {
+    border-color: #333;
+    background-color: #f9f9f9;
+  }
+
+  .store-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+</style>
