@@ -1,0 +1,250 @@
+---
+/**
+ * Page de confirmation d'email
+ * Redirection depuis l'API après validation du token
+ */
+
+const title = "Identification Confirmée - Kadô-Kou";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <style>
+      /* --- FONT IMPORT --- */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap');
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Georgia', serif;
+        background-color: #FDFBF7; /* Bone Silk */
+        color: #1A1A1A;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background-color: #FFFFFF;
+        width: 100%;
+        max-width: 500px;
+        padding: 60px 40px;
+        border: 1px solid rgba(0,0,0,0.06);
+        text-align: center;
+        /* Ombre "Glace" très légère */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+      }
+
+      .logo {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        letter-spacing: 8px;
+        color: #1A1A1A;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+      }
+
+      .logo span {
+        font-family: 'Georgia', serif;
+        font-style: italic;
+        text-transform: none;
+        letter-spacing: 2px;
+      }
+
+      .success-symbol {
+        margin: 0 auto 30px;
+        width: 60px;
+        height: 60px;
+        border: 1px solid rgba(175, 144, 98, 0.3); /* Or brossé translucide */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .success-symbol svg {
+        width: 24px;
+        height: 24px;
+        stroke: #AF9062; /* Or brossé */
+        stroke-width: 1.5;
+        fill: none;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 400;
+        letter-spacing: -0.5px;
+        margin-bottom: 20px;
+        color: #1A1A1A;
+      }
+
+      .divider {
+        width: 30px;
+        height: 2px;
+        background-color: #AF9062;
+        margin: 0 auto 30px;
+      }
+
+      p {
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        color: #8E8E93;
+        line-height: 1.6;
+        margin-bottom: 40px;
+        font-weight: 300;
+      }
+
+      .btn {
+        display: block;
+        background-color: #1A1A1A; /* Charcoal */
+        color: #FFFFFF;
+        padding: 20px;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transition: opacity 0.3s;
+        cursor: pointer;
+        border: none;
+        width: 100%;
+      }
+
+      .btn:hover {
+        opacity: 0.85;
+      }
+
+      #status {
+        font-family: 'Inter', sans-serif;
+        font-size: 10px;
+        color: #BCBABA;
+        margin-top: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .footer {
+        margin-top: 60px;
+        padding-top: 30px;
+        border-top: 1px solid #F2F2F2;
+      }
+
+      .footer-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        font-weight: 800;
+        color: #1A1A1A;
+        letter-spacing: 1.5px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      .store-links {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .store-link {
+        color: #1A1A1A;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.3s;
+      }
+
+      .store-link:hover {
+        border-color: #AF9062;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">KADÔ-KOU</div>
+
+      <div class="success-symbol">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="currentColor">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <h1 id="title-text">Identité confirmée.</h1>
+      <div class="divider"></div>
+      <p id="desc-text">
+        Votre compte est désormais actif au sein du registre Kadô-Kou. <br>
+        Vous pouvez à présent naviguer parmi vos collections.
+      </p>
+
+      <button id="openAppBtn" class="btn">Ouvrir l'application</button>
+
+      <div id="status">Chargement de votre espace...</div>
+
+      <div class="footer">
+        <div class="footer-label">Accès Boutique</div>
+        <div class="store-links">
+          <a href="https://apps.apple.com/app/kadokou" class="store-link" target="_blank">
+            iOS
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.kadokou.app" class="store-link" target="_blank">
+            Android
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script is:inline>
+      function openApp() {
+        // Schémas de deep link configurés dans l'app mobile
+        const localExpUrl = "exp://192.168.1.100:8081/--/verify-success";
+        const prodSchemeUrl = "kadokou://verify-success";
+
+        // Tentative d'ouverture (Dev puis Prod)
+        window.location.href = localExpUrl;
+        setTimeout(function() {
+            window.location.href = prodSchemeUrl;
+        }, 500);
+
+        setTimeout(() => {
+          document.getElementById("status").textContent = "Identité prête. Bienvenue.";
+        }, 3500);
+      }
+
+      window.addEventListener("load", function () {
+        // Détecter si l'utilisateur était déjà vérifié
+        const urlParams = new URLSearchParams(window.location.search);
+        const alreadyVerified = urlParams.get('alreadyVerified') === 'true';
+
+        if (alreadyVerified) {
+          document.getElementById('title-text').textContent = "Déjà confirmé.";
+          document.getElementById('desc-text').innerHTML = "Votre adresse email a déjà été validée précédemment.<br>Vous pouvez continuer à utiliser votre espace Kadô-Kou.";
+          document.getElementById('status').textContent = "Session active. Prêt.";
+        }
+
+        // Essayer d'ouvrir l'app automatiquement après un court délai
+        setTimeout(openApp, 1000);
+      });
+
+      document.getElementById("openAppBtn").addEventListener("click", function (e) {
+        e.preventDefault();
+        openApp();
+      });
+    </script>
+  </body>
+</html>
