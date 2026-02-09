@@ -5,7 +5,7 @@ import { LEGAL_CONTENT } from "../const/legal-data";
 const content = LEGAL_CONTENT.cgu;
 const title = `Conditions Générales<br/> <span class="italic text-coolgrey">d'Utilisation.</span>`;
 const description = "Conditions générales d'utilisation de l'application et du site Kadô-Kou.";
-const lastUpdated = "12 Février 2026";
+const lastUpdated = "9 Février 2026";
 ---
 
 <LegalLayout 
@@ -16,9 +16,9 @@ const lastUpdated = "12 Février 2026";
 >
   {content.sections.map((section, idx) => (
     <section class="mb-16">
-        <h2 id={`section-${idx}`}>
+        <h2 id={`section-${idx}`} >
           <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">{String(idx + 1).padStart(2, '0')}</span>
-          {section.title}
+          <span class="text-xl  text-deepblack">{section.title}</span>
         </h2>
         <p>
           {section.body}

@@ -20,7 +20,7 @@ export const LEGAL_INFO = {
   siret: "*",
   rcs: "TOULOUSE",
   tva: "FR00000000000",
-  email: "contact@gastsar.fr",
+  email: "yvesnarsonkevine@gmail.com",
   publicationDirector: "Narson Kevine YVES",
   host: {
     name: "Ionos.",

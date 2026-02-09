@@ -16,11 +16,6 @@ const { title, description, subtitle, lastUpdated } = Astro.props;
   <!-- Navbar Minimaliste -->
   <nav class="fixed top-0 left-0 right-0 z-100 px-6 py-6 pointer-events-none">
     <div class="max-w-[1400px] mx-auto flex justify-between items-center">
-      <a href="/" class="pointer-events-auto group flex items-center gap-3 bg-bonesilk/90 backdrop-blur-md border border-black/5 py-2.5 px-5 rounded-full shadow-sm shadow-black/2 transition-all hover:bg-black hover:text-white">
-        <span class="text-xs transition-transform group-hover:-translate-x-1">←</span>
-        <span class="text-xs font-bold tracking-[0.2em] uppercase"> Kadô-Kou</span>
-      </a>
-      
       <div class="hidden md:block pointer-events-auto">
         <div class="bg-bonesilk/50 backdrop-blur-sm border border-black/5 py-2.5 px-5 rounded-full">
             <span class="text-xs font-bold tracking-[0.3em] uppercase text-brushedgold">Registre Officiel</span>
@@ -33,7 +28,7 @@ const { title, description, subtitle, lastUpdated } = Astro.props;
     <div class="max-w-4xl mx-auto px-6 pt-40 pb-32">
       
       <!-- En-tête de Document -->
-      <header class="relative flex flex-col items-center mb-32 text-center">
+      <header class="relative flex flex-col items-center mb-20 text-center">
         <!-- Logo en Sceau -->
         <div class="mb-12 relative">
           <div class="w-20 h-20 flex items-center justify-center bg-white border border-black/5 rounded-full shadow-sm">
@@ -48,7 +43,7 @@ const { title, description, subtitle, lastUpdated } = Astro.props;
                 {subtitle}
             </span>
             
-            <h1 class="text-4xl md:text-6xl font-serif italic text-deepblack leading-tight tracking-tight px-4" set:html={title}>
+            <h1 class="text-3xl md:text-5xl font-serif italic text-deepblack leading-tight tracking-tight px-4" set:html={title}>
             </h1>
 
             <div class="flex items-center justify-center gap-6 pt-6">

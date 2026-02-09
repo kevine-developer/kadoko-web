@@ -14,8 +14,9 @@ export const LEGAL_CONTENT: Record<string, LegalPageContent> = {
     sections: [
       {
         title: "1. Éditeur de l'Application",
-        body: "L'application Kadô-Kou (ci-après l'« Application ») est éditée par :\n\n[VOTRE NOM COMPLET si Entrepreneur Individuel / DÉNOMINATION SOCIALE si Société]\nStatut juridique : [EI / SAS / SARL...]\nCapital social : [MONTANT] € (inutile si EI)\nSiège social : [VOTRE ADRESSE COMPLÈTE], 31000 Toulouse, France\nImmatriculation RCS Toulouse : [NUMÉRO SIRET]\nNuméro de TVA intracommunautaire : [NUMÉRO ou 'Non applicable']\n\nDirecteur de la publication : [VOTRE NOM]\nEmail de contact : contact@kadoko.fr",
+        body: "L'application Kadô-Kou (ci-après l'« Application ») est actuellement en phase de test.\n\nÀ ce titre, elle est éditée à titre personnel par :\n\nYves Narson Kevine\nStatut juridique : En cours de définition\nSiège social : Toulouse, France\n\nDirecteur de la publication : Yves Narson Kevine\nEmail de contact : yvesnarsonkevine@gmail.com\n\nLes informations légales définitives (statut juridique, immatriculation, numéro de TVA, etc.) seront précisées lors de la mise en production officielle de l’application.",
       },
+
       {
         title: "2. Hébergement des Données",
         body: "L'infrastructure technique et les bases de données (Prisma) sont hébergées sur les serveurs européens de :\n\nIONOS SE\nElgendorfer Str. 57\n56410 Montabaur, Allemagne\nSite web : www.ionos.fr\nConformité RGPD : Les données sont stockées au sein de l'Union Européenne.",
