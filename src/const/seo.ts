@@ -1,13 +1,13 @@
 export const APP_NAME = "Kadô-kou";
-export const SITE_URL = "https://gastsar.fr"; 
+export const SITE_URL = "https://kadokou.gastsar.fr";
 export const SITE_DESCRIPTION =
   "Transformez vos désirs en une collection curatée. Fini les listes en vrac, place à une galerie d'objets d'exception.";
 
 export const SEO = {
   defaultTitle: `${APP_NAME} | L'Art d'Offrir`,
   defaultDescription: SITE_DESCRIPTION,
-  defaultImage: "/images/og-image.jpg", // À créer
-  twitterHandle: "@kadokou", // Placeholder
+  defaultImage: "/android-chrome-512x512.png",
+  twitterHandle: "@kadokou",
   separator: "|",
 };
 
@@ -15,15 +15,17 @@ export const SEO = {
 export const LEGAL_INFO = {
   companyName: "Gastsar",
   legalForm: "À COMPLÉTER (SAS, SARL...)",
-  capital: "À COMPLÉTER (Montant du capital)",
-  address: "À COMPLÉTER (Adresse du siège social)",
-  siret: "À COMPLÉTER (Numéro SIRET)",
-  rcs: "À COMPLÉTER (Ville RCS)",
-  tva: "À COMPLÉTER (Numéro TVA Intracommunautaire)",
-  email: "[EMAIL_ADDRESS]",
-  publicationDirector: "À COMPLÉTER (Directeur de la publication)",
+  capital: "0 €",
+  address: "TOULOUSE, 31500",
+  siret: "*",
+  rcs: "TOULOUSE",
+  tva: "FR00000000000",
+  email: "contact@gastsar.fr",
+  publicationDirector: "Narson Kevine YVES",
   host: {
-    name: "Ionos.", 
-    address: " 123 Rue de l'Innovation, 75001 Paris, France",
+    name: "Ionos.",
+    address: "7, place de la Gare FR 57200 Sarreguemines",
+    url: "https://www.ionos.fr",
+    tel:""
   },
 };
