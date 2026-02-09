@@ -13,19 +13,8 @@ const { title, description, subtitle, lastUpdated } = Astro.props;
 ---
 
 <Layout title={title} description={description} noindex={true}>
-  <!-- Navbar Minimaliste -->
-  <nav class="fixed top-0 left-0 right-0 z-100 px-6 py-6 pointer-events-none">
-    <div class="max-w-[1400px] mx-auto flex justify-between items-center">
-      <div class="hidden md:block pointer-events-auto">
-        <div class="bg-bonesilk/50 backdrop-blur-sm border border-black/5 py-2.5 px-5 rounded-full">
-            <span class="text-xs font-bold tracking-[0.3em] uppercase text-brushedgold">Registre Officiel</span>
-        </div>
-      </div>
-    </div>
-  </nav>
-
   <main class="min-h-screen bg-bonesilk text-deepblack selection:bg-brushedgold/10">
-    <div class="max-w-4xl mx-auto px-6 pt-40 pb-32">
+    <div class="max-w-4xl mx-auto px-6 pt-10 pb-12">
       
       <!-- En-tête de Document -->
       <header class="relative flex flex-col items-center mb-20 text-center">
