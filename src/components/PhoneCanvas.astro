@@ -1,0 +1,331 @@
+---
+interface Props {
+  className?: string;
+  screenImage?: string;
+}
+
+const { 
+  className = "", 
+  screenImage = "/images/native-app/wishlists.jpg" 
+} = Astro.props;
+---
+
+<div class={`phone-3d-container relative w-full h-[500px] md:h-[700px] ${className}`} id="phone-3d-scene">
+  <canvas id="three-canvas" class="w-full h-full outline-none block"></canvas>
+  
+  <!-- Overlay d'interaction subtil -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-none">
+     <p class="text-[10px] uppercase tracking-[0.2em] text-white/30 font-medium">Interact 360°</p>
+  </div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  class iPhoneScene {
+    container: HTMLElement;
+    canvas: HTMLCanvasElement;
+    renderer: THREE.WebGLRenderer;
+    scene: THREE.Scene;
+    camera: THREE.PerspectiveCamera;
+    phoneGroup: THREE.Group;
+    mouse: THREE.Vector2;
+    targetRotation: THREE.Vector2;
+    
+    // Config iPhone
+    params = {
+      width: 2.1,
+      height: 4.3,
+      depth: 0.2,
+      radius: 0.4,
+      bezel: 0.08,
+      metalColor: 0x222222, // Titane Noir
+      screenColor: 0x050505
+    };
+
+    constructor(containerId: string, screenImage: string) {
+      this.container = document.getElementById(containerId)!;
+      this.canvas = this.container.querySelector('#three-canvas') as HTMLCanvasElement;
+      
+      this.scene = new THREE.Scene();
+      this.phoneGroup = new THREE.Group();
+      this.mouse = new THREE.Vector2();
+      this.targetRotation = new THREE.Vector2(0.2, -0.4);
+      
+      this.camera = new THREE.PerspectiveCamera(35, this.container.clientWidth / this.container.clientHeight, 0.1, 1000);
+      this.camera.position.z = 8;
+      
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+      this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      
+      this.init();
+      this.createiPhone(screenImage);
+      this.addLights();
+      this.setupEvents();
+      this.animate();
+    }
+
+    init() {
+      this.scene.add(this.phoneGroup);
+    }
+
+    // Génère une forme de rectangle arrondi réutilisable
+    createRoundedRectShape(w: number, h: number, r: number) {
+      const s = new THREE.Shape();
+      s.moveTo(-w/2 + r, -h/2);
+      s.lineTo(w/2 - r, -h/2);
+      s.absarc(w/2 - r, -h/2 + r, r, -Math.PI/2, 0, false);
+      s.lineTo(w/2, h/2 - r);
+      s.absarc(w/2 - r, h/2 - r, r, 0, Math.PI/2, false);
+      s.lineTo(-w/2 + r, h/2);
+      s.absarc(-w/2 + r, h/2 - r, r, Math.PI/2, Math.PI, false);
+      s.lineTo(-w/2, -h/2 + r);
+      s.absarc(-w/2 + r, -h/2 + r, r, Math.PI, Math.PI * 1.5, false);
+      return s;
+    }
+
+    createiPhone(screenImagePath: string) {
+      const { width: w, height: h, depth: d, radius: r, bezel: b } = this.params;
+
+      // 1. LE CORPS (CHASSIS TITANE)
+      const bodyShape = this.createRoundedRectShape(w, h, r);
+      const extrudeSettings = { depth: d, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 10 };
+      const bodyGeo = new THREE.ExtrudeGeometry(bodyShape, extrudeSettings);
+      
+      const bodyMat = new THREE.MeshPhysicalMaterial({
+        color: this.params.metalColor,
+        metalness: 0.9,
+        roughness: 0.4,
+        reflectivity: 1,
+        clearcoat: 0.1
+      });
+
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.position.z = -d/2;
+      this.phoneGroup.add(body);
+
+      // MODULE CAMÉRA (Arrière)
+      const camSize = 0.8;
+      const camShape = this.createRoundedRectShape(camSize, camSize, 0.15);
+      const camGeo = new THREE.ExtrudeGeometry(camShape, { depth: 0.08, bevelEnabled: true, bevelThickness: 0.02 });
+      const camModule = new THREE.Mesh(camGeo, bodyMat);
+      camModule.position.set(w/2 - camSize/2 - 0.1, h/2 - camSize/2 - 0.1, -d - 0.04);
+      this.phoneGroup.add(camModule);
+
+      // Lentilles
+      const lensGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.02, 32);
+      const lensMat = new THREE.MeshPhysicalMaterial({ color: 0x050505, metalness: 0.9, roughness: 0.1 });
+      [-0.2, 0.2].forEach(x => {
+        [-0.2, 0.2].forEach(y => {
+          const lens = new THREE.Mesh(lensGeo, lensMat);
+          lens.rotation.x = Math.PI/2;
+          lens.position.set(w/2 - camSize/2 - 0.1 + x, h/2 - camSize/2 - 0.1 + y, -d - 0.12);
+          this.phoneGroup.add(lens);
+        });
+      });
+
+      // 2. L'ÉCRAN & FOND D'ÉCRAN
+      const screenShape = this.createRoundedRectShape(w - b*2, h - b*2, r - b);
+      const screenGeo = new THREE.ShapeGeometry(screenShape);
+      
+      const loader = new THREE.TextureLoader();
+      
+      // Wallpaper (On utilise l'image fournie ou une couleur sombre)
+      const wallpaperMat = new THREE.MeshStandardMaterial({ 
+        color: 0x0a0a0a,
+        roughness: 1, 
+        metalness: 0
+      });
+      const screenBg = new THREE.Mesh(screenGeo, wallpaperMat);
+      screenBg.position.z = d/2 + 0.021;
+      this.phoneGroup.add(screenBg);
+
+      // Charger le wallpaper si possible ou utiliser un dégradé simulé
+      loader.load('/images/native-app/wishlists.jpg', (tex) => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        wallpaperMat.map = tex;
+        wallpaperMat.needsUpdate = true;
+      });
+
+      // 3. LE DOCK (Translucide)
+      const dockW = w - b*4;
+      const dockH = 0.5;
+      const dockShape = this.createRoundedRectShape(dockW, dockH, 0.15);
+      const dockGeo = new THREE.ShapeGeometry(dockShape);
+      const dockMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.15,
+        roughness: 0.2,
+        metalness: 0,
+        transmission: 0.5,
+        thickness: 0.1
+      });
+      const dock = new THREE.Mesh(dockGeo, dockMat);
+      dock.position.set(0, -h/2 + 0.6, d/2 + 0.025);
+      this.phoneGroup.add(dock);
+
+      // 4. GRILLE D'ICÔNES & KADÔ-KOU
+      const iconSize = 0.28;
+      const iconSpacing = 0.45;
+      const iconsPerRow = 4;
+      const startX = -(iconsPerRow - 1) * iconSpacing / 2;
+      const startY = h/2 - 0.8;
+
+      // Icônes "Dummy" (Points colorés premium)
+      for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < iconsPerRow; col++) {
+          // On laisse la place pour l'icône Kadô-kou au centre
+          if (row === 1 && (col === 1 || col === 2)) continue;
+
+          const dummyGeo = new THREE.CircleGeometry(iconSize/2, 32);
+          const dummyMat = new THREE.MeshStandardMaterial({ 
+            color: new THREE.Color().setHSL(Math.random(), 0.1, 0.2), // Couleurs sourdes
+            transparent: true,
+            opacity: 0.4
+          });
+          const dummy = new THREE.Mesh(dummyGeo, dummyMat);
+          dummy.position.set(startX + col * iconSpacing, startY - row * iconSpacing, d/2 + 0.023);
+          this.phoneGroup.add(dummy);
+        }
+      }
+
+      // ICÔNE KADÔ-KOU (La VedETTE - Plus Grande et Arrondie)
+      loader.load('/images/native-app/app-icon.png', (iconTex) => {
+        iconTex.colorSpace = THREE.SRGBColorSpace;
+        
+        const iSize = 0.85;
+        const iRadius = 0.15;
+        const iconShape = this.createRoundedRectShape(iSize, iSize, iRadius);
+        const iconGeo = new THREE.ShapeGeometry(iconShape);
+        
+        const iconMat = new THREE.MeshStandardMaterial({ 
+          map: iconTex,
+          transparent: true,
+          roughness: 0.1,
+          metalness: 0.2,
+          emissive: 0xffffff,
+          emissiveIntensity: 0.3 // Plus lumineux
+        });
+        
+        const icon = new THREE.Mesh(iconGeo, iconMat);
+        icon.position.set(0, 0, d/2 + 0.045); // Nettement devant le fond
+        this.phoneGroup.add(icon);
+
+        // Effet de Glow (Bloom) plus prononcé
+        const glowGeo = new THREE.CircleGeometry(0.7, 32);
+        const glowMat = new THREE.MeshBasicMaterial({ 
+          color: 0xd4af37, 
+          transparent: true,
+          opacity: 0.25,
+          blending: THREE.AdditiveBlending
+        });
+        const glow = new THREE.Mesh(glowGeo, glowMat);
+        glow.position.set(0, 0, d/2 + 0.04);
+        this.phoneGroup.add(glow);
+      });
+
+      // 5. COUCHE DE VERRE (REFLETS)
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        metalness: 0,
+        roughness: 0.02,
+        transmission: 0.95,
+        thickness: 0.01,
+        transparent: true,
+        opacity: 0.1, // Moins opaque pour mieux voir l'icône
+        reflectivity: 1,
+        clearcoat: 1
+      });
+      const glass = new THREE.Mesh(screenGeo, glassMat);
+      glass.position.z = d/2 + 0.05; // Le verre est l'élément le plus en avant
+      this.phoneGroup.add(glass);
+
+      // 6. DYNAMIC ISLAND
+      const islandShape = this.createRoundedRectShape(0.5, 0.12, 0.06);
+      const islandGeo = new THREE.ShapeGeometry(islandShape);
+      const islandMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+      const island = new THREE.Mesh(islandGeo, islandMat);
+      island.position.set(0, h/2 - 0.35, d/2 + 0.04);
+      this.phoneGroup.add(island);
+
+      // 7. BOUTONS
+      const btnGeo = new THREE.BoxGeometry(0.04, 0.3, 0.1);
+      const pwrBtn = new THREE.Mesh(btnGeo, bodyMat);
+      pwrBtn.position.set(w/2 + 0.02, 0.5, 0);
+      this.phoneGroup.add(pwrBtn);
+    }
+
+    addLights() {
+      this.scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+      const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+      sun.position.set(5, 5, 5);
+      this.scene.add(sun);
+
+      const fill = new THREE.PointLight(0xd4af37, 5, 10);
+      fill.position.set(-2, 0, 3);
+      this.scene.add(fill);
+
+      // Spot focalisé sur l'icône
+      const spotlight = new THREE.SpotLight(0xffffff, 10);
+      spotlight.position.set(0, 0, 5);
+      spotlight.angle = Math.PI / 8;
+      spotlight.penumbra = 0.5;
+      this.scene.add(spotlight);
+    }
+
+    setupEvents() {
+      window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = -(e.clientY / window.innerHeight) * 2 + 1;
+        this.targetRotation.y = x * 0.6;
+        this.targetRotation.x = -y * 0.4;
+      });
+
+      window.addEventListener('resize', () => {
+        this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+      });
+    }
+
+    animate() {
+      requestAnimationFrame(() => this.animate());
+      
+      this.phoneGroup.rotation.x += (this.targetRotation.x - this.phoneGroup.rotation.x) * 0.04;
+      this.phoneGroup.rotation.y += (this.targetRotation.y - this.phoneGroup.rotation.y) * 0.04;
+      
+      this.phoneGroup.position.y = Math.sin(Date.now() * 0.0012) * 0.12;
+      
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+
+  // Init
+  document.addEventListener('astro:page-load', () => {
+    if (document.getElementById('phone-3d-scene')) {
+      new iPhoneScene('phone-3d-scene', '/images/native-app/wishlists.jpg');
+    }
+  });
+</script>
+
+<style>
+  .phone-3d-container {
+    perspective: 1000px;
+    filter: drop-shadow(0 25px 50px rgba(0,0,0,0.3));
+  }
+  canvas {
+    cursor: grab;
+  }
+  canvas:active {
+    cursor: grabbing;
+  }
+</style>
