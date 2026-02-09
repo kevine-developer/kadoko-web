@@ -1,11 +1,14 @@
 ---
+import { LINK_APP_ANDROID } from "../const/constant";
+
 interface Props {
   logoSrc?: string;
   backgroundSrc?: string;
   className?: string;
+  downloadUrl?: string;
 }
 
-const { logoSrc = "/images/native-app/app-icon.png", backgroundSrc, className = "" } = Astro.props;
+const { logoSrc = "/images/native-app/app-icon.png", backgroundSrc, className = "", downloadUrl = LINK_APP_ANDROID } = Astro.props;
 ---
 
 <div class={`phone-3d-container ${className}`}>
@@ -45,12 +48,12 @@ const { logoSrc = "/images/native-app/app-icon.png", backgroundSrc, className = 
           ))}
 
           <!-- Icône Application Principale (Logo) -->
-          <div class="app-icon">
+          <a href={downloadUrl} target="_blank" rel="noopener noreferrer" class="app-icon app-icon-link" aria-label="Télécharger l'application Kadô-Kou">
             <div class="app-icon-inner logo-icon">
               <img src={logoSrc} alt="App Icon" class="w-full h-full object-cover rounded-[22%]" />
             </div>
             <span class="app-label">Kadô-Kou</span>
-          </div>
+          </a>
         </div>
         
         <!-- Dock -->
@@ -61,11 +64,11 @@ const { logoSrc = "/images/native-app/app-icon.png", backgroundSrc, className = 
             </div>
           ))}
           <!-- Icône Application Principale (Logo dans le Dock) -->
-          <div class="dock-icon">
+          <a href={downloadUrl} target="_blank" rel="noopener noreferrer" class="dock-icon dock-icon-link" aria-label="Télécharger l'application Kadô-Kou">
             <div class="dock-icon-inner logo-icon">
                <img src={logoSrc} alt="App Icon Dock" class="w-full h-full object-cover rounded-[22%]" />
             </div>
-          </div>
+          </a>
         </div>
         
         <!-- Indicateur de geste -->
@@ -257,9 +260,27 @@ const { logoSrc = "/images/native-app/app-icon.png", backgroundSrc, className = 
 
   .app-label {
     font-size: 10px;
-    color: white;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
     font-weight: 500;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .app-icon-link,
+  .dock-icon-link {
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .app-icon-link:hover .app-icon-inner,
+  .dock-icon-link:hover .dock-icon-inner {
+    transform: scale(1.1);
+  }
+
+  .app-icon-link:active .app-icon-inner,
+  .dock-icon-link:active .dock-icon-inner {
+    transform: scale(0.95);
   }
 
   .app-icon-inner:hover {

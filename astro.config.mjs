@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://gastsar.fr',
+  site: import.meta.env.PUBLIC_SITE_URL || 'https://kadokou.gastsar.fr',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()]
