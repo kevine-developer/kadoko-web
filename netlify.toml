@@ -1,0 +1,7 @@
+[build]
+  command = "pnpm run build"
+  publish = "dist"
+
+[build.environment]
+  # Indiquer à Netlify d'ignorer ces clés lors du scan de secrets car ce sont des URLs publiques
+  SECRETS_SCAN_OMIT_KEYS = "PUBLIC_SITE_URL,PUBLIC_APK_DOWNLOAD_URL"
