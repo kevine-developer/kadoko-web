@@ -11,6 +11,9 @@ export default defineConfig({
   site: import.meta.env.PUBLIC_SITE_URL || 'https://kadokou.gastsar.fr',
   output: 'server',
   adapter: netlify(),
+  image: {
+    remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
+  },
   integrations: [
     sitemap(),
     AstroPWA({

@@ -6,7 +6,7 @@ interface Slide {
   tag: string;
   title: string;
   description: string;
-  image: string;
+  image: any;
 }
 
 interface Props {
@@ -16,83 +16,108 @@ interface Props {
 const { slides } = Astro.props;
 ---
 
-<section 
-  class="relative w-full py-16 md:py-32 bg-bonesilk overflow-hidden" 
-  id="gallery-container" 
-  aria-roledescription="carrousel" 
+<section
+  class="relative w-full py-16 md:py-32 bg-bonesilk overflow-hidden"
+  id="gallery-container"
+  aria-roledescription="carrousel"
   aria-label="Galerie de l'application Kadô-Kou"
 >
-  <div class="max-w-7xl mx-auto px-6 h-full flex flex-col md:flex-row items-center gap-10 md:gap-20 relative z-10">
-    
-    <div class="w-full md:w-5/12 flex flex-col justify-center h-[280px] md:h-[500px] relative">
-      {slides.map((slide, index) => (
-        <div 
-          class="absolute inset-0 flex flex-col justify-center transition-all duration-1000 ease-out slide-content opacity-0 translate-y-8 pointer-events-none"
-          data-index={index}
-          role="group"
-          aria-roledescription="diapositive"
-          aria-label={`${index + 1} sur ${slides.length}`}
-        >
-          <div class="flex items-center gap-4 mb-4 md:mb-6">
-            <span class="text-xs font-bold text-brushedgold tracking-[0.2em] uppercase">
-              {slide.tag}
-            </span>
-            <div class="h-px w-10 md:w-12 bg-brushedgold/30"></div>
+  <div
+    class="max-w-7xl mx-auto px-6 h-full flex flex-col md:flex-row items-center gap-10 md:gap-20 relative z-10"
+  >
+    <div
+      class="w-full md:w-5/12 flex flex-col justify-center h-[280px] md:h-[500px] relative"
+    >
+      {
+        slides.map((slide, index) => (
+          <div
+            class="absolute inset-0 flex flex-col justify-center transition-all duration-1000 ease-out slide-content opacity-0 translate-y-8 pointer-events-none"
+            data-index={index}
+            role="group"
+            aria-roledescription="diapositive"
+            aria-label={`${index + 1} sur ${slides.length}`}
+          >
+            <div class="flex items-center gap-4 mb-4 md:mb-6">
+              <span class="text-xs font-bold text-brushedgold tracking-[0.2em] uppercase">
+                {slide.tag}
+              </span>
+              <div class="h-px w-10 md:w-12 bg-brushedgold/30" />
+            </div>
+
+            <h2
+              id={`slide-title-${index}`}
+              class="text-3xl md:text-6xl font-serif text-deepblack leading-[1.2] md:leading-[1.1] mb-4 md:mb-6"
+            >
+              {slide.title}
+            </h2>
+
+            <p class="text-[13px] md:text-base text-coolgrey/90 leading-relaxed font-sans font-light max-w-sm">
+              {slide.description}
+            </p>
           </div>
+        ))
+      }
 
-          <h2 id={`slide-title-${index}`} class="text-3xl md:text-6xl font-serif text-deepblack leading-[1.2] md:leading-[1.1] mb-4 md:mb-6">
-            {slide.title}
-          </h2>
-
-          <p class="text-[13px] md:text-base text-coolgrey/90 leading-relaxed font-sans font-light max-w-sm">
-            {slide.description}
-          </p>
-        </div>
-      ))}
-      
       <div class="absolute bottom-0 left-0 flex items-center gap-8 pt-8">
-        <button class="gallery-prev-btn group flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-deepblack hover:text-brushedgold transition-colors" aria-label="Diapositive précédente">
+        <button
+          class="gallery-prev-btn group flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-deepblack hover:text-brushedgold transition-colors"
+          aria-label="Diapositive précédente"
+        >
           <span aria-hidden="true">←</span> Précédent
         </button>
         <div class="text-xs font-serif italic text-coolgrey" aria-live="polite">
           <span class="sr-only">Étape </span>
           <span class="gallery-current-num">1</span> / {slides.length}
         </div>
-        <button class="gallery-next-btn group flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-deepblack hover:text-brushedgold transition-colors" aria-label="Diapositive suivante">
+        <button
+          class="gallery-next-btn group flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-deepblack hover:text-brushedgold transition-colors"
+          aria-label="Diapositive suivante"
+        >
           Suivant <span aria-hidden="true">→</span>
         </button>
       </div>
     </div>
 
     <div class="w-full md:w-7/12 relative h-[40vh] md:h-[700px]">
-      <div class="absolute top-4 right-4 md:top-8 md:right-8 w-full h-full border border-deepblack/5 z-0"></div>
-      
-      <div class="relative w-full h-full bg-white overflow-hidden z-10 shadow-2xl shadow-deepblack/3">
-        {slides.map((slide, index) => (
-          <div 
-            class="absolute inset-0 w-full h-full transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] slide-image opacity-0 scale-105"
-            data-index={index}
-          >
-            <div class="absolute inset-0 bg-deepblack/2 mix-blend-multiply z-10"></div>
-            <img 
-              src={slide.image} 
-              alt="" 
-              class="w-full h-full object-cover"
-              width="800"
-              height="1000"
-              loading="lazy"
-              decoding="async"
-              aria-labelledby={`slide-title-${index}`}
-            />
-          </div>
-        ))}
+      <div
+        class="absolute top-4 right-4 md:top-8 md:right-8 w-full h-full border border-deepblack/5 z-0"
+      >
       </div>
-      
+
+      <div
+        class="relative w-full h-full bg-white overflow-hidden z-10 shadow-2xl shadow-deepblack/3"
+      >
+        {
+          slides.map((slide, index) => (
+            <div
+              class="absolute inset-0 w-full h-full transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] slide-image opacity-0 scale-105"
+              data-index={index}
+            >
+              <div class="absolute inset-0 bg-deepblack/2 mix-blend-multiply z-10" />
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                class="w-full h-full object-cover"
+                width={800}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))
+        }
+      </div>
+
       <div class="absolute bottom-0 left-0 w-full h-1 bg-black/3 z-20">
-        <div class="gallery-progress-bar h-full bg-brushedgold w-0 transition-all duration-5000 ease-linear" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+        <div
+          class="gallery-progress-bar h-full bg-brushedgold w-0 transition-all duration-5000 ease-linear"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+        </div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -113,38 +138,40 @@ const { slides } = Astro.props;
 
 <script>
   function initGallery() {
-    const containers = document.querySelectorAll('#gallery-container');
-    
-    containers.forEach(container => {
-      const contents = container.querySelectorAll('.slide-content');
-      const images = container.querySelectorAll('.slide-image');
-      const prevBtn = container.querySelector('.gallery-prev-btn');
-      const nextBtn = container.querySelector('.gallery-next-btn');
-      const currentNum = container.querySelector('.gallery-current-num');
-      const progressBar = container.querySelector('.gallery-progress-bar');
-      
+    const containers = document.querySelectorAll("#gallery-container");
+
+    containers.forEach((container) => {
+      const contents = container.querySelectorAll(".slide-content");
+      const images = container.querySelectorAll(".slide-image");
+      const prevBtn = container.querySelector(".gallery-prev-btn");
+      const nextBtn = container.querySelector(".gallery-next-btn");
+      const currentNum = container.querySelector(".gallery-current-num");
+      const progressBar = container.querySelector(
+        ".gallery-progress-bar",
+      ) as HTMLElement | null;
+
       let currentIndex = 0;
       const totalSlides = contents.length;
-      let autoPlayInterval;
+      let autoPlayInterval: ReturnType<typeof setInterval> | undefined;
       const DURATION = 3500;
 
       if (totalSlides === 0) return;
 
-      function updateSlide(index) {
-        contents.forEach(el => el.classList.remove('active'));
-        images.forEach(el => el.classList.remove('active'));
-        
-        contents[index].classList.add('active');
-        images[index].classList.add('active');
-        
-        if(currentNum) currentNum.textContent = (index + 1).toString();
+      function updateSlide(index: number) {
+        contents.forEach((el) => el.classList.remove("active"));
+        images.forEach((el) => el.classList.remove("active"));
 
-        if(progressBar) {
-          progressBar.style.transition = 'none';
-          progressBar.style.width = '0%';
+        contents[index].classList.add("active");
+        images[index].classList.add("active");
+
+        if (currentNum) currentNum.textContent = (index + 1).toString();
+
+        if (progressBar) {
+          progressBar.style.transition = "none";
+          progressBar.style.width = "0%";
           setTimeout(() => {
-              progressBar.style.transition = `width ${DURATION}ms linear`;
-              progressBar.style.width = '100%';
+            progressBar.style.transition = `width ${DURATION}ms linear`;
+            progressBar.style.width = "100%";
           }, 50);
         }
       }
@@ -168,16 +195,16 @@ const { slides } = Astro.props;
         startAutoPlay();
       }
 
-      nextBtn?.addEventListener('click', (e) => {
+      nextBtn?.addEventListener("click", (e) => {
         e.preventDefault();
-        nextSlide(); 
-        resetTimer(); 
+        nextSlide();
+        resetTimer();
       });
-      
-      prevBtn?.addEventListener('click', (e) => {
+
+      prevBtn?.addEventListener("click", (e) => {
         e.preventDefault();
-        prevSlide(); 
-        resetTimer(); 
+        prevSlide();
+        resetTimer();
       });
 
       updateSlide(0);
@@ -186,5 +213,5 @@ const { slides } = Astro.props;
   }
 
   initGallery();
-  document.addEventListener('astro:page-load', initGallery);
+  document.addEventListener("astro:page-load", initGallery);
 </script>

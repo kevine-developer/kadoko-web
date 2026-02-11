@@ -6,7 +6,13 @@ import AppGallery from "../components/AppGallery.astro";
 import Navbar from "../components/Navbar.astro";
 import Manifesto from "../components/Manifesto.astro";
 import Phone3D from "../components/Phone3D.astro";
-import appScreenHome from "../assets/images/native-app/wishlists.jpg";
+import { Image } from "astro:assets";
+
+import appIcon from "../assets/images/native-app/app-icon.png";
+import wishlistsImg from "../assets/images/native-app/wishlists.jpg";
+import receptionsImg from "../assets/images/native-app/receptions.jpg";
+import sealImg from "../assets/images/native-app/seal.jpg";
+import socialImg from "../assets/images/native-app/social.jpg";
 
 const slidesData = [
   {
@@ -15,7 +21,7 @@ const slidesData = [
     title: "Le Registre d'Envies",
     description:
       "Transformez vos désirs en une collection curatée. Fini les listes en vrac, place à une galerie d'objets d'exception.",
-    image: "/images/native-app/wishlists.jpg",
+    image: wishlistsImg,
   },
   {
     id: 2,
@@ -23,7 +29,7 @@ const slidesData = [
     title: "L'Art de Recevoir",
     description:
       "Créez des invitations numériques scellées et gérez vos convives avec une élégance rare.",
-    image: "/images/native-app/receptions.jpg",
+    image: receptionsImg,
   },
   {
     id: 3,
@@ -31,7 +37,7 @@ const slidesData = [
     title: "Sceau Privé",
     description:
       "Chaque interaction est sécurisée par un code d'accès unique, garantissant la confidentialité.",
-    image: "/images/native-app/seal.jpg",
+    image: sealImg,
   },
   {
     id: 4,
@@ -39,7 +45,7 @@ const slidesData = [
     title: "Cercle Intime",
     description:
       "Un réseau social épuré, débarrassé du bruit, pour ne se concentrer que sur l'essentiel.",
-    image: "/images/native-app/social.jpg",
+    image: socialImg,
   },
 ];
 ---
@@ -141,6 +147,7 @@ const slidesData = [
           class="md:col-span-5 relative h-[45vh] md:h-[70vh] flex items-center justify-center my-16 md:my-0"
         >
           <Phone3D
+            logoSrc={appIcon}
             className="opacity-0 translate-y-10 reveal-on-scroll transition-all duration-1000 ease-out"
           />
         </div>

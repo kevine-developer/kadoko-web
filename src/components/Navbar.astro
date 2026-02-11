@@ -1,46 +1,79 @@
 ---
-// src/components/Navbar.astro
-import { LINK_APP_ANDROID, APP_ICON_URL } from "../const/constant";
+import { LINK_APP_ANDROID } from "../const/constant";
+import { Image } from "astro:assets";
+import appIcon from "../assets/images/native-app/app-icon.png";
 ---
 
-<nav class="fixed w-full top-0 z-50 py-3 px-4 md:py-6 md:px-10 flex justify-between items-center bg-bonesilk/90 backdrop-blur-xl border-b border-black/3 text-deepblack animate-fade-in" aria-label="Navigation principale">
-  
-  <a href="/" class="group flex items-center gap-3 md:gap-4 transition-all duration-500 focus-visible:ring-offset-8" aria-label="Accueil Kadô-Kou">
+<nav
+  class="fixed w-full top-0 z-50 py-3 px-4 md:py-6 md:px-10 flex justify-between items-center bg-bonesilk/90 backdrop-blur-xl border-b border-black/3 text-deepblack animate-fade-in"
+  aria-label="Navigation principale"
+>
+  <a
+    href="/"
+    class="group flex items-center gap-3 md:gap-4 transition-all duration-500 focus-visible:ring-offset-8"
+    aria-label="Accueil Kadô-Kou"
+  >
     <div class="relative flex items-center justify-center">
-      <div class="w-9 h-9 md:w-12 md:h-12 bg-white border border-black/5 rounded-full flex items-center justify-center transition-transform duration-700 group-hover:scale-105 group-hover:rotate-360 shadow-sm">
-         <img src={APP_ICON_URL} alt="" class="w-5 h-5 md:w-7 md:h-7 object-contain grayscale group-hover:grayscale-0 transition-all" aria-hidden="true" />
+      <div
+        class="w-9 h-9 md:w-12 md:h-12 bg-white border border-black/5 rounded-full flex items-center justify-center transition-transform duration-700 group-hover:scale-105 group-hover:rotate-360 shadow-sm"
+      >
+        <Image
+          src={appIcon}
+          alt=""
+          width={48}
+          height={48}
+          class="w-5 h-5 md:w-7 md:h-7 object-contain grayscale group-hover:grayscale-0 transition-all text-transparent"
+          aria-hidden="true"
+        />
       </div>
-      <div class="absolute inset-[-4px] border border-brushedgold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700"></div>
+      <div
+        class="absolute inset-[-4px] border border-brushedgold/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700"
+      >
+      </div>
     </div>
-    
+
     <div class="flex flex-col">
-      <span class="text-xs md:text-sm font-bold tracking-[0.3em] uppercase leading-none mb-1">
-         Kadô-Kou
+      <span
+        class="text-xs md:text-sm font-bold tracking-[0.3em] uppercase leading-none mb-1"
+      >
+        Kadô-Kou
       </span>
-      <span class="text-xs font-medium text-brushedgold tracking-[0.2em] uppercase leading-none opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-500 hidden md:block" aria-hidden="true">
-         Gastsar • L'Art d'Offrir
+      <span
+        class="text-xs font-medium text-brushedgold tracking-[0.2em] uppercase leading-none opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-500 hidden md:block"
+        aria-hidden="true"
+      >
+        Gastsar • L'Art d'Offrir
       </span>
     </div>
   </a>
-  
+
   <div class="flex items-center">
-      <a
-        href={LINK_APP_ANDROID}
-        class="relative overflow-hidden px-5 py-2.5 md:px-8 md:py-3 text-xs md:text-sm font-bold border border-deepblack hover:text-bonesilk transition-colors duration-500 uppercase tracking-widest group/btn"
+    <a
+      href={LINK_APP_ANDROID}
+      class="relative overflow-hidden px-5 py-2.5 md:px-8 md:py-3 text-xs md:text-sm font-bold border border-deepblack hover:text-bonesilk transition-colors duration-500 uppercase tracking-widest group/btn"
+    >
+      <span class="relative z-10">L'Application</span>
+      <div
+        class="absolute inset-0 bg-deepblack translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out"
       >
-        <span class="relative z-10">L'Application</span>
-        <div class="absolute inset-0 bg-deepblack translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-out"></div>
-      </a>
+      </div>
+    </a>
   </div>
 </nav>
 
 <style>
   @keyframes fade-in {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  
+
   .animate-fade-in {
-      animation: fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fade-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 </style>
