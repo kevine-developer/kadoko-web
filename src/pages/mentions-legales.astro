@@ -1,29 +1,32 @@
 ---
+export const prerender = true;
 import LegalLayout from "../layouts/LegalLayout.astro";
 import { LEGAL_CONTENT } from "../const/legal-data";
 
 const content = LEGAL_CONTENT.mentions;
 const title = `Mentions<br/> <span class="italic text-coolgrey">Légales.</span>`;
-const description = "Informations légales, éditeur et hébergeur de l'application Kadô-Kou.";
+const description =
+  "Informations légales, éditeur et hébergeur de l'application Kadô-Kou.";
 const lastUpdated = "7 Février 2026";
 ---
 
-<LegalLayout 
-  title={title} 
-  description={description} 
+<LegalLayout
+  title={title}
+  description={description}
   subtitle="Identification Éditeur"
   lastUpdated={lastUpdated}
 >
-  {content.sections.map((section, idx) => (
-    <section class="mb-16">
+  {
+    content.sections.map((section, idx) => (
+      <section class="mb-16">
         <h2 id={`section-${idx}`}>
-          <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">{String(idx + 1).padStart(2, '0')}</span>
+          <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">
+            {String(idx + 1).padStart(2, "0")}
+          </span>
           <span class="text-xl  text-deepblack">{section.title}</span>
         </h2>
-        <p>
-          {section.body}
-        </p>
-    </section>
-  ))}
+        <p>{section.body}</p>
+      </section>
+    ))
+  }
 </LegalLayout>
-

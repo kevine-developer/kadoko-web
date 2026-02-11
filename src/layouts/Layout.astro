@@ -23,8 +23,8 @@ const { title, description, image, noindex } = Astro.props;
       image={image}
       noindex={noindex}
     />
-    <link rel="icon" href="../../public/favicon.ico" />
-    
+    <link rel="icon" href="/favicon.ico" />
+
     <!-- PWA Configuration -->
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#FDFBF7" />
@@ -32,13 +32,19 @@ const { title, description, image, noindex } = Astro.props;
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Kadô-kou" />
-    <meta name="google-site-verification" content="aCSr8eVty7e25E9BrUjsVImstJ1yGKGmxSOkOzPvSWs" />
+    <meta
+      name="google-site-verification"
+      content="aCSr8eVty7e25E9BrUjsVImstJ1yGKGmxSOkOzPvSWs"
+    />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    
+
     <ClientRouter />
   </head>
   <body class="min-h-screen selection:bg-brushedgold selection:text-white">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-6 focus:py-3 focus:bg-white focus:text-brushedgold focus:border focus:border-brushedgold focus:shadow-xl transition-all">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-6 focus:py-3 focus:bg-white focus:text-brushedgold focus:border focus:border-brushedgold focus:shadow-xl transition-all"
+    >
       Passer au contenu principal
     </a>
     <slot />

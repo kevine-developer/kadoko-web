@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 /**
  * Page de confirmation d'email
  * Redirection depuis l'API après validation du token
@@ -15,7 +16,7 @@ const title = "Identification Confirmée - Kadô-Kou";
     <title>{title}</title>
     <style>
       /* --- FONT IMPORT --- */
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap");
 
       * {
         margin: 0;
@@ -24,9 +25,9 @@ const title = "Identification Confirmée - Kadô-Kou";
       }
 
       body {
-        font-family: 'Georgia', serif;
-        background-color: #FDFBF7; /* Bone Silk */
-        color: #1A1A1A;
+        font-family: "Georgia", serif;
+        background-color: #fdfbf7; /* Bone Silk */
+        color: #1a1a1a;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -35,28 +36,28 @@ const title = "Identification Confirmée - Kadô-Kou";
       }
 
       .container {
-        background-color: #FFFFFF;
+        background-color: #ffffff;
         width: 100%;
         max-width: 500px;
         padding: 60px 40px;
-        border: 1px solid rgba(0,0,0,0.06);
+        border: 1px solid rgba(0, 0, 0, 0.06);
         text-align: center;
         /* Ombre "Glace" très légère */
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
       }
 
       .logo {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 14px;
         font-weight: 300;
         letter-spacing: 8px;
-        color: #1A1A1A;
+        color: #1a1a1a;
         text-transform: uppercase;
         margin-bottom: 40px;
       }
 
       .logo span {
-        font-family: 'Georgia', serif;
+        font-family: "Georgia", serif;
         font-style: italic;
         text-transform: none;
         letter-spacing: 2px;
@@ -76,7 +77,7 @@ const title = "Identification Confirmée - Kadô-Kou";
       .success-symbol svg {
         width: 24px;
         height: 24px;
-        stroke: #AF9062; /* Or brossé */
+        stroke: #af9062; /* Or brossé */
         stroke-width: 1.5;
         fill: none;
       }
@@ -86,20 +87,20 @@ const title = "Identification Confirmée - Kadô-Kou";
         font-weight: 400;
         letter-spacing: -0.5px;
         margin-bottom: 20px;
-        color: #1A1A1A;
+        color: #1a1a1a;
       }
 
       .divider {
         width: 30px;
         height: 2px;
-        background-color: #AF9062;
+        background-color: #af9062;
         margin: 0 auto 30px;
       }
 
       p {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 15px;
-        color: #8E8E93;
+        color: #8e8e93;
         line-height: 1.6;
         margin-bottom: 40px;
         font-weight: 300;
@@ -107,11 +108,11 @@ const title = "Identification Confirmée - Kadô-Kou";
 
       .btn {
         display: block;
-        background-color: #1A1A1A; /* Charcoal */
-        color: #FFFFFF;
+        background-color: #1a1a1a; /* Charcoal */
+        color: #ffffff;
         padding: 20px;
         text-decoration: none;
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 11px;
         font-weight: 800;
         letter-spacing: 2px;
@@ -127,9 +128,9 @@ const title = "Identification Confirmée - Kadô-Kou";
       }
 
       #status {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 10px;
-        color: #BCBABA;
+        color: #bcbaba;
         margin-top: 20px;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -138,14 +139,14 @@ const title = "Identification Confirmée - Kadô-Kou";
       .footer {
         margin-top: 60px;
         padding-top: 30px;
-        border-top: 1px solid #F2F2F2;
+        border-top: 1px solid #f2f2f2;
       }
 
       .footer-label {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 9px;
         font-weight: 800;
-        color: #1A1A1A;
+        color: #1a1a1a;
         letter-spacing: 1.5px;
         margin-bottom: 20px;
         text-transform: uppercase;
@@ -158,9 +159,9 @@ const title = "Identification Confirmée - Kadô-Kou";
       }
 
       .store-link {
-        color: #1A1A1A;
+        color: #1a1a1a;
         text-decoration: none;
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-size: 11px;
         font-weight: 400;
         display: flex;
@@ -171,7 +172,7 @@ const title = "Identification Confirmée - Kadô-Kou";
       }
 
       .store-link:hover {
-        border-color: #AF9062;
+        border-color: #af9062;
       }
     </style>
   </head>
@@ -180,7 +181,13 @@ const title = "Identification Confirmée - Kadô-Kou";
       <div class="logo">KADÔ-KOU</div>
 
       <div class="success-symbol">
-        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke="currentColor">
+        <svg
+          viewBox="0 0 24 24"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+          stroke="currentColor"
+        >
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </div>
@@ -188,7 +195,7 @@ const title = "Identification Confirmée - Kadô-Kou";
       <h1 id="title-text">Identité confirmée.</h1>
       <div class="divider"></div>
       <p id="desc-text">
-        Votre compte est désormais actif au sein du registre Kadô-Kou. <br>
+        Votre compte est désormais actif au sein du registre Kadô-Kou. <br />
         Vous pouvez à présent naviguer parmi vos collections.
       </p>
 
@@ -199,10 +206,18 @@ const title = "Identification Confirmée - Kadô-Kou";
       <div class="footer">
         <div class="footer-label">Accès Boutique</div>
         <div class="store-links">
-          <a href="https://apps.apple.com/app/kadokou" class="store-link" target="_blank">
+          <a
+            href="https://apps.apple.com/app/kadokou"
+            class="store-link"
+            target="_blank"
+          >
             iOS
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.kadokou.app" class="store-link" target="_blank">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.kadokou.app"
+            class="store-link"
+            target="_blank"
+          >
             Android
           </a>
         </div>
@@ -217,34 +232,39 @@ const title = "Identification Confirmée - Kadô-Kou";
 
         // Tentative d'ouverture (Dev puis Prod)
         window.location.href = localExpUrl;
-        setTimeout(function() {
-            window.location.href = prodSchemeUrl;
+        setTimeout(function () {
+          window.location.href = prodSchemeUrl;
         }, 500);
 
         setTimeout(() => {
-          document.getElementById("status").textContent = "Identité prête. Bienvenue.";
+          document.getElementById("status").textContent =
+            "Identité prête. Bienvenue.";
         }, 3500);
       }
 
       window.addEventListener("load", function () {
         // Détecter si l'utilisateur était déjà vérifié
         const urlParams = new URLSearchParams(window.location.search);
-        const alreadyVerified = urlParams.get('alreadyVerified') === 'true';
+        const alreadyVerified = urlParams.get("alreadyVerified") === "true";
 
         if (alreadyVerified) {
-          document.getElementById('title-text').textContent = "Déjà confirmé.";
-          document.getElementById('desc-text').innerHTML = "Votre adresse email a déjà été validée précédemment.<br>Vous pouvez continuer à utiliser votre espace Kadô-Kou.";
-          document.getElementById('status').textContent = "Session active. Prêt.";
+          document.getElementById("title-text").textContent = "Déjà confirmé.";
+          document.getElementById("desc-text").innerHTML =
+            "Votre adresse email a déjà été validée précédemment.<br>Vous pouvez continuer à utiliser votre espace Kadô-Kou.";
+          document.getElementById("status").textContent =
+            "Session active. Prêt.";
         }
 
         // Essayer d'ouvrir l'app automatiquement après un court délai
         setTimeout(openApp, 1000);
       });
 
-      document.getElementById("openAppBtn").addEventListener("click", function (e) {
-        e.preventDefault();
-        openApp();
-      });
+      document
+        .getElementById("openAppBtn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          openApp();
+        });
     </script>
   </body>
 </html>

@@ -6,7 +6,6 @@ import tailwindcss from '@tailwindcss/vite';
 
 import netlify from '@astrojs/netlify';
 
-// https://astro.build/config
 export default defineConfig({
   site: import.meta.env.PUBLIC_SITE_URL || 'https://kadokou.gastsar.fr',
   output: 'server',
@@ -15,16 +14,15 @@ export default defineConfig({
     remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
   },
   integrations: [
-    sitemap(),
     AstroPWA({
       mode: 'production',
       base: '/',
       scope: '/',
-      includeAssets: ['favicon.svg', 'favicon.ico'],
+      includeAssets: ['favicon.ico'],
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Kadokou',
-        short_name: 'Kadokou',
+        name: 'Kadô-kou',
+        short_name: 'Kadô-kou',
         description: "L'application de liste de cadeaux qui simplifie vos événements",
         theme_color: '#FDFBF7',
         background_color: '#FDFBF7',
@@ -32,22 +30,22 @@ export default defineConfig({
         orientation: 'portrait-primary',
         icons: [
           {
-            src: '/favicon.ico',
+            src: 'public/favicon.ico',
             sizes: 'any',
             type: 'image/x-icon'
           },
           {
-            src: '/android-chrome-192x192.png',
+            src: 'public/android-chrome-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '/android-chrome-512x512.png',
+            src: 'public/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: '/apple-touch-icon.png',
+            src: 'public/apple-touch-icon.png',
             sizes: '180x180',
             type: 'image/png'
           }

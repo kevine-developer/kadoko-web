@@ -1,35 +1,44 @@
 ---
+export const prerender = true;
 import LegalLayout from "../layouts/LegalLayout.astro";
 import { APP_NAME } from "../const/seo";
 import { LEGAL_CONTENT } from "../const/legal-data";
 
 const content = LEGAL_CONTENT.privacy;
 const title = `Politique de<br/> <span class="italic text-coolgrey">Confidentialité.</span>`;
-const description = "Charte de protection des données et engagements de confidentialité de Kadô-Kou.";
+const description =
+  "Charte de protection des données et engagements de confidentialité de Kadô-Kou.";
 const lastUpdated = "12 Février 2026";
 ---
 
-<LegalLayout 
-  title={title} 
-  description={description} 
+<LegalLayout
+  title={title}
+  description={description}
   subtitle="Charte de Transparence"
   lastUpdated={lastUpdated}
 >
   <div class="mb-20">
-    <p class="text-xl font-serif italic border-l-2 border-brushedgold/20 pl-8 py-2">
-      La confiance est le fondement de notre cercle. Chez <span class="font-bold text-deepblack">{APP_NAME}</span>, nous traitons vos données avec la même exigence et la même discrétion que nous apportons à nos services.
+    <p
+      class="text-xl font-serif italic border-l-2 border-brushedgold/20 pl-8 py-2"
+    >
+      La confiance est le fondement de notre cercle. Chez <span
+        class="font-bold text-deepblack">{APP_NAME}</span
+      >, nous traitons vos données avec la même exigence et la même discrétion
+      que nous apportons à nos services.
     </p>
   </div>
 
-  {content.sections.map((section, idx) => (
-    <section class="mb-16">
+  {
+    content.sections.map((section, idx) => (
+      <section class="mb-16">
         <h2 id={`section-${idx}`}>
-          <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">{String(idx + 1).padStart(2, '0')}</span>
+          <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">
+            {String(idx + 1).padStart(2, "0")}
+          </span>
           <span class="text-xl  text-deepblack">{section.title}</span>
         </h2>
-        <p>
-          {section.body}
-        </p>
-    </section>
-  ))}
+        <p>{section.body}</p>
+      </section>
+    ))
+  }
 </LegalLayout>
