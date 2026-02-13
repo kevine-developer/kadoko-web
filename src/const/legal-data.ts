@@ -85,11 +85,23 @@ export const LEGAL_CONTENT: Record<string, LegalPageContent> = {
     title: "Aide & Support",
     sections: [
       {
-        title: "Statut du Service",
+        title: "1. Stories & Cercle Proche",
+        body: "Les stories sur Kadô-Kou sont privées. Elles ne sont visibles que par votre 'Cercle Proche' (vos amis favoris). C'est un espace intime pour partager vos moments sans pression.\nPour ajouter un ami à votre cercle, allez sur son profil ou recherche et clicker sur  ajouter à votre cercle'.",
+      },
+      {
+        title: "2. Ajouter un Cadeau",
+        body: "Vous avez deux options pour ajouter un souhait :\n- **Manuelle** : Remplissez le titre, le prix et ajoutez une photo.\n- **Magique** : Collez simplement le lien d'un site (Amazon, Vinted, Etsy...) et cliquez sur l'icone  recherche. L'application remplira les infos automatiquement !",
+      },
+      {
+        title: "3. Créer un Groupe (Réception)",
+        body: "Pour organiser un événement (Noël, Anniversaire, Secret Santa) :\n1. Allez dans l'onglet du tab du milieux  'Réceptions' (icône verre de vin).\n2. Cliquez sur '+'.\n3. Invitez vos amis.\nChaque réception possède un 'Chat' dédié et permet de voir les listes de tous les participants en un clin d'œil.",
+      },
+      {
+        title: "4. Statut du Service",
         body: "L'application est en développement actif. Les fonctionnalités de partage et de notification par email dépendent de services tiers et peuvent subir des latences.",
       },
       {
-        title: "Suppression de compte",
+        title: "5. Suppression de compte",
         body: "Vous pouvez supprimer votre compte et toutes vos données instantanément depuis la section : Paramètres > Sécurité > Clôturer le compte.",
       },
     ],

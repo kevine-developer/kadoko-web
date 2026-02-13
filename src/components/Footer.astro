@@ -2,49 +2,95 @@
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="pt-16 pb-12 px-6 bg-[#FDFCFB] border-t border-black/5 text-deepblack">
+<footer
+  class="pt-10 pb-8 px-6 bg-[#FDFCFB] border-t border-black/5 text-deepblack"
+>
   <div class="max-w-[1200px] mx-auto">
-    
-    <div class="flex flex-col items-center md:items-start md:flex-row md:justify-between gap-12 md:gap-16 mb-12">
-      
+    <div
+      class="flex flex-col items-center md:items-start md:flex-row md:justify-between gap-12 md:gap-16 mb-12"
+    >
       <div class="flex flex-col items-center md:items-start space-y-6 max-w-sm">
         <h2 class="font-serif italic text-2xl tracking-tight">Kadô-Kou</h2>
-        <p class="text-xs leading-[1.8] text-coolgrey tracking-widest text-center md:text-left uppercase">
-          L'art de l'attention.<br/> 
+        <p
+          class="text-xs leading-[1.8] text-coolgrey tracking-widest text-center md:text-left uppercase"
+        >
+          L'art de l'attention.<br />
           La gestion d'événements pour l'esthète contemporain.
         </p>
       </div>
 
-      <nav class="grid grid-cols-2 gap-x-12 gap-y-10 md:gap-x-24" aria-label="Liens du pied de page">
+      <nav
+        class="grid grid-cols-2 gap-x-12 gap-y-10 md:gap-x-24"
+        aria-label="Liens du pied de page"
+      >
         <div class="space-y-5">
-          <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-coolgrey/60">
+          <h3
+            class="text-xs font-bold tracking-[0.2em] uppercase text-coolgrey/60"
+          >
             Légal
           </h3>
           <ul class="space-y-3">
-            <li><a href="/mentions-legales" class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out">Mentions</a></li>
-            <li><a href="/cgu" class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out">CGU</a></li>
-            <li><a href="/confidentialite" class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out">Confidentialité</a></li>
+            <li>
+              <a
+                href="/mentions-legales"
+                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
+                >Mentions</a>
+            </li>
+            <li>
+              <a
+                href="/cgu"
+                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
+                >CGU</a>
+            </li>
+            <li>
+              <a
+                href="/confidentialite"
+                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
+                >Confidentialité</a>
+            </li>
           </ul>
         </div>
 
         <div class="space-y-5">
-          <h3 class="text-xs font-bold tracking-[0.2em] uppercase text-coolgrey/60">
+          <h3
+            class="text-xs font-bold tracking-[0.2em] uppercase text-coolgrey/60"
+          >
             Service
           </h3>
           <ul class="space-y-3">
-            <li><a href="/centre-aide" class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out">Aide</a></li>
-            <li><a href="mailto:contact@kadoko.fr" class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out italic">Contact</a></li>
+            <li>
+              <a
+                href="/"
+                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
+                >Accueil</a>
+            </li>
+            <li>
+              <a
+                href="/centre-aide"
+                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
+                >Aide</a>
+            </li>
+            <li>
+              <a
+                href="mailto:contact@kadoko.fr"
+                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out italic"
+                >Contact</a>
+            </li>
           </ul>
         </div>
       </nav>
     </div>
 
-    <div class="pt-8 border-t border-black/3 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div
+      class="pt-8 border-t border-black/3 flex flex-col md:flex-row justify-between items-center gap-6"
+    >
       <div class="flex items-center gap-2">
         <span class="w-1 h-1 rounded-full bg-brushedgold/40"></span>
-        <p class="text-xs tracking-[0.3em] uppercase text-coolgrey">Toulouse • France</p>
+        <p class="text-xs tracking-[0.3em] uppercase text-coolgrey">
+          Toulouse • France
+        </p>
       </div>
-      
+
       <p class="text-xs tracking-widest text-coolgrey">
         &copy; {currentYear} — Kadô-Kou. Tous droits réservés.
       </p>
@@ -54,7 +100,9 @@ const currentYear = new Date().getFullYear();
 
 <style>
   footer {
-    font-feature-settings: "kern" 1, "tnum" 1;
+    font-feature-settings:
+      "kern" 1,
+      "tnum" 1;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -64,7 +112,7 @@ const currentYear = new Date().getFullYear();
   }
 
   a::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 0;
     height: 1px;
