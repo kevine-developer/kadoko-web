@@ -8,6 +8,7 @@ interface Props {
   canonical?: string;
   noindex?: boolean;
   type?: "website" | "article" | "profile";
+  keywords?: string[];
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   canonical,
   noindex = false,
   type = "website",
+  keywords = SEO.keywords,
 } = Astro.props;
 
 const canonicalURL = canonical
@@ -38,7 +40,14 @@ const socialImageURL = new URL(image, SITE_URL);
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta name="keywords" content={keywords.join(", ")} />
+<meta name="author" content="Yves Narson Kevine — Devengalere" />
+<meta
+  name="robots"
+  content={noindex
+    ? "noindex, nofollow"
+    : "index, follow, max-image-preview:large, max-snippet:-1"}
+/>
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
@@ -48,7 +57,7 @@ const socialImageURL = new URL(image, SITE_URL);
 <meta property="og:image" content={socialImageURL} />
 <meta property="og:image:alt" content={title} />
 <meta property="og:locale" content="fr_FR" />
-<meta property="og:site_name" content={SEO.defaultTitle} />
+<meta property="og:site_name" content="Kadô-kou — Liste de Cadeaux" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -69,32 +78,56 @@ const socialImageURL = new URL(image, SITE_URL);
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: SEO.defaultTitle,
+      name: "Kadô-kou",
+      alternateName: ["Kadokou", "Kado-kou", "Liste de cadeaux Kadô-kou"],
       url: SITE_URL,
       description: description,
       inLanguage: "fr-FR",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${SITE_URL}/?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
     },
     {
       "@context": "https://schema.org",
-      "@type": "MobileApplication",
+      "@type": "SoftwareApplication",
       name: "Kadô-kou",
-      operatingSystem: "iOS, Android",
+      operatingSystem: "Android",
       applicationCategory: "LifestyleApplication",
+      applicationSubCategory: "Liste de cadeaux",
+      description:
+        "Application gratuite de liste de cadeaux et de gestion d'événements. Créez des collections de cadeaux, partagez vos idées cadeaux avec vos proches et organisez vos réceptions.",
       offers: {
         "@type": "Offer",
         price: "0",
         priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
       },
-      description: description,
       image: socialImageURL,
+      featureList: [
+        "Création de listes de cadeaux",
+        "Collections de cadeaux curatées",
+        "Gestion d'événements et réceptions",
+        "Partage sécurisé avec code d'accès",
+        "Réseau social privé",
+      ],
     },
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      name: "Kadô-Kou",
+      name: "Devengalere — Dev en galère",
       url: SITE_URL,
       logo: new URL("/apple-touch-icon.png", SITE_URL).toString(),
+      description:
+        "Devengalere, par Yves Narson Kevine, éditeur de Kadô-kou — l'application de liste de cadeaux et de gestion d'événements.",
       sameAs: ["https://www.instagram.com/kadokou_app"],
+      contactPoint: {
+        "@type": "ContactPoint",
+        email: "yvesnarsonkevine@gmail.com",
+        contactType: "customer service",
+        availableLanguage: "French",
+      },
     },
   ])}
 />

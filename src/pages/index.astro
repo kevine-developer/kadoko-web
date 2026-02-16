@@ -18,40 +18,43 @@ import socialImg from "../assets/images/native-app/social.jpg";
 const slidesData = [
   {
     id: 1,
-    tag: "COLLECTIONS",
-    title: "Le Registre d'Envies",
+    tag: "LISTE DE CADEAUX",
+    title: "Votre Collection de Cadeaux",
     description:
-      "Transformez vos désirs en une collection curatée. Fini les listes en vrac, place à une galerie d'objets d'exception.",
+      "Créez votre liste de cadeaux personnalisée et transformez vos envies en une collection curatée. Fini les listes en vrac, place à une galerie d'idées cadeaux d'exception.",
     image: wishlistsImg,
   },
   {
     id: 2,
-    tag: "RÉCEPTIONS",
-    title: "L'Art de Recevoir",
+    tag: "ÉVÉNEMENTS",
+    title: "Organisez vos Réceptions",
     description:
-      "Créez des invitations numériques scellées et gérez vos convives avec une élégance rare.",
+      "Planifiez vos événements — mariage, anniversaire, naissance — avec des invitations numériques élégantes et une gestion simplifiée de vos convives.",
     image: receptionsImg,
   },
   {
     id: 3,
     tag: "SÉCURITÉ",
-    title: "Sceau Privé",
+    title: "Partage Sécurisé",
     description:
-      "Chaque interaction est sécurisée par un code d'accès unique, garantissant la confidentialité.",
+      "Partagez votre liste de cadeaux en toute confiance. Chaque wishlist est protégée par un code d'accès unique pour garantir la confidentialité.",
     image: sealImg,
   },
   {
     id: 4,
     tag: "COMMUNAUTÉ",
-    title: "Cercle Intime",
+    title: "Votre Cercle Intime",
     description:
-      "Un réseau social épuré, débarrassé du bruit, pour ne se concentrer que sur l'essentiel.",
+      "Partagez vos idées cadeaux avec vos proches dans un réseau privé et épuré, conçu pour simplifier l'art d'offrir.",
     image: socialImg,
   },
 ];
 ---
 
-<Layout title="Kadô-Kou | L'Art d'Offrir">
+<Layout
+  title="Kadô-kou — Liste de Cadeaux, Collection d'Idées Cadeaux & Événements"
+  description="Kadô-kou est l'application gratuite pour créer votre liste de cadeaux en ligne, partager vos idées cadeaux et organiser vos événements (mariage, naissance, anniversaire). Téléchargez-la maintenant."
+>
   <div
     class="fixed inset-0 pointer-events-none opacity-[0.03] z-9999 mix-blend-overlay noise-overlay"
   >
@@ -99,9 +102,10 @@ const slidesData = [
             <p
               class="text-sm md:text-base text-coolgrey/80 font-light leading-relaxed animate-slide-up-fade [animation-delay:900ms] opacity-0 fill-mode-forwards"
             >
-              Kadô-Kou réinvente la liste de cadeaux et l'art de recevoir. Une
-              expérience digitale conçue pour ceux qui considèrent que chaque
-              attention mérite un écrin d'exception.
+              Kadô-kou réinvente la liste de cadeaux et l'art de recevoir. Créez
+              votre collection de cadeaux, trouvez l'idée cadeau parfaite et
+              organisez vos événements avec une application conçue pour ceux qui
+              considèrent que chaque attention mérite un écrin d'exception.
             </p>
           </div>
 
@@ -147,8 +151,11 @@ const slidesData = [
       </div>
     </header>
 
-    <!-- La Galerie (Scroll Reveal) -->
-    <section class="relative z-20 bg-white">
+    <!-- La Galerie — Collection de Cadeaux -->
+    <section
+      class="relative z-20 bg-white"
+      aria-label="Fonctionnalités de la liste de cadeaux Kadô-kou"
+    >
       <!-- Bandeau de transition -->
       <div
         class="py-4 border-y border-hairline flex justify-between px-6 bg-bonesilk overflow-hidden"
@@ -158,20 +165,20 @@ const slidesData = [
           <div
             class="flex gap-12 animate-marquee items-center text-xs font-bold tracking-[0.3em] uppercase text-coolgrey/60 px-6"
           >
-            <span>Wishlist Curatée</span><span>—</span><span
-              >Événements Privés</span
-            ><span>—</span><span>Cercle de Confiance</span><span>—</span><span
-              >Design Éditorial</span
+            <span>Liste de Cadeaux</span><span>—</span><span>Idées Cadeaux</span
+            ><span>—</span><span>Événements & Réceptions</span><span>—</span
+            ><span>Wishlist en Ligne</span><span>—</span><span
+              >Collection Curatée</span
             ><span>—</span>
           </div>
           <div
             class="flex gap-12 animate-marquee items-center text-xs font-bold tracking-[0.3em] uppercase text-coolgrey/60 px-6"
             aria-hidden="true"
           >
-            <span>Wishlist Curatée</span><span>—</span><span
-              >Événements Privés</span
-            ><span>—</span><span>Cercle de Confiance</span><span>—</span><span
-              >Design Éditorial</span
+            <span>Liste de Cadeaux</span><span>—</span><span>Idées Cadeaux</span
+            ><span>—</span><span>Événements & Réceptions</span><span>—</span
+            ><span>Wishlist en Ligne</span><span>—</span><span
+              >Collection Curatée</span
             ><span>—</span>
           </div>
         </div>

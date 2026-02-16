@@ -2,11 +2,11 @@ export const prerender = true;
 
 export async function GET({ site }: { site: URL }) {
   const pages = [
-    "",
-    "/cgu",
-    "/confidentialite",
-    "/mentions-legales",
-    "/centre-aide",
+    { url: "", changefreq: "weekly", priority: "1.0" },
+    { url: "/centre-aide", changefreq: "monthly", priority: "0.6" },
+    { url: "/cgu", changefreq: "yearly", priority: "0.3" },
+    { url: "/confidentialite", changefreq: "yearly", priority: "0.3" },
+    { url: "/mentions-legales", changefreq: "yearly", priority: "0.3" },
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -15,10 +15,10 @@ export async function GET({ site }: { site: URL }) {
     .map((page) => {
       return `
   <url>
-    <loc>${new URL(page, site).href}</loc>
+    <loc>${new URL(page.url, site).href}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>${page === "" ? "1.0" : "0.8"}</priority>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
   </url>`;
     })
     .join("")}
