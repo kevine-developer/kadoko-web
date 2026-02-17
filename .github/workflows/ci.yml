@@ -56,3 +56,21 @@ jobs:
       
       - name: Run Build
         run: pnpm run build
+
+  sync-develop-to-main:
+    name: Sync Develop to Main
+    needs: [typecheck, build]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git push origin develop:main
