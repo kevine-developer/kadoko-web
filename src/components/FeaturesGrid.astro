@@ -1,0 +1,80 @@
+---
+import { Image } from "astro:assets";
+import wishlistsImg from "../assets/images/native-app/wishlists.jpg";
+import sealImg from "../assets/images/native-app/seal.jpg";
+import socialImg from "../assets/images/native-app/social.jpg";
+
+const features = [
+  {
+    title: "Collection de Cadeaux",
+    description:
+      "Créez votre liste de cadeaux personnalisée et transformez vos envies en une galerie d'idées cadeaux d'exception.",
+    image: wishlistsImg,
+    tag: "CURATION",
+  },
+  {
+    title: "Partage Sécurisé",
+    description:
+      "Chaque liste de cadeaux est protégée par un code d'accès unique pour garantir l'exclusivité de votre sélection.",
+    image: sealImg,
+    tag: "CONFIDENTIALITÉ",
+  },
+  {
+    title: "Votre Cercle Intime",
+    description:
+      "Échangez avec vos proches dans un réseau privé, conçu pour simplifier l'art d'offrir en toute discrétion.",
+    image: socialImg,
+    tag: "COMMUNITÉ",
+  },
+];
+---
+
+<section
+  id="fonctionnalites"
+  class="relative py-24 md:py-32 bg-white px-6 md:px-20 border-t border-black/5"
+>
+  <div class="max-w-[1400px] mx-auto">
+    <div class="text-center mb-16 md:mb-24">
+      <span
+        class="text-xs font-bold tracking-[0.3em] uppercase text-brushedgold reveal-on-scroll opacity-0 translate-y-4 transition-all duration-700"
+        >Explorez l'Application</span
+      >
+      <h2
+        class="text-3xl md:text-5xl font-serif mt-4 reveal-on-scroll opacity-0 translate-y-4 transition-all duration-700 delay-100"
+      >
+        L'Art d'Offrir, Réinventé.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+      {
+        features.map((feature, index) => (
+          <div
+            class="group relative flex flex-col items-center text-center space-y-6 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-700"
+            style={`transition-delay: ${index * 150}ms`}
+          >
+            <div class="w-full relative aspect-3/4 overflow-hidden rounded-2xl bg-bonesilk">
+              <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500 z-10" />
+              <Image
+                src={feature.image}
+                alt={feature.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+            </div>
+            <div class="px-4">
+              <span class="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-coolgrey/60 mb-2 block">
+                {feature.tag}
+              </span>
+              <h3 class="text-lg md:text-xl font-medium mb-3">
+                {feature.title}
+              </h3>
+              <p class="text-sm text-coolgrey/80 leading-relaxed font-light">
+                {feature.description}
+              </p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

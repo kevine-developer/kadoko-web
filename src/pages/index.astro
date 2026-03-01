@@ -7,6 +7,9 @@ import AppGallery from "../components/AppGallery.astro";
 import Navbar from "../components/Navbar.astro";
 import Manifesto from "../components/Manifesto.astro";
 import Phone3D from "../components/Phone3D.astro";
+import ReceptionsShowcase from "../components/ReceptionsShowcase.astro";
+import FeaturesGrid from "../components/FeaturesGrid.astro";
+import Footer from "../components/Footer.astro";
 import { Image } from "astro:assets";
 
 import appIcon from "../assets/images/native-app/app-icon.png";
@@ -187,8 +190,16 @@ const slidesData = [
       <AppGallery slides={slidesData} />
     </section>
 
+    <!-- Prestations Réception -->
+    <ReceptionsShowcase />
+
+    <!-- Features -->
+    <FeaturesGrid />
+
     <Manifesto />
   </main>
+
+  <Footer />
 </Layout>
 
 <script>

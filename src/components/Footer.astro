@@ -1,106 +1,146 @@
 ---
+import { LINK_APP_ANDROID } from "../const/constant";
 const currentYear = new Date().getFullYear();
 ---
 
 <footer
-  class="pt-10 pb-8 px-6 bg-[#FDFCFB] border-t border-black/5 text-deepblack"
+  class="bg-deepblack text-bonesilk py-16 md:py-24 px-6 md:px-20 relative overflow-hidden"
 >
-  <div class="max-w-[1200px] mx-auto">
-    <div
-      class="flex flex-col items-center md:items-start md:flex-row md:justify-between gap-12 md:gap-16 mb-12"
-    >
-      <div class="flex flex-col items-center md:items-start space-y-6 max-w-sm">
-        <h2 class="font-serif italic text-2xl tracking-tight">Kadô-Kou</h2>
-        <p
-          class="text-xs leading-[1.8] text-coolgrey tracking-widest text-center md:text-left uppercase"
+  <div
+    class="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay noise-overlay"
+  >
+  </div>
+
+  <div
+    class="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center md:items-start md:flex-row md:justify-between gap-12 mb-12"
+  >
+    <div class="flex flex-col items-center md:items-start space-y-6 max-w-sm">
+      <div class="flex flex-col">
+        <span class="text-xl md:text-2xl font-serif italic tracking-tight mb-2"
+          >Kadô-Kou</span
         >
-          L'application de liste de cadeaux.<br />
-          Créez vos collections, partagez vos idées cadeaux et organisez vos événements.
-        </p>
+        <span
+          class="text-xs font-medium text-brushedgold tracking-[0.2em] uppercase leading-none"
+          >L'Art d'Offrir</span
+        >
       </div>
-
-      <nav
-        class="grid grid-cols-2 gap-x-12 gap-y-10 md:gap-x-24"
-        aria-label="Liens du pied de page"
+      <p
+        class="text-sm font-light text-bonesilk/60 text-center md:text-left leading-relaxed"
       >
-        <div class="space-y-5">
-          <h3
-            class="text-xs font-bold tracking-[0.2em] uppercase text-coolgrey/60"
-          >
-            Légal
-          </h3>
-          <ul class="space-y-3">
-            <li>
-              <a
-                href="/mentions-legales"
-                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
-                >Mentions</a
-              >
-            </li>
-            <li>
-              <a
-                href="/cgu"
-                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
-                >CGU</a
-              >
-            </li>
-            <li>
-              <a
-                href="/confidentialite"
-                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
-                >Confidentialité</a
-              >
-            </li>
-          </ul>
-        </div>
-
-        <div class="space-y-5">
-          <h3
-            class="text-xs font-bold tracking-[0.2em] uppercase text-coolgrey/60"
-          >
-            Service
-          </h3>
-          <ul class="space-y-3">
-            <li>
-              <a
-                href="/"
-                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
-                >Accueil</a
-              >
-            </li>
-            <li>
-              <a
-                href="/centre-aide"
-                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out"
-                >Aide</a
-              >
-            </li>
-            <li>
-              <a
-                href="mailto:contact@kadoko.fr"
-                class="text-xs md:text-[13px] hover:text-brushedgold transition-all duration-500 ease-out italic"
-                >Contact</a
-              >
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-
-    <div
-      class="pt-8 border-t border-black/3 flex flex-col md:flex-row justify-between items-center gap-6"
-    >
-      <div class="flex items-center gap-2">
-        <span class="w-1 h-1 rounded-full bg-brushedgold/40"></span>
-        <p class="text-xs tracking-[0.3em] uppercase text-coolgrey">
-          Toulouse • France
-        </p>
-      </div>
-
-      <p class="text-xs tracking-widest text-coolgrey">
-        &copy; {currentYear} — Kadô-kou par Devengalere. Tous droits réservés.
+        Réinventez l'art d'offrir et de recevoir avec une application conçue
+        pour l'élégance et la simplicité.
       </p>
     </div>
+
+    <nav
+      class="grid grid-cols-2 md:grid-cols-3 gap-x-10 gap-y-12 md:gap-x-20 text-center md:text-left"
+      aria-label="Liens du pied de page"
+    >
+      <div class="space-y-5">
+        <h3
+          class="text-xs font-bold tracking-[0.2em] uppercase text-bonesilk/40"
+        >
+          Navigation
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="#receptions"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
+              >Réceptions</a>
+          </li>
+          <li>
+            <a
+              href="#fonctionnalites"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
+              >Fonctionnalités</a>
+          </li>
+          <li>
+            <a
+              href="#manifesto"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
+              >Le Manifeste</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="space-y-5">
+        <h3
+          class="text-xs font-bold tracking-[0.2em] uppercase text-bonesilk/40"
+        >
+          Légal
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href="/mentions-legales"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
+              >Mentions</a>
+          </li>
+          <li>
+            <a
+              href="/cgu"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
+              >CGU</a>
+          </li>
+          <li>
+            <a
+              href="/confidentialite"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
+              >Confidentialité</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="space-y-5 col-span-2 md:col-span-1">
+        <h3
+          class="text-xs font-bold tracking-[0.2em] uppercase text-bonesilk/40"
+        >
+          Disponibilité
+        </h3>
+        <ul class="space-y-3">
+          <li>
+            <a
+              href={LINK_APP_ANDROID}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300 flex items-center justify-center md:justify-start gap-2"
+            >
+              Android <svg
+                class="w-3 h-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                ><path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                ></path></svg
+              >
+            </a>
+          </li>
+          <li>
+            <span class="text-sm text-bonesilk/40 cursor-not-allowed"
+              >iOS (Prochainement)</span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div
+    class="max-w-[1400px] mx-auto pt-8 border-t border-bonesilk/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10"
+  >
+    <div class="flex items-center gap-2">
+      <span class="w-1 h-1 rounded-full bg-brushedgold/40"></span>
+      <p class="text-xs tracking-[0.3em] uppercase text-bonesilk/60">
+        Toulouse • France
+      </p>
+    </div>
+    <p class="text-xs tracking-widest text-bonesilk/40 text-center">
+      &copy; {currentYear} — Kadô-Kou par Devengalere. Tous droits réservés.
+    </p>
   </div>
 </footer>
 
@@ -130,5 +170,24 @@ const currentYear = new Date().getFullYear();
 
   a:hover::after {
     width: 100%;
+  }
+
+  .noise-overlay {
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      );
+    background-size: 4px 4px;
   }
 </style>
