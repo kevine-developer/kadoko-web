@@ -21,19 +21,19 @@ const { title, metaTitle, description, subtitle, lastUpdated } = Astro.props;
       <!-- En-tête de Document -->
       <header class="relative flex flex-col items-center text-center">
         <!-- Logo en Sceau -->
-        <div class="mb-8 relative">
+        <div class="mb-8 relative group cursor-pointer">
           <div
-            class="w-20 h-20 flex items-center justify-center bg-white border border-black/5 rounded-full shadow-sm"
+            class="w-20 h-20 flex items-center justify-center bg-white border border-black/5 rounded-full shadow-sm transition-transform duration-500 group-hover:scale-105"
           >
             <img
               src={APP_ICON_URL}
               alt="Kadô-Kou"
-              class="w-10 h-10 object-contain grayscale"
+              class="w-10 h-10 object-contain grayscale transition-all duration-500 group-hover:grayscale-0"
             />
           </div>
           <!-- Cercle décoratif fin -->
           <div
-            class="absolute inset-[-10px] border border-brushedgold/20 rounded-full animate-spin-slow"
+            class="absolute inset-[-10px] border border-brushedgold/20 rounded-full transition-transform duration-700 group-hover:rotate-12"
           >
           </div>
         </div>
@@ -71,11 +71,12 @@ const { title, metaTitle, description, subtitle, lastUpdated } = Astro.props;
         class="max-w-3xl mx-auto
         [&_h2]:font-serif [&_h2]:italic [&_h2]:text-2xl [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:pb-4 [&_h2]:border-b [&_h2]:border-black/5 [&_h2]:text-deepblack
         [&_h3]:font-bold [&_h3]:mt-12 [&_h3]:mb-4 [&_h3]:text-deepblack [&_h3]:tracking-wide [&_h3]:uppercase [&_h3]:text-xs
-        [&_p]:text-[15px] [&_p]:leading-relaxed [&_p]:text-coolgrey [&_p]:mb-6 [&_p]:font-light
+        [&_p]:text-[15px] [&_p]:leading-relaxed [&_p]:text-coolgrey [&_p]:mb-6 [&_p]:font-light [&_p]:whitespace-pre-line
         [&_ul]:list-none [&_ul]:pl-0 [&_ul]:space-y-4 [&_ul]:my-8
         [&_li]:pl-6 [&_li]:relative [&_li]:text-[15px] [&_li]:text-coolgrey [&_li]:font-light
         [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-2.5 [&_li]:before:w-1.5 [&_li]:before:h-1.5 [&_li]:before:bg-brushedgold [&_li]:before:rounded-full
-        [&_strong]:text-deepblack [&_strong]:font-bold"
+        [&_strong]:text-deepblack [&_strong]:font-bold
+        [&_a]:text-deepblack [&_a]:font-medium [&_a]:underline [&_a]:decoration-brushedgold/30 [&_a]:underline-offset-4 [&_a]:transition-all hover:[&_a]:text-brushedgold hover:[&_a]:decoration-brushedgold"
       >
         <slot />
       </article>

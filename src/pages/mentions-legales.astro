@@ -8,7 +8,7 @@ const title = `Mentions <span class="italic text-coolgrey">Légales.</span>`;
 const metaTitle = `Mentions Légales | Kadô-kou`;
 const description =
   "Mentions légales de Kadô-kou, l'application de wishlist et liste de cadeaux éditée par Devengalere. Éditeur, hébergeur et propriété intellectuelle.";
-const lastUpdated = "7 Février 2026";
+const lastUpdated = "15 Mars 2026";
 ---
 
 <LegalLayout
@@ -27,7 +27,7 @@ const lastUpdated = "7 Février 2026";
           </span>
           <span class="text-xl  text-deepblack">{section.title}</span>
         </h2>
-        <p>{section.body}</p>
+        <p set:html={section.body} />
       </section>
     ))
   }

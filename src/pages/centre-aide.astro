@@ -8,7 +8,7 @@ const title = `Centre <span class="italic text-coolgrey">d'Aide.</span>`;
 const metaTitle = `Centre d'Aide | Kadô-kou`;
 const description =
   "Centre d'aide Kadô-kou : FAQ, tutoriels et support pour créer votre wishlist, gérer votre liste de cadeaux et organiser vos événements.";
-const lastUpdated = "9 Février 2026";
+const lastUpdated = "15 Mars 2026";
 ---
 
 <LegalLayout
@@ -30,7 +30,7 @@ const lastUpdated = "9 Février 2026";
               {section.title}
             </h2>
           )}
-          <p>{section.body}</p>
+          <p set:html={section.body} />
         </section>
       ))
     }

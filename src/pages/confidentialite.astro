@@ -9,7 +9,7 @@ const title = `Politique de <span class="italic text-coolgrey">Confidentialité.
 const metaTitle = `Politique de Confidentialité | Kadô-kou`;
 const description =
   "Politique de confidentialité de Kadô-kou. Découvrez comment nous protégeons vos données personnelles sur notre application de wishlist et liste de cadeaux.";
-const lastUpdated = "12 Février 2026";
+const lastUpdated = "15 Mars 2026";
 ---
 
 <LegalLayout
@@ -39,7 +39,7 @@ const lastUpdated = "12 Février 2026";
           </span>
           <span class="text-xl  text-deepblack">{section.title}</span>
         </h2>
-        <p>{section.body}</p>
+        <p set:html={section.body} />
       </section>
     ))
   }

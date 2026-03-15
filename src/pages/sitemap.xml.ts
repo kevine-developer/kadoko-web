@@ -10,19 +10,19 @@ export async function GET({ site }: { site: URL }) {
       url: "/cgu",
       changefreq: "yearly",
       priority: "0.4",
-      lastmod: "2026-02-09",
+      lastmod: "2026-03-15",
     },
     {
       url: "/confidentialite",
       changefreq: "yearly",
       priority: "0.4",
-      lastmod: "2026-02-12",
+      lastmod: "2026-03-15",
     },
     {
       url: "/mentions-legales",
       changefreq: "yearly",
       priority: "0.4",
-      lastmod: "2026-02-07",
+      lastmod: "2026-03-15",
     },
   ];
 

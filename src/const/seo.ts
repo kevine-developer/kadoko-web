@@ -74,10 +74,10 @@ export const SEO = {
 // Informations légales à compléter par l'utilisateur
 export const LEGAL_INFO = {
   companyName: "Devengalere — Dev en galère",
-  legalForm: "À COMPLÉTER (SAS, SARL...)",
+  legalForm: "Entrepreneur Individuel",
   capital: "0 €",
   address: "TOULOUSE, 31500",
-  siret: "*",
+  siret: "94060059600024",
   rcs: "TOULOUSE",
   tva: "FR00000000000",
   email: "yvesnarsonkevine@gmail.com",

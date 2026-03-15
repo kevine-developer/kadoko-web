@@ -8,7 +8,7 @@ const title = `Conditions Générales <span class="italic text-coolgrey">d'Utili
 const metaTitle = `Conditions Générales d'Utilisation | Kadô-kou`;
 const description =
   "Conditions générales d'utilisation de Kadô-kou, l'application gratuite de wishlist et liste de cadeaux. Découvrez les règles d'utilisation, vos droits et obligations.";
-const lastUpdated = "9 Février 2026";
+const lastUpdated = "15 Mars 2026";
 ---
 
 <LegalLayout
@@ -27,7 +27,7 @@ const lastUpdated = "9 Février 2026";
           </span>
           <span class="text-xl  text-deepblack">{section.title}</span>
         </h2>
-        <p>{section.body}</p>
+        <p set:html={section.body} />
       </section>
     ))
   }
