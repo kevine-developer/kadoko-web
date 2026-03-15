@@ -31,7 +31,7 @@ export default defineConfig({
         icons: [
           {
             src: 'favicon.ico',
-            sizes: 'any',
+            sizes: '32x32 16x16',
             type: 'image/x-icon'
           },
           {
