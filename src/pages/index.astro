@@ -55,8 +55,27 @@ const slidesData = [
 ---
 
 <Layout
-  title="Kadô-kou — Liste de Cadeaux, Collection d'Idées Cadeaux & Événements"
-  description="Kadô-kou est l'application gratuite pour créer votre liste de cadeaux en ligne, partager vos idées cadeaux et organiser vos événements (mariage, naissance, anniversaire). Téléchargez-la maintenant."
+  title="Application Wishlist & Liste de Cadeaux | Kadô-kou"
+  description="Kadô-kou est l'app gratuite de wishlist et liste de cadeaux. Créez votre liste de mariage, d'anniversaire et organisez vos événements en toute simplicité."
+  keywords={[
+    "liste de cadeaux",
+    "liste de mariage",
+    "liste de naissance",
+    "wishlist",
+    "idées cadeaux",
+    "application liste de cadeaux",
+    "organiser un événement",
+    "cagnotte",
+    "cadeau",
+    "anniversaire",
+    "créer ma liste",
+    "baby shower",
+    "kadokou",
+    "kado kou",
+    "kadôkou",
+    "kadô-kou",
+    "kado-kou",
+  ]}
 >
   <div
     class="fixed inset-0 pointer-events-none opacity-[0.03] z-9999 mix-blend-overlay noise-overlay"
@@ -78,8 +97,13 @@ const slidesData = [
         <div
           class="md:col-span-7 flex flex-col justify-center space-y-10 md:space-y-12 text-center md:text-left"
         >
-          <h1
-            class="text-4xl md:text-6xl lg:text-[7rem] font-serif leading-[1.1] tracking-tight"
+          <h1 class="sr-only">
+            Kadô-kou : L'application de référence pour votre liste de cadeaux,
+            liste de mariage et liste de naissance
+          </h1>
+          <div
+            aria-hidden="true"
+            class="text-4xl md:text-6xl lg:text-[7rem] font-serif leading-[1.1] tracking-tight text-deepblack"
           >
             <span class="block overflow-hidden">
               <span
@@ -99,7 +123,7 @@ const slidesData = [
                 >Le plaisir d'offrir.</span
               >
             </span>
-          </h1>
+          </div>
 
           <div class="max-w-md mx-auto md:mx-0 overflow-hidden">
             <p
@@ -163,6 +187,10 @@ const slidesData = [
       <div
         class="py-4 border-y border-hairline flex justify-between px-6 bg-bonesilk overflow-hidden"
       >
+        <h2 class="sr-only">
+          Fonctionnalités : Liste de mariage, liste de naissance, anniversaire
+          et wishlist en ligne
+        </h2>
         <!-- Conteneur de défilement infini -->
         <div class="flex whitespace-nowrap overflow-hidden">
           <div
@@ -198,8 +226,6 @@ const slidesData = [
 
     <Manifesto />
   </main>
-
-  <Footer />
 </Layout>
 
 <script>

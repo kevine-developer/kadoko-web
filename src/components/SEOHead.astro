@@ -21,9 +21,15 @@ const {
   keywords = SEO.keywords,
 } = Astro.props;
 
-const canonicalURL = canonical
+const rawCanonicalURL = canonical
   ? new URL(canonical, SITE_URL)
   : new URL(Astro.url.pathname, SITE_URL);
+
+// Ahrefs: Retirer le trailing slash de l'URL canonique (sauf pour la racine pure) pour éviter le duplicate content
+const canonicalURL =
+  rawCanonicalURL.href.endsWith("/") && rawCanonicalURL.pathname !== "/"
+    ? rawCanonicalURL.href.slice(0, -1)
+    : rawCanonicalURL.href;
 
 const socialImageURL = new URL(image, SITE_URL);
 ---
@@ -42,6 +48,8 @@ const socialImageURL = new URL(image, SITE_URL);
 <meta name="description" content={description} />
 <meta name="keywords" content={keywords.join(", ")} />
 <meta name="author" content="Yves Narson Kevine — Devengalere" />
+<link rel="publisher" href={SITE_URL} />
+<meta name="publisher" content="Devengalere" />
 <meta
   name="robots"
   content={noindex
@@ -79,7 +87,14 @@ const socialImageURL = new URL(image, SITE_URL);
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: "Kadô-kou",
-      alternateName: ["Kadokou", "Kado-kou", "Liste de cadeaux Kadô-kou"],
+      alternateName: [
+        "Kadokou",
+        "Kado-kou",
+        "Kado kou",
+        "Kadôkou",
+        "Liste de cadeaux Kadô-kou",
+        "Application wishlist Kadô-kou",
+      ],
       url: SITE_URL,
       description: description,
       inLanguage: "fr-FR",
@@ -92,12 +107,13 @@ const socialImageURL = new URL(image, SITE_URL);
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: "Kadô-kou",
+      name: "Kadô-kou — Application Wishlist & Liste de Cadeaux",
+      alternateName: ["Kadokou", "Kado kou", "Kadô-kou wishlist"],
       operatingSystem: "Android",
       applicationCategory: "LifestyleApplication",
-      applicationSubCategory: "Liste de cadeaux",
+      applicationSubCategory: "Wishlist & Liste de cadeaux",
       description:
-        "Application gratuite de liste de cadeaux et de gestion d'événements. Créez des collections de cadeaux, partagez vos idées cadeaux avec vos proches et organisez vos réceptions.",
+        "Kadô-kou est l'application gratuite de wishlist et liste de cadeaux. Créez votre liste de mariage, liste de naissance ou d'anniversaire, partagez vos idées cadeaux avec vos proches et organisez vos réceptions.",
       offers: {
         "@type": "Offer",
         price: "0",
@@ -105,12 +121,16 @@ const socialImageURL = new URL(image, SITE_URL);
         availability: "https://schema.org/InStock",
       },
       image: socialImageURL,
+      keywords:
+        "wishlist, application wishlist, liste de cadeaux, liste de mariage, liste de naissance, app cadeaux, wishlist en ligne, cadeau anniversaire",
       featureList: [
-        "Création de listes de cadeaux",
+        "Wishlist et liste de cadeaux en ligne",
+        "Création de listes de mariage et de naissance",
         "Collections de cadeaux curatées",
         "Gestion d'événements et réceptions",
         "Partage sécurisé avec code d'accès",
-        "Réseau social privé",
+        "Réseau social privé pour les proches",
+        "Application gratuite sans publicité",
       ],
     },
     {

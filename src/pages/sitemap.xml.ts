@@ -1,12 +1,29 @@
 export const prerender = true;
 
 export async function GET({ site }: { site: URL }) {
+  const lastmod = "2026-03-15";
+
   const pages = [
-    { url: "", changefreq: "weekly", priority: "1.0" },
-    { url: "/centre-aide", changefreq: "monthly", priority: "0.6" },
-    { url: "/cgu", changefreq: "yearly", priority: "0.3" },
-    { url: "/confidentialite", changefreq: "yearly", priority: "0.3" },
-    { url: "/mentions-legales", changefreq: "yearly", priority: "0.3" },
+    { url: "", changefreq: "weekly", priority: "1.0", lastmod },
+    { url: "/centre-aide", changefreq: "monthly", priority: "0.6", lastmod },
+    {
+      url: "/cgu",
+      changefreq: "yearly",
+      priority: "0.4",
+      lastmod: "2026-02-09",
+    },
+    {
+      url: "/confidentialite",
+      changefreq: "yearly",
+      priority: "0.4",
+      lastmod: "2026-02-12",
+    },
+    {
+      url: "/mentions-legales",
+      changefreq: "yearly",
+      priority: "0.4",
+      lastmod: "2026-02-07",
+    },
   ];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -16,7 +33,7 @@ export async function GET({ site }: { site: URL }) {
       return `
   <url>
     <loc>${new URL(page.url, site).href}</loc>
-    <lastmod>${new Date().toISOString()}</lastmod>
+    <lastmod>${page.lastmod}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>
   </url>`;

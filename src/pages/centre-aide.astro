@@ -5,13 +5,15 @@ import { LEGAL_CONTENT } from "../const/legal-data";
 
 const content = LEGAL_CONTENT.help;
 const title = `Centre <span class="italic text-coolgrey">d'Aide.</span>`;
+const metaTitle = `Centre d'Aide | Kadô-kou`;
 const description =
-  "Questions fréquentes et support pour l'application Kadô-Kou.";
+  "Centre d'aide Kadô-kou : FAQ, tutoriels et support pour créer votre wishlist, gérer votre liste de cadeaux et organiser vos événements.";
 const lastUpdated = "9 Février 2026";
 ---
 
 <LegalLayout
   title={title}
+  metaTitle={metaTitle}
   description={description}
   subtitle="Support & Assistance"
   lastUpdated={lastUpdated}
@@ -54,3 +56,44 @@ const lastUpdated = "9 Février 2026";
     </div>
   </div>
 </LegalLayout>
+
+<script type="application/ld+json" is:inline>
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Comment fonctionnent les Stories sur Kadô-kou ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Les stories sur Kadô-kou sont privées. Elles ne sont visibles que par votre 'Cercle Proche' (vos amis favoris). C'est un espace intime pour partager vos moments sans pression. Pour ajouter un ami à votre cercle, allez sur son profil et cliquez sur 'ajouter à votre cercle'."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment ajouter un cadeau à ma wishlist Kadô-kou ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vous avez deux options : la méthode manuelle (remplissez le titre, le prix et ajoutez une photo) ou la méthode magique (collez simplement le lien d'un site comme Amazon, Vinted ou Etsy et l'application remplira les informations automatiquement)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment créer un groupe ou une réception sur Kadô-kou ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pour organiser un événement (Noël, Anniversaire, Secret Santa) : allez dans l'onglet 'Réceptions', cliquez sur '+' et invitez vos amis. Chaque réception possède un chat dédié et permet de voir les listes de tous les participants."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment supprimer mon compte Kadô-kou ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vous pouvez supprimer votre compte et toutes vos données instantanément depuis : Paramètres > Sécurité > Clôturer le compte."
+        }
+      }
+    ]
+  }
+</script>

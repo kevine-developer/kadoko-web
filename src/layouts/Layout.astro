@@ -9,9 +9,10 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
+  keywords?: string[];
 }
 
-const { title, description, image, noindex } = Astro.props;
+const { title, description, image, noindex, keywords } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,6 +23,7 @@ const { title, description, image, noindex } = Astro.props;
       description={description}
       image={image}
       noindex={noindex}
+      keywords={keywords}
     />
     <link rel="icon" href="/favicon.ico" />
 

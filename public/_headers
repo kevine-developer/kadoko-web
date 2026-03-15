@@ -1,0 +1,7 @@
+# Sécurisation technique pour ne pas indexer ces chemins via l'en-tête X-Robots-Tag (Ahrefs best practice)
+/confirmation-email
+  X-Robots-Tag: noindex, nofollow
+/verify-email-success
+  X-Robots-Tag: noindex, nofollow
+/share/*
+  X-Robots-Tag: noindex, nofollow
