@@ -117,4 +117,42 @@ export const LEGAL_CONTENT: Record<string, LegalPageContent> = {
       },
     ],
   },
+  cookies: {
+    title: "Politique de Cookies",
+    sections: [
+      {
+        title: "1. Utilisation des Traceurs",
+        body: "Kadô-kou utilise des cookies et technologies similaires uniquement pour assurer le fonctionnement technique de l'application. Ces traceurs sont indispensables à la fourniture du service.",
+      },
+      {
+        title: "2. Cookies de Session & Sécurité",
+        body: "Nous utilisons des jetons (tokens) de session pour vous maintenir connecté de manière sécurisée. Ces cookies expirent automatiquement après une période d'inactivité ou lors de votre déconnexion manuelle.",
+      },
+      {
+        title: "3. Préférences d'Affichage",
+        body: "Certains réglages locaux (choix du thème sombre/clair, devise d'affichage) sont stockés directement sur votre appareil pour améliorer votre confort de navigation.",
+      },
+      {
+        title: "4. Services Tiers",
+        body: "En cas de connexion via Google, ce tiers peut déposer ses propres cookies conformément à sa politique de confidentialité. Nous ne contrôlons pas ces traceurs externes.",
+      },
+    ],
+  },
+  licences: {
+    title: "Licences Développeur",
+    sections: [
+      {
+        title: "Logiciels Libres & Open Source",
+        body: "Kadô-kou est bâti sur une architecture moderne utilisant de nombreux logiciels sous licence libre. Nous tenons à remercier la communauté open-source pour sa contribution inestimable.",
+      },
+      {
+        title: "Composants Principaux",
+        body: "L'application utilise notamment les technologies suivantes : React, React Native, Expo, Astro, Next.js, TailwindCSS, Lucide Icons, et BetterAuth. Chaque composant est utilisé selon les termes de sa licence respective (généralement MIT ou Apache 2.0).",
+      },
+      {
+        title: "Propriété Intellectuelle",
+        body: "Bien que l'application utilise des composants tiers, l'architecture logicielle, la charte graphique et l'expérience utilisateur globale restent la propriété exclusive de l'Éditeur.",
+      },
+    ],
+  },
 };

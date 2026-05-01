@@ -1,0 +1,34 @@
+---
+export const prerender = true;
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { LEGAL_CONTENT } from "../const/legal-data";
+
+const content = LEGAL_CONTENT.licences;
+const title = `Licences <span class="italic text-coolgrey">Développeur.</span>`;
+const metaTitle = `Licences Développeur | Kadô-kou`;
+const description =
+  "Informations sur les licences tierces et les logiciels open source utilisés par Kadô-kou. Transparence sur les technologies qui propulsent notre plateforme.";
+const lastUpdated = "01 Mai 2026";
+---
+
+<LegalLayout
+  title={title}
+  metaTitle={metaTitle}
+  description={description}
+  subtitle="Open Source & Tiers"
+  lastUpdated={lastUpdated}
+>
+  {
+    content.sections.map((section, idx) => (
+      <section class="mb-16">
+        <h2 id={`section-${idx}`}>
+          <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+          <span class="text-xl  text-deepblack">{section.title}</span>
+        </h2>
+        <p set:html={section.body} />
+      </section>
+    ))
+  }
+</LegalLayout>

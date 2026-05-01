@@ -1,0 +1,34 @@
+---
+export const prerender = true;
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { LEGAL_CONTENT } from "../const/legal-data";
+
+const content = LEGAL_CONTENT.cookies;
+const title = `Politique de <span class="italic text-coolgrey">Cookies.</span>`;
+const metaTitle = `Politique de Cookies | Kadô-kou`;
+const description =
+  "Politique de gestion des cookies et traceurs de Kadô-kou. Découvrez comment nous utilisons les technologies de stockage local pour assurer votre sécurité.";
+const lastUpdated = "01 Mai 2026";
+---
+
+<LegalLayout
+  title={title}
+  metaTitle={metaTitle}
+  description={description}
+  subtitle="Gestion des Traceurs"
+  lastUpdated={lastUpdated}
+>
+  {
+    content.sections.map((section, idx) => (
+      <section class="mb-16">
+        <h2 id={`section-${idx}`}>
+          <span class="text-xs font-bold text-brushedgold/40 tracking-[0.3em] mr-4">
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+          <span class="text-xl  text-deepblack">{section.title}</span>
+        </h2>
+        <p set:html={section.body} />
+      </section>
+    ))
+  }
+</LegalLayout>
