@@ -1,6 +1,7 @@
 ---
 import LegalLayout from "../layouts/LegalLayout.astro";
 import { marked } from "marked";
+import { LEGAL_CONTENT } from "../const/legal-data";
 
 const apiUrl = import.meta.env.PUBLIC_API_URL || "http://localhost:3000";
 const response = await fetch(`${apiUrl}/api/config/legal/LEGAL_NOTICE`).catch(() => null);
@@ -12,14 +13,21 @@ const description =
   "Mentions légales de l'application Kadô-kou. Découvrez les informations sur l'éditeur, l'hébergeur et la propriété intellectuelle de la plateforme.";
 
 let contentHtml = "";
-let lastUpdated = "Non publié";
+let lastUpdated = "08 Mai 2026";
 
 if (data?.success && data?.document) {
   contentHtml = await marked.parse(data.document.content);
   const date = new Date(data.document.updatedAt);
   lastUpdated = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 } else {
-  contentHtml = "<p>Les Mentions Légales sont en cours de mise à jour.</p>";
+  // Fallback : contenu statique
+  const fallback = LEGAL_CONTENT.mentions;
+  contentHtml = fallback.sections
+    .map(
+      (section, idx) =>
+        `<h2>${section.title || ""}</h2>\n<p>${section.body}</p>`
+    )
+    .join("\n\n");
 }
 ---
 

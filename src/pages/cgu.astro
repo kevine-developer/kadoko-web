@@ -1,6 +1,7 @@
 ---
 import LegalLayout from "../layouts/LegalLayout.astro";
 import { marked } from "marked";
+import { LEGAL_CONTENT } from "../const/legal-data";
 
 const apiUrl = import.meta.env.PUBLIC_API_URL || "http://localhost:3000";
 const response = await fetch(`${apiUrl}/api/config/legal/CGU`).catch(() => null);
@@ -9,17 +10,24 @@ const data = response ? await response.json().catch(() => null) : null;
 const title = `Conditions Générales <span class="italic text-coolgrey">d'Utilisation.</span>`;
 const metaTitle = `Conditions Générales d'Utilisation | Kadô-kou`;
 const description =
-  "Conditions générales d'utilisation de Kadô-kou, l'application gratuite de wishlist et liste de cadeaux. Découvrez les règles d'utilisation, vos droits et obligations.";
+  "Conditions générales d'utilisation de Kadô-kou, l'application gratuite de wishlist et liste de cadeaux. Découvrez les règles d'utilisation, permissions de l'application, vos droits et obligations.";
 
 let contentHtml = "";
-let lastUpdated = "Non publié";
+let lastUpdated = "08 Mai 2026";
 
 if (data?.success && data?.document) {
   contentHtml = await marked.parse(data.document.content);
   const date = new Date(data.document.updatedAt);
   lastUpdated = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 } else {
-  contentHtml = "<p>Les Conditions Générales d'Utilisation sont en cours de mise à jour.</p>";
+  // Fallback : contenu statique conforme Google Play Store
+  const fallback = LEGAL_CONTENT.cgu;
+  contentHtml = fallback.sections
+    .map(
+      (section, idx) =>
+        `<h2>${section.title || ""}</h2>\n<p>${section.body}</p>`
+    )
+    .join("\n\n");
 }
 ---
 
