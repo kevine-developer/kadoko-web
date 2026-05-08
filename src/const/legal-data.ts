@@ -187,4 +187,17 @@ export const LEGAL_CONTENT: Record<string, LegalPageContent> = {
       },
     ],
   },
+  deletion: {
+    title: "Suppression de Compte",
+    sections: [
+      {
+        title: "Comment supprimer votre compte et vos données",
+        body: "Chez Kadô-Kou, vous avez le contrôle total sur vos données personnelles. Vous pouvez demander la suppression complète de votre compte et de toutes les données associées de deux manières différentes :\n\n**1. Depuis l'Application Mobile (Méthode instantanée)**\nLa méthode la plus rapide est d'utiliser directement l'application :\n- Ouvrez l'application Kadô-Kou.\n- Allez sur votre **Profil**.\n- Cliquez sur **Paramètres** (icône d'engrenage).\n- Sélectionnez **Sécurité**.\n- Cliquez sur **Clôturer le compte**.\nLa suppression est immédiate et irréversible.\n\n**2. Par Email (Demande manuelle)**\nSi vous n'avez plus accès à l'application, vous pouvez formuler une demande de suppression par email :\n- Envoyez un email à <a href=\"mailto:yvesnarsonkevine@gmail.com\" class=\"text-brushedgold hover:underline\">yvesnarsonkevine@gmail.com</a>\n- Indiquez comme objet du mail : **\"Demande de suppression de compte Kadô-Kou\"**.\n- Utilisez impérativement **l'adresse email associée à votre compte** Kadô-Kou afin que nous puissions vérifier votre identité.\n- Nous traiterons votre demande et supprimerons vos données dans un délai maximum de 30 jours.",
+      },
+      {
+        title: "Que se passe-t-il lors de la suppression ?",
+        body: "La suppression de votre compte est définitive. Toutes vos données personnelles seront effacées de nos serveurs, y compris :\n- Vos informations de profil (nom, email, avatar).\n- Vos listes de souhaits (wishlists) et tous les cadeaux ajoutés.\n- Vos historiques d'interaction sociale (amis, cercle proche).\n- Vos participations aux événements (réceptions).\n\n*Note : Si vous avez réservé un cadeau sur la liste d'un ami, cette réservation pourra être anonymisée pour ne pas perturber l'organisation de sa liste.*",
+      },
+    ],
+  },
 };
