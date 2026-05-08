@@ -188,15 +188,19 @@ export const LEGAL_CONTENT: Record<string, LegalPageContent> = {
     ],
   },
   deletion: {
-    title: "Suppression de Compte",
+    title: "Suppression des Données & Compte",
     sections: [
       {
-        title: "Comment supprimer votre compte et vos données",
-        body: "Chez Kadô-Kou, vous avez le contrôle total sur vos données personnelles. Vous pouvez demander la suppression complète de votre compte et de toutes les données associées de deux manières différentes :\n\n**1. Depuis l'Application Mobile (Méthode instantanée)**\nLa méthode la plus rapide est d'utiliser directement l'application :\n- Ouvrez l'application Kadô-Kou.\n- Allez sur votre **Profil**.\n- Cliquez sur **Paramètres** (icône d'engrenage).\n- Sélectionnez **Sécurité**.\n- Cliquez sur **Clôturer le compte**.\nLa suppression est immédiate et irréversible.\n\n**2. Par Email (Demande manuelle)**\nSi vous n'avez plus accès à l'application, vous pouvez formuler une demande de suppression par email :\n- Envoyez un email à <a href=\"mailto:yvesnarsonkevine@gmail.com\" class=\"text-brushedgold hover:underline\">yvesnarsonkevine@gmail.com</a>\n- Indiquez comme objet du mail : **\"Demande de suppression de compte Kadô-Kou\"**.\n- Utilisez impérativement **l'adresse email associée à votre compte** Kadô-Kou afin que nous puissions vérifier votre identité.\n- Nous traiterons votre demande et supprimerons vos données dans un délai maximum de 30 jours.",
+        title: "1. Suppression partielle de vos données (Conserver le compte)",
+        body: "Vous avez la possibilité de supprimer des données spécifiques tout en conservant votre compte actif. Voici comment procéder directement depuis l'application Kadô-Kou :\n\n- **Supprimer un cadeau ou une liste** : Allez sur votre profil, sélectionnez le cadeau ou la liste concernée et choisissez l'option de suppression.\n- **Retirer un ami de votre cercle** : Allez dans l'onglet Amis, sélectionnez le contact et cliquez sur 'Retirer du cercle' ou 'Ne plus suivre'.\n- **Supprimer une story** : Ouvrez votre story et utilisez le bouton de suppression.\n- **Modifier/Supprimer vos informations de profil** : Allez dans Paramètres > Éditer le profil pour effacer votre photo, description ou autres informations non-obligatoires.\n\n*Pour toute demande de suppression de données spécifiques que vous ne parvenez pas à effectuer via l'application, vous pouvez nous contacter à <a href=\"mailto:yvesnarsonkevine@gmail.com\" class=\"text-brushedgold hover:underline\">yvesnarsonkevine@gmail.com</a>.*",
       },
       {
-        title: "Que se passe-t-il lors de la suppression ?",
-        body: "La suppression de votre compte est définitive. Toutes vos données personnelles seront effacées de nos serveurs, y compris :\n- Vos informations de profil (nom, email, avatar).\n- Vos listes de souhaits (wishlists) et tous les cadeaux ajoutés.\n- Vos historiques d'interaction sociale (amis, cercle proche).\n- Vos participations aux événements (réceptions).\n\n*Note : Si vous avez réservé un cadeau sur la liste d'un ami, cette réservation pourra être anonymisée pour ne pas perturber l'organisation de sa liste.*",
+        title: "2. Suppression totale du compte et des données",
+        body: "Si vous souhaitez supprimer intégralement votre compte et toutes les données qui y sont associées, deux méthodes s'offrent à vous :\n\n**Méthode instantanée (Depuis l'Application Mobile)**\n- Ouvrez l'application Kadô-Kou.\n- Allez sur votre **Profil**.\n- Cliquez sur **Paramètres** (icône d'engrenage).\n- Sélectionnez **Sécurité**.\n- Cliquez sur **Clôturer le compte**.\nLa suppression est immédiate et irréversible.\n\n**Demande manuelle (Par Email)**\nSi vous n'avez plus accès à l'application, vous pouvez formuler une demande :\n- Envoyez un email à <a href=\"mailto:yvesnarsonkevine@gmail.com\" class=\"text-brushedgold hover:underline\">yvesnarsonkevine@gmail.com</a>\n- Indiquez comme objet du mail : **\"Demande de suppression de compte Kadô-Kou\"**.\n- Utilisez impérativement **l'adresse email associée à votre compte** Kadô-Kou afin que nous puissions vérifier votre identité.\n- Nous traiterons votre demande et supprimerons vos données dans un délai maximum de 30 jours.",
+      },
+      {
+        title: "Que se passe-t-il lors de la suppression totale ?",
+        body: "La suppression de votre compte est définitive. Toutes vos données personnelles seront effacées de nos serveurs, y compris :\n- Vos informations de profil (nom, email, avatar).\n- Vos listes de souhaits (wishlists) et tous les cadeaux ajoutés.\n- Vos historiques d'interaction sociale (amis, cercle proche, stories).\n- Vos participations aux événements (réceptions).\n\n*Note : Si vous avez réservé un cadeau sur la liste d'un ami, cette réservation pourra être anonymisée pour ne pas perturber l'organisation de sa liste.*",
       },
     ],
   },
