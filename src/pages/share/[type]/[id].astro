@@ -78,6 +78,51 @@ try {
 
 const appScheme = `kadokou://${deepLinkPath}`;
 const noindex = !isPublic;
+
+// Préparation des schémas JSON-LD spécifiques
+const jsonLd = [];
+
+if (type === "p") {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": dynamicTitle.split(" — ")[0].replace("Profil de ", ""),
+      "description": dynamicDescription,
+      "image": dynamicImage,
+      "identifier": id
+    }
+  });
+} else if (type === "g") {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": dynamicTitle.split(" — ")[0],
+    "description": dynamicDescription,
+    "image": dynamicImage,
+    "brand": {
+      "@type": "Brand",
+      "name": "Kadô-kou"
+    }
+  });
+} else if (type === "w" || type === "r") {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": dynamicTitle.split(" — ")[0],
+    "description": dynamicDescription,
+    "startDate": new Date().toISOString(), // Fallback
+    "location": {
+      "@type": "VirtualLocation",
+      "url": Astro.url.href
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Kadô-kou"
+    }
+  });
+}
 ---
 
 <Layout 
@@ -86,6 +131,8 @@ const noindex = !isPublic;
   image={dynamicImage}
   noindex={noindex}
 >
+  <!-- Données structurées spécifiques à la page -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   <main
     class="min-h-screen bg-bonesilk flex items-center justify-center p-6 text-deepblack selection:bg-brushedgold selection:text-white"
   >
