@@ -7,7 +7,6 @@
 ---
 
 <!-- Trigger Button (can be styled externally or used as a default) -->
-<!-- Trigger Button (can be styled externally or used as a default) -->
 <div id="beta-modal" class="fixed inset-0 z-10001 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-500">
   <!-- Overlay -->
   <div id="beta-overlay" class="absolute inset-0 bg-deepblack/40 backdrop-blur-md"></div>
@@ -37,6 +36,11 @@
       </p>
 
       <form id="beta-form" class="space-y-4">
+        <!-- Honeypot field (hidden from users) -->
+        <div class="sr-only opacity-0 absolute -z-10 h-0 overflow-hidden" aria-hidden="true">
+          <input type="text" name="website" id="beta-website" tabindex="-1" autocomplete="off" />
+        </div>
+
         <div class="relative group">
           <input 
             type="email" 
@@ -80,6 +84,7 @@
   const closeBtn = document.getElementById('beta-close');
   const form = document.getElementById('beta-form') as HTMLFormElement;
   const emailInput = document.getElementById('beta-email') as HTMLInputElement;
+  const honeypotInput = document.getElementById('beta-website') as HTMLInputElement;
   const submitBtn = document.getElementById('beta-submit') as HTMLButtonElement;
   const successMsg = document.getElementById('beta-success');
   const errorMsg = document.getElementById('beta-error');
@@ -126,6 +131,12 @@
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // Honeypot check
+    if (honeypotInput?.value) {
+      console.warn("Bot detected by honeypot");
+      return;
+    }
+
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.innerText = 'INSCRIPTION...';
@@ -134,18 +145,27 @@
     successMsg?.classList.add('hidden');
     errorMsg?.classList.add('hidden');
 
-    const email = emailInput.value;
-    const success = await SystemService.registerBetaTester(email);
+    try {
+      // 1. Fetch fresh config to get the anti-bot token
+      const config = await SystemService.getConfig();
+      const token = config?.registrationToken;
 
-    if (success) {
-      successMsg?.classList.remove('hidden');
-      form.reset();
-      if (submitBtn) {
-        submitBtn.innerText = 'INSCRIT';
-        submitBtn.classList.add('bg-emerald-500');
+      // 2. Submit with token
+      const email = emailInput.value;
+      const success = await SystemService.registerBetaTester(email, token);
+
+      if (success) {
+        successMsg?.classList.remove('hidden');
+        form.reset();
+        if (submitBtn) {
+          submitBtn.innerText = 'INSCRIT';
+          submitBtn.classList.add('bg-emerald-500');
+        }
+        setTimeout(closeModal, 3000);
+      } else {
+        throw new Error("Registration failed");
       }
-      setTimeout(closeModal, 3000);
-    } else {
+    } catch (err) {
       errorMsg?.classList.remove('hidden');
       if (submitBtn) {
         submitBtn.disabled = false;

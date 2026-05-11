@@ -28,6 +28,7 @@ export interface PublicConfig {
   maintenanceMode?: boolean;
   social?: SocialConfig;
   appLinks?: AppLinks;
+  registrationToken?: string;
 }
 
 export class SystemService {
@@ -44,11 +45,11 @@ export class SystemService {
     }
   }
 
-  static async registerBetaTester(email: string): Promise<boolean> {
+  static async registerBetaTester(email: string, token?: string): Promise<boolean> {
     try {
       const data = await apiFetch<{ success: boolean }>("/config/beta-tester", {
         method: "POST",
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, token }),
       });
       return data.success;
     } catch (error) {
