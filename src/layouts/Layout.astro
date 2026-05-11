@@ -3,6 +3,8 @@ import SEOHead from "../components/SEOHead.astro";
 import Footer from "../components/Footer.astro";
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
+import { SystemService } from "../api/services";
+import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
   title?: string;
@@ -13,6 +15,9 @@ interface Props {
 }
 
 const { title, description, image, noindex, keywords } = Astro.props;
+
+// Récupération de la config globale (liens stores, etc.)
+const config = await SystemService.getConfig();
 ---
 
 <!doctype html>
@@ -40,6 +45,12 @@ const { title, description, image, noindex, keywords } = Astro.props;
     />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    <!-- Content Security Policy -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' http://localhost:* https://api.gastsar.fr https://api.cloudinary.com; frame-src 'none'; object-src 'none';"
+    />
+
     <ClientRouter />
   </head>
   <body class="min-h-screen selection:bg-brushedgold selection:text-white">
@@ -50,7 +61,8 @@ const { title, description, image, noindex, keywords } = Astro.props;
       Passer au contenu principal
     </a>
     <slot />
-    <Footer />
+    <Footer config={config} />
+    <CookieBanner />
   </body>
 </html>
 

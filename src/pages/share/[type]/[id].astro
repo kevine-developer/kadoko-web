@@ -2,41 +2,41 @@
 import Layout from "../../../layouts/Layout.astro";
 import { LINK_APP_ANDROID } from "../../../const/constant";
 import StoreBadges from "../../../components/StoreBadges.astro";
+import { WishlistService, GiftService, ReceptionService, SystemService } from "../../../api/services";
 
 export const prerender = false;
 
 const { type, id } = Astro.params;
 
-// Titres dynamiques selon le type
-const pageTitle =
-  type === "p"
-    ? "Profil Kadô-Kou (Kadokou)"
-    : type === "g"
-      ? "Cadeau Kadô-Kou (Kadokou)"
-      : "Réception Kadô-Kou (Kadokou)";
+// Récupération des données selon le type
+let dynamicTitle = "";
+let dynamicDescription = "";
+let deepLinkPath = "";
 
-const description =
-  type === "p"
-    ? "Découvrez ce profil sur l'application Kadô-Kou (Kadokou, Kado-kou)."
-    : type === "g"
-      ? "Découvrez ce cadeau sur l'application Kadô-Kou (Kadokou, Kado-kou)."
-      : "Consultez cette réception sur l'application Kadô-Kou (Kadokou, Kado-kou).";
+const config = await SystemService.getConfig();
+const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
 
-// Construction des Deep Links
-// Profile: kadokou://profile/friend/123
-// Reception: kadokou://reception/456
-// Gift: kadokou://wishlist/gifts/789
-const deepLinkPath =
-  type === "p"
-    ? `profile/friend/${id}`
-    : type === "g"
-      ? `wishlist/gifts/${id}`
-      : `reception/${id}`;
+if (type === "p") {
+  // Profil (on pourrait récupérer le nom de l'utilisateur ici)
+  dynamicTitle = "Profil Kadô-Kou (Kadokou)";
+  dynamicDescription = "Découvrez ce profil sur l'application Kadô-Kou (Kadokou, Kado-kou).";
+  deepLinkPath = `profile/friend/${id}`;
+} else if (type === "g") {
+  const gift = await GiftService.getById(id!);
+  dynamicTitle = gift ? `${gift.name} — Kadô-Kou` : "Cadeau Kadô-Kou (Kadokou)";
+  dynamicDescription = gift?.description || "Découvrez ce cadeau sur l'application Kadô-Kou (Kadokou, Kado-kou).";
+  deepLinkPath = `wishlist/gifts/${id}`;
+} else {
+  const reception = await ReceptionService.getById(id!);
+  dynamicTitle = reception ? `${reception.title} — Kadô-Kou` : "Réception Kadô-Kou (Kadokou)";
+  dynamicDescription = reception?.description || "Consultez cette réception sur l'application Kadô-Kou (Kadokou, Kado-kou).";
+  deepLinkPath = `reception/${id}`;
+}
 
 const appScheme = `kadokou://${deepLinkPath}`;
 ---
 
-<Layout title={pageTitle} description={description} noindex={true}>
+<Layout title={dynamicTitle} description={dynamicDescription} noindex={true}>
   <main
     class="min-h-screen bg-bonesilk flex items-center justify-center p-6 text-deepblack selection:bg-brushedgold selection:text-white"
   >
@@ -172,7 +172,7 @@ const appScheme = `kadokou://${deepLinkPath}`;
         <!-- Liens Stores -->
         <div class="w-full flex flex-col items-center gap-4">
           <a
-            href={LINK_APP_ANDROID}
+            href={playStoreUrl}
             target="_blank"
             class="transition-transform duration-300 hover:scale-105 active:scale-95"
             aria-label="Télécharger sur Google Play"
@@ -200,7 +200,7 @@ const appScheme = `kadokou://${deepLinkPath}`;
   </main>
 </Layout>
 
-<script define:vars={{ apkDownloadUrl: LINK_APP_ANDROID }}>
+<script define:vars={{ apkDownloadUrl: playStoreUrl }}>
   const openAppBtn = document.getElementById("openAppBtn");
   const appScheme = openAppBtn?.getAttribute("data-scheme");
 

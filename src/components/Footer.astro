@@ -1,12 +1,26 @@
 ---
 import {
   LINK_APP_ANDROID,
+  LINK_APP_IOS,
   LINK_DEV_EN_GALERE,
   LINK_YVES_NARSON_KEVINE,
   SOCIAL_LINKS,
 } from "../const/constant";
 import StoreBadges from "./StoreBadges.astro";
+import type { PublicConfig } from "../api/services";
+
+interface Props {
+  config?: PublicConfig | null;
+}
+
+const { config } = Astro.props;
 const currentYear = new Date().getFullYear();
+
+// On privilégie les liens de la config API
+const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
+const appStoreUrl = config?.appLinks?.appStore || LINK_APP_IOS;
+const instagramUrl = config?.social?.instagram || SOCIAL_LINKS.instagram;
+const facebookUrl = config?.social?.facebook || SOCIAL_LINKS.facebook;
 ---
 
 <footer
@@ -57,7 +71,7 @@ const currentYear = new Date().getFullYear();
           </svg>
         </a>
         <a
-          href={SOCIAL_LINKS.facebook}
+          href={facebookUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
@@ -75,7 +89,7 @@ const currentYear = new Date().getFullYear();
           </svg>
         </a>
         <a
-          href={SOCIAL_LINKS.instagram}
+          href={instagramUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
@@ -195,7 +209,7 @@ const currentYear = new Date().getFullYear();
         </h3>
         <div class="flex flex-col gap-4">
           <a
-            href={LINK_APP_ANDROID}
+            href={playStoreUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="transition-transform duration-300 hover:scale-105 active:scale-95 self-center md:self-start"
@@ -203,12 +217,24 @@ const currentYear = new Date().getFullYear();
           >
             <StoreBadges store="play" className="h-10" />
           </a>
-          <div
-            class="opacity-40 grayscale cursor-not-allowed transition-all duration-300 self-center md:self-start"
-            title="Bientôt disponible sur l'App Store"
-          >
-            <StoreBadges store="apple" className="h-10" />
-          </div>
+          {appStoreUrl ? (
+            <a
+              href={appStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-transform duration-300 hover:scale-105 active:scale-95 self-center md:self-start"
+              aria-label="Télécharger sur l'App Store"
+            >
+              <StoreBadges store="apple" className="h-10" />
+            </a>
+          ) : (
+            <div
+              class="opacity-40 grayscale cursor-not-allowed transition-all duration-300 self-center md:self-start"
+              title="Bientôt disponible sur l'App Store"
+            >
+              <StoreBadges store="apple" className="h-10" />
+            </div>
+          )}
         </div>
       </div>
     </nav>

@@ -1,0 +1,156 @@
+---
+/**
+ * BetaSignup Modal Component
+ * Premium, minimalist modal for beta registration.
+ * Design: Glassmorphism, Brushed Gold, Deep Black.
+ */
+---
+
+<!-- Trigger Button (can be styled externally or used as a default) -->
+<!-- Trigger Button (can be styled externally or used as a default) -->
+<div id="beta-modal" class="fixed inset-0 z-10001 flex items-center justify-center p-4 sm:p-6 opacity-0 pointer-events-none transition-all duration-500">
+  <!-- Overlay -->
+  <div id="beta-overlay" class="absolute inset-0 bg-deepblack/40 backdrop-blur-md"></div>
+  
+  <!-- Modal Card -->
+  <div id="beta-card" class="relative bg-white/90 backdrop-blur-2xl border border-white/50 w-full max-w-lg rounded-[2.5rem] p-10 md:p-12 shadow-[0_40px_100px_rgba(0,0,0,0.2)] transform scale-95 transition-all duration-500 overflow-hidden">
+    <!-- Decorative background -->
+    <div class="absolute -top-24 -right-24 w-48 h-48 bg-brushedgold/10 rounded-full blur-3xl"></div>
+    
+    <!-- Close Button -->
+    <button id="beta-close" class="absolute top-8 right-8 text-gray-400 hover:text-deepblack transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    </button>
+
+    <div class="relative z-10 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brushedgold/10 border border-brushedgold/20 mb-8">
+        <div class="w-1.5 h-1.5 rounded-full bg-brushedgold animate-pulse"></div>
+        <span class="text-[9px] font-black uppercase tracking-[0.2em] text-brushedgold">Accès Privilège</span>
+      </div>
+
+      <h2 class="text-3xl md:text-4xl font-serif font-black text-deepblack mb-4 leading-tight">
+        Devenez <br/> <span class="text-brushedgold italic">Bêta-Testeur</span>
+      </h2>
+      
+      <p class="text-sm text-gray-500 font-medium mb-10 max-w-xs mx-auto leading-relaxed">
+        Inscrivez-vous pour rejoindre l'aventure. Vous recevrez un email de confirmation, suivi de votre lien d'accès exclusif au Play Store.
+      </p>
+
+      <form id="beta-form" class="space-y-4">
+        <div class="relative group">
+          <input 
+            type="email" 
+            id="beta-email"
+            placeholder="Votre plus belle adresse email..." 
+            required
+            class="w-full h-16 px-8 bg-bonesilk/50 border border-gray-100 rounded-2xl outline-none focus:border-brushedgold/50 focus:ring-4 focus:ring-brushedgold/5 transition-all text-gray-900 font-medium placeholder:text-gray-300 text-center"
+          />
+        </div>
+        
+        <button 
+          type="submit"
+          id="beta-submit"
+          class="w-full h-16 bg-deepblack text-white rounded-2xl font-black uppercase tracking-[0.3em] text-[11px] hover:bg-brushedgold transition-all duration-500 shadow-2xl shadow-black/10 active:scale-[0.98]"
+        >
+          M'inscrire maintenant
+        </button>
+
+        <!-- Messages -->
+        <div id="beta-success" class="hidden text-emerald-600 font-black text-[10px] uppercase tracking-widest pt-4 animate-in fade-in slide-in-from-top-2">
+          ✨ Inscription réussie. Surveillez votre boîte mail !
+        </div>
+        <div id="beta-error" class="hidden text-rose-500 font-black text-[10px] uppercase tracking-widest pt-4 animate-in fade-in slide-in-from-top-2">
+          Une erreur est survenue.
+        </div>
+      </form>
+
+      <p class="mt-8 text-[9px] text-gray-400 font-bold uppercase tracking-widest">
+        Le futur de Kadô-kou commence ici
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { SystemService } from "../api/services/systemService";
+
+  const modal = document.getElementById('beta-modal');
+  const card = document.getElementById('beta-card');
+  const overlay = document.getElementById('beta-overlay');
+  const closeBtn = document.getElementById('beta-close');
+  const form = document.getElementById('beta-form') as HTMLFormElement;
+  const emailInput = document.getElementById('beta-email') as HTMLInputElement;
+  const submitBtn = document.getElementById('beta-submit') as HTMLButtonElement;
+  const successMsg = document.getElementById('beta-success');
+  const errorMsg = document.getElementById('beta-error');
+
+  const BETA_DISMISSED_KEY = 'kadokou_beta_dismissed';
+
+  function openModal() {
+    modal?.classList.remove('opacity-0', 'pointer-events-none');
+    modal?.classList.add('opacity-100', 'pointer-events-auto');
+    card?.classList.remove('scale-95');
+    card?.classList.add('scale-100');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal?.classList.add('opacity-0', 'pointer-events-none');
+    modal?.classList.remove('opacity-100', 'pointer-events-auto');
+    card?.classList.add('scale-95');
+    card?.classList.remove('scale-100');
+    document.body.style.overflow = '';
+    localStorage.setItem(BETA_DISMISSED_KEY, 'true');
+  }
+
+  // Event Listeners for closing
+  closeBtn?.addEventListener('click', closeModal);
+  overlay?.addEventListener('click', closeModal);
+
+  // Global trigger listener
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-open-beta]')) {
+      openModal();
+    }
+  });
+
+  // Automatic display on load (if not dismissed)
+  window.addEventListener('load', () => {
+    if (!localStorage.getItem(BETA_DISMISSED_KEY)) {
+      setTimeout(openModal, 3000);
+    }
+  });
+
+  // Form handling
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'INSCRIPTION...';
+    }
+    
+    successMsg?.classList.add('hidden');
+    errorMsg?.classList.add('hidden');
+
+    const email = emailInput.value;
+    const success = await SystemService.registerBetaTester(email);
+
+    if (success) {
+      successMsg?.classList.remove('hidden');
+      form.reset();
+      if (submitBtn) {
+        submitBtn.innerText = 'INSCRIT';
+        submitBtn.classList.add('bg-emerald-500');
+      }
+      setTimeout(closeModal, 3000);
+    } else {
+      errorMsg?.classList.remove('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "M'INSCRIRE MAINTENANT";
+      }
+    }
+  });
+</script>
