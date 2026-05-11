@@ -2,6 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /confirmation-email
 Disallow: /verify-email-success
-Disallow: /share/
+Allow: /share/
 
 Sitemap: https://kadokou.gastsar.fr/sitemap.xml

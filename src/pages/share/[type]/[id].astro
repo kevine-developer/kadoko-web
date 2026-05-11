@@ -2,7 +2,7 @@
 import Layout from "../../../layouts/Layout.astro";
 import { LINK_APP_ANDROID } from "../../../const/constant";
 import StoreBadges from "../../../components/StoreBadges.astro";
-import { WishlistService, GiftService, ReceptionService, SystemService } from "../../../api/services";
+import { WishlistService, GiftService, ReceptionService, SystemService, UserService } from "../../../api/services";
 
 export const prerender = false;
 
@@ -11,32 +11,81 @@ const { type, id } = Astro.params;
 // Récupération des données selon le type
 let dynamicTitle = "";
 let dynamicDescription = "";
+let dynamicImage = "";
 let deepLinkPath = "";
+let isPublic = false;
 
 const config = await SystemService.getConfig();
 const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
 
-if (type === "p") {
-  // Profil (on pourrait récupérer le nom de l'utilisateur ici)
-  dynamicTitle = "Profil Kadô-Kou (Kadokou)";
-  dynamicDescription = "Découvrez ce profil sur l'application Kadô-Kou (Kadokou, Kado-kou).";
-  deepLinkPath = `profile/friend/${id}`;
-} else if (type === "g") {
-  const gift = await GiftService.getById(id!);
-  dynamicTitle = gift ? `${gift.name} — Kadô-Kou` : "Cadeau Kadô-Kou (Kadokou)";
-  dynamicDescription = gift?.description || "Découvrez ce cadeau sur l'application Kadô-Kou (Kadokou, Kado-kou).";
-  deepLinkPath = `wishlist/gifts/${id}`;
-} else {
-  const reception = await ReceptionService.getById(id!);
-  dynamicTitle = reception ? `${reception.title} — Kadô-Kou` : "Réception Kadô-Kou (Kadokou)";
-  dynamicDescription = reception?.description || "Consultez cette réception sur l'application Kadô-Kou (Kadokou, Kado-kou).";
-  deepLinkPath = `reception/${id}`;
+try {
+  if (type === "p") {
+    // Profil
+    const user = await UserService.getById(id!);
+    if (user) {
+      dynamicTitle = `Profil de ${user.name} (@${user.username}) — Kadô-kou`;
+      dynamicDescription = user.description || `Découvrez la liste de cadeaux et les envies de ${user.name} sur Kadô-kou, l'application gratuite de wishlist.`;
+      dynamicImage = user.image || "";
+      isPublic = true; // Les profils partagés sont généralement publics par design
+    } else {
+      dynamicTitle = "Profil Kadô-kou (Kadokou)";
+      dynamicDescription = "Découvrez ce profil sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `profile/friend/${id}`;
+  } else if (type === "g") {
+    // Cadeau
+    const gift = await GiftService.getById(id!);
+    if (gift) {
+      dynamicTitle = `${gift.name} — Idée Cadeau sur Kadô-kou`;
+      dynamicDescription = gift.description || `Découvrez ${gift.name} sur Kadô-kou. Ajoutez des idées cadeaux à votre propre wishlist gratuitement.`;
+      dynamicImage = gift.imageUrl || "";
+      isPublic = true;
+    } else {
+      dynamicTitle = "Cadeau Kadô-kou (Kadokou)";
+      dynamicDescription = "Découvrez ce cadeau sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `wishlist/gifts/${id}`;
+  } else if (type === "w") {
+    // Wishlist / Liste de cadeaux
+    const wishlist = await WishlistService.getById(id!);
+    if (wishlist) {
+      dynamicTitle = `${wishlist.title} — Liste de Cadeaux Kadô-kou`;
+      dynamicDescription = wishlist.description || `Consultez la liste de cadeaux "${wishlist.title}" sur Kadô-kou. Créez votre propre liste de mariage, naissance ou anniversaire.`;
+      isPublic = wishlist.visibility === "PUBLIC";
+    } else {
+      dynamicTitle = "Liste de Cadeaux Kadô-kou (Kadokou)";
+      dynamicDescription = "Découvrez cette wishlist sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `wishlist/wishlists/${id}`;
+  } else {
+    // Réception
+    const reception = await ReceptionService.getById(id!);
+    if (reception) {
+      dynamicTitle = `${reception.title} — Invitation Kadô-kou`;
+      dynamicDescription = reception.description || `Vous êtes invité à la réception "${reception.title}". Retrouvez tous les détails et la liste de cadeaux sur l'application.`;
+      isPublic = false; // Les réceptions sont privées par défaut
+    } else {
+      dynamicTitle = "Réception Kadô-kou (Kadokou)";
+      dynamicDescription = "Consultez cette réception sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `reception/${id}`;
+  }
+} catch (error) {
+  console.error("[SharePage] Error fetching data:", error);
+  dynamicTitle = "Kadô-kou — Partage";
+  dynamicDescription = "Ouvrez l'application Kadô-kou pour voir ce contenu.";
 }
 
 const appScheme = `kadokou://${deepLinkPath}`;
+const noindex = !isPublic;
 ---
 
-<Layout title={dynamicTitle} description={dynamicDescription} noindex={true}>
+<Layout 
+  title={dynamicTitle} 
+  description={dynamicDescription} 
+  image={dynamicImage}
+  noindex={noindex}
+>
   <main
     class="min-h-screen bg-bonesilk flex items-center justify-center p-6 text-deepblack selection:bg-brushedgold selection:text-white"
   >
