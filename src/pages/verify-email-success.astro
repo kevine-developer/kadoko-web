@@ -5,6 +5,8 @@ export const prerender = true;
  * Redirection depuis l'API après validation du token
  */
 import Layout from "../layouts/Layout.astro";
+import { LINK_APP_ANDROID, LINK_APP_IOS } from "../const/constant";
+import StoreBadges from "../components/StoreBadges.astro";
 
 const title = "Identification Confirmée - Kadô-Kou";
 ---
@@ -41,19 +43,19 @@ const title = "Identification Confirmée - Kadô-Kou";
         <div class="footer-label">Accès Boutique</div>
         <div class="store-links">
           <a
-            href="https://apps.apple.com/app/kadokou"
-            class="store-link"
+            href={LINK_APP_ANDROID}
             target="_blank"
+            class="transition-transform duration-300 hover:scale-105 active:scale-95"
+            aria-label="Télécharger sur Google Play"
           >
-            iOS
+            <StoreBadges store="play" className="h-8" />
           </a>
-          <a
-            href="https://play.google.com/store/apps/details?id=com.kadokou.app"
-            class="store-link"
-            target="_blank"
+          <div
+            class="opacity-40 grayscale cursor-not-allowed"
+            title="Bientôt disponible sur l'App Store"
           >
-            Android
-          </a>
+            <StoreBadges store="apple" className="h-8" />
+          </div>
         </div>
       </div>
     </div>

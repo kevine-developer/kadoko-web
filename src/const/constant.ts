@@ -1,7 +1,9 @@
 export const APP_ICON_URL = "/android-chrome-192x192.png";
 export const LINK_APP_ANDROID =
-  import.meta.env.PUBLIC_APK_DOWNLOAD_URL ||
-  "https://drive.google.com/drive/folders/1pM3AV2G97eGP8zGpz4JbEEy4FnSTPFwo?usp=sharing";
+  import.meta.env.PUBLIC_PLAY_STORE_URL ||
+  "https://play.google.com/store/apps/details?id=com.kadokou.app";
+export const LINK_APP_IOS =
+  import.meta.env.PUBLIC_APP_STORE_URL || "";
 
 // Liens Externes
 export const LINK_DEV_EN_GALERE = "https://devengalere.fr/";

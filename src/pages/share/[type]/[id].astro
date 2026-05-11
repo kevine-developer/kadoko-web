@@ -1,6 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import { LINK_APP_ANDROID } from "../../../const/constant";
+import StoreBadges from "../../../components/StoreBadges.astro";
 
 export const prerender = false;
 
@@ -9,17 +10,17 @@ const { type, id } = Astro.params;
 // Titres dynamiques selon le type
 const pageTitle =
   type === "p"
-    ? "Profil Kadô-Kou"
+    ? "Profil Kadô-Kou (Kadokou)"
     : type === "g"
-      ? "Cadeau Kadô-Kou"
-      : "Réception Kadô-Kou";
+      ? "Cadeau Kadô-Kou (Kadokou)"
+      : "Réception Kadô-Kou (Kadokou)";
 
 const description =
   type === "p"
-    ? "Découvrez ce profil sur l'application Kadô-Kou."
+    ? "Découvrez ce profil sur l'application Kadô-Kou (Kadokou, Kado-kou)."
     : type === "g"
-      ? "Découvrez ce cadeau sur l'application Kadô-Kou."
-      : "Consultez cette réception sur l'application Kadô-Kou.";
+      ? "Découvrez ce cadeau sur l'application Kadô-Kou (Kadokou, Kado-kou)."
+      : "Consultez cette réception sur l'application Kadô-Kou (Kadokou, Kado-kou).";
 
 // Construction des Deep Links
 // Profile: kadokou://profile/friend/123
@@ -51,7 +52,7 @@ const appScheme = `kadokou://${deepLinkPath}`;
         <span
           class="font-sans text-[10px] font-bold tracking-[0.4em] uppercase text-deepblack"
         >
-          Kadô-Kou
+          Kadô-Kou (Kadokou)
         </span>
       </div>
 
@@ -169,57 +170,21 @@ const appScheme = `kadokou://${deepLinkPath}`;
         </div>
 
         <!-- Liens Stores -->
-        <div class="w-full space-y-3">
+        <div class="w-full flex flex-col items-center gap-4">
           <a
             href={LINK_APP_ANDROID}
             target="_blank"
-            class="flex items-center justify-center gap-3 w-full py-3 px-4 border border-hairline text-deepblack hover:border-deepblack hover:bg-bonesilk transition-all duration-300 text-xs font-bold tracking-wide uppercase group"
+            class="transition-transform duration-300 hover:scale-105 active:scale-95"
+            aria-label="Télécharger sur Google Play"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              fill="#000000"
-              class="w-5 h-5"
-              version="1.1"
-              id="Capa_1"
-              viewBox="0 0 360 360"
-              xml:space="preserve"
-            >
-              <g id="XMLID_1_">
-                <path
-                  id="XMLID_1058_"
-                  d="M345.205,122.272h-50.41V77.834L211.773,0H14.795v360h280v-55h50.41V122.272z M315.205,275h-210V152.273   h210V275z"
-                ></path>
-                <path
-                  id="XMLID_1061_"
-                  d="M140.456,225.876h22.32l5.94,15.93h12.78l-24.3-63.9h-10.98l-24.39,63.9h12.78L140.456,225.876z    M151.706,192.036l8.82,25.11h-18L151.706,192.036z"
-                ></path>
-                <path
-                  id="XMLID_1064_"
-                  d="M200.936,220.386h15.121c2.939,0,5.639-0.599,8.1-1.8c2.459-1.199,4.559-2.79,6.3-4.77   c1.739-1.98,3.089-4.244,4.05-6.795c0.959-2.549,1.439-5.175,1.439-7.875c0-2.579-0.51-5.144-1.529-7.695   c-1.021-2.549-2.43-4.829-4.23-6.84c-1.8-2.01-3.945-3.63-6.434-4.86c-2.491-1.229-5.206-1.845-8.146-1.845h-27.09v63.9h12.42   V220.386z M200.936,188.796h13.86c1.08,0,2.145,0.225,3.194,0.675c1.05,0.45,1.965,1.125,2.746,2.025   c0.779,0.9,1.408,1.996,1.89,3.285c0.479,1.291,0.72,2.745,0.72,4.365c0,3.181-0.765,5.701-2.295,7.56   c-1.529,1.86-3.436,2.79-5.715,2.79h-14.4V188.796z"
-                ></path>
-                <polygon
-                  id="XMLID_1067_"
-                  points="257.005,222.726 265.195,214.176 285.085,241.806 299.035,241.806 273.025,206.256    297.505,177.906 283.824,177.906 257.005,208.326 257.005,177.996 244.585,177.996 244.585,241.806 257.005,241.806  "
-                ></polygon>
-              </g>
-            </svg>
-
-            <span>Télécharger pour Android</span>
+            <StoreBadges store="play" />
           </a>
 
           <div
-            class="flex items-center justify-center gap-3 w-full py-3 px-4 border border-hairline/50 text-coolgrey/40 cursor-not-allowed bg-bonesilk/30 text-xs font-bold tracking-wide uppercase select-none"
+            class="opacity-40 grayscale cursor-not-allowed transition-all duration-300"
+            title="Bientôt disponible sur l'App Store"
           >
-            <svg
-              class="w-5 h-5 opacity-50"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              ><path
-                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-              ></path></svg
-            >
-            <span>iOS (Bientôt)</span>
+            <StoreBadges store="apple" />
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
   LINK_YVES_NARSON_KEVINE,
   SOCIAL_LINKS,
 } from "../const/constant";
+import StoreBadges from "./StoreBadges.astro";
 const currentYear = new Date().getFullYear();
 ---
 
@@ -192,34 +193,23 @@ const currentYear = new Date().getFullYear();
         >
           Disponibilité
         </h3>
-        <ul class="space-y-3">
-          <li>
-            <a
-              href={LINK_APP_ANDROID}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300 flex items-center justify-center md:justify-start gap-2"
-            >
-              Android <svg
-                class="w-3 h-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                ></path></svg
-              >
-            </a>
-          </li>
-          <li>
-            <span class="text-sm text-bonesilk/40 cursor-not-allowed"
-              >iOS (Prochainement)</span
-            >
-          </li>
-        </ul>
+        <div class="flex flex-col gap-4">
+          <a
+            href={LINK_APP_ANDROID}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition-transform duration-300 hover:scale-105 active:scale-95 self-center md:self-start"
+            aria-label="Télécharger sur Google Play"
+          >
+            <StoreBadges store="play" className="h-10" />
+          </a>
+          <div
+            class="opacity-40 grayscale cursor-not-allowed transition-all duration-300 self-center md:self-start"
+            title="Bientôt disponible sur l'App Store"
+          >
+            <StoreBadges store="apple" className="h-10" />
+          </div>
+        </div>
       </div>
     </nav>
   </div>
@@ -227,11 +217,14 @@ const currentYear = new Date().getFullYear();
   <div
     class="max-w-[1400px] mx-auto pt-8 border-t border-bonesilk/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10"
   >
-    <div class="flex items-center gap-2">
-      <span class="w-1 h-1 rounded-full bg-brushedgold/40"></span>
-      <p class="text-xs tracking-[0.3em] uppercase text-bonesilk/60">
-        Toulouse • France
-      </p>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-1 h-1 rounded-full bg-brushedgold/40"></span>
+        <p class="text-xs tracking-[0.3em] uppercase text-bonesilk/60">
+          Toulouse • France
+        </p>
+      </div>
+      <span class="text-[9px] px-2 py-0.5 rounded-full border border-bonesilk/10 text-bonesilk/40 font-bold tracking-widest uppercase">Beta</span>
     </div>
     <p class="text-xs tracking-widest text-bonesilk/40 text-center">
       &copy; {currentYear} — <a

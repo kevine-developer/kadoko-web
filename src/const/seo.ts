@@ -1,16 +1,39 @@
 export const APP_NAME = "Kadô-kou";
 export const SITE_URL = "https://kadokou.gastsar.fr";
 export const SITE_DESCRIPTION =
-  "Kadô-kou, l'app gratuite de wishlist. Créez votre liste de mariage ou d'anniversaire, partagez vos idées cadeaux et organisez vos événements simplement.";
+  "Kadô-kou (Kadokou, Kado-kou) est l'app gratuite de wishlist. Créez votre liste de mariage ou d'anniversaire, partagez vos idées cadeaux et organisez vos événements simplement.";
 
 export const SEO = {
-  defaultTitle: `Application Wishlist & Liste de Cadeaux | ${APP_NAME}`,
-  defaultDescription: SITE_DESCRIPTION,
+  defaultTitle: `Kadô-kou (Kadokou) — Application Wishlist & Liste de Cadeaux Gratuite`,
+  defaultDescription:
+    "Kadô-kou (aussi appelé Kadokou, Kado-kou) est l'application gratuite de wishlist et liste de cadeaux. Créez votre liste de mariage, de naissance ou d'anniversaire, partagez vos idées cadeaux avec vos proches et organisez vos réceptions en toute simplicité.",
   defaultImage: "/android-chrome-512x512.png",
   twitterHandle: "@kadokou",
   separator: "|",
   keywords: [
-    // Recherches application / wishlist
+    // ═══ Nom de l'app — Toutes les variantes orthographiques ═══
+    "kadokou",
+    "kado kou",
+    "kadôkou",
+    "kadô-kou",
+    "kado-kou",
+    "kadô kou",
+    "kadokou app",
+    "kadokou application",
+    "kado-kou application",
+    "kadokou liste de cadeaux",
+    "kado-kou wishlist",
+    "kadokou wishlist",
+    "application kadokou",
+    "application kado-kou",
+    "telecharger kadokou",
+    "télécharger kadokou",
+    "télécharger kado-kou",
+    "kadokou gratuit",
+    "kado-kou gratuit",
+    "kadokou avis",
+    "kadokou android",
+    // ═══ Recherches application / wishlist ═══
     "application wishlist",
     "application liste de cadeaux",
     "application de cadeaux",
@@ -30,7 +53,7 @@ export const SEO = {
     "ma wishlist",
     "wishlist cadeau",
     "wishlist",
-    // Liste de cadeaux
+    // ═══ Liste de cadeaux ═══
     "liste de cadeaux",
     "liste de cadeaux en ligne",
     "créer une liste de cadeaux",
@@ -42,29 +65,36 @@ export const SEO = {
     "partager sa liste de cadeaux",
     "gestion cadeaux",
     "cadeau en ligne",
-    // Événements spécifiques
+    "liste de souhaits",
+    "liste de souhaits en ligne",
+    "liste d'envies",
+    // ═══ Événements spécifiques ═══
     "liste de mariage",
     "liste de mariage en ligne",
+    "liste de mariage gratuite",
     "cadeau de mariage",
     "liste de naissance",
     "liste de naissance en ligne",
+    "liste de naissance gratuite",
     "cadeau de naissance",
     "cadeau anniversaire",
+    "liste d'anniversaire",
     "idées de cadeaux d'anniversaire",
     "baby shower liste",
     "cagnotte en ligne",
     "organiser un événement",
-    // Idées cadeaux
+    "organiser une réception",
+    "liste cadeau noël",
+    "liste de noël en ligne",
+    // ═══ Idées cadeaux ═══
     "idée cadeau",
     "idées cadeaux",
     "trouver une idée cadeau",
     "idée cadeau original",
-    // Nom de l'app
-    "kadokou",
-    "kado kou",
-    "kadôkou",
-    "kadô-kou",
-    "kado-kou",
+    "idée cadeau femme",
+    "idée cadeau homme",
+    "quel cadeau offrir",
+    // ═══ Éditeur / Créateur ═══
     "devengalere",
     "dev en galere",
     "yves narson kevine",

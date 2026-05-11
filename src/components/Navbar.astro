@@ -11,7 +11,7 @@ import appIcon from "../assets/images/native-app/app-icon.png";
   <a
     href="/"
     class="group flex items-center gap-3 md:gap-4 transition-all duration-500 focus-visible:ring-offset-8"
-    aria-label="Accueil Kadô-Kou"
+    aria-label="Accueil Kadô-Kou (Kadokou)"
   >
     <div class="relative flex items-center justify-center">
       <div
@@ -19,7 +19,7 @@ import appIcon from "../assets/images/native-app/app-icon.png";
       >
         <Image
           src={appIcon}
-          alt="Logo de l'application Kadô-Kou"
+          alt="Logo de l'application Kadô-Kou (Kadokou)"
           width={54}
           height={54}
           class="w-5 h-5 md:w-7 md:h-7 object-contain rounded-full grayscale group-hover:grayscale-0 transition-all text-transparent"
@@ -33,11 +33,18 @@ import appIcon from "../assets/images/native-app/app-icon.png";
     </div>
 
     <div class="flex flex-col">
-      <span
-        class="text-xs md:text-sm font-bold tracking-[0.3em] uppercase leading-none mb-1"
-      >
-        Kadô-Kou
-      </span>
+      <div class="flex items-center gap-2 mb-1">
+        <span
+          class="text-xs md:text-sm font-bold tracking-[0.3em] uppercase leading-none"
+        >
+          Kadô-Kou
+        </span>
+        <span
+          class="text-[8px] px-1.5 py-0.5 rounded-full bg-brushedgold/10 text-brushedgold font-bold tracking-widest uppercase border border-brushedgold/20"
+        >
+          Beta
+        </span>
+      </div>
       <span
         class="text-xs font-medium text-brushedgold tracking-[0.2em] uppercase leading-none opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-500 hidden md:block"
         aria-hidden="true"

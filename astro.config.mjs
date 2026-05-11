@@ -14,6 +14,7 @@ export default defineConfig({
     remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
   },
   integrations: [
+    sitemap(),
     AstroPWA({
       mode: 'production',
       base: '/',
@@ -21,9 +22,9 @@ export default defineConfig({
       includeAssets: ['favicon.ico'],
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Kadô-kou',
+        name: 'Kadô-kou (Kadokou)',
         short_name: 'Kadô-kou',
-        description: "L'application de liste de cadeaux qui simplifie vos événements",
+        description: "Kadô-kou (Kadokou, Kado-kou) : L'application de liste de cadeaux qui simplifie vos événements",
         theme_color: '#FDFBF7',
         background_color: '#FDFBF7',
         display: 'standalone',
