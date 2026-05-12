@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kadokou.devengalere",
+      "sha256_cert_fingerprints": [
+        "25:D8:92:32:56:70:05:3C:7A:EE:5A:FA:30:6B:90:44:08:E6:FF:E9:B3:BB:BE:58:1E:9C:F5:54:66:2C:25:E9"
+      ]
+    }
+  }
+]

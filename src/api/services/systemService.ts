@@ -20,6 +20,7 @@ export interface SocialConfig {
 export interface AppLinks {
   playStore?: string;
   appStore?: string;
+  appleAppId?: string;
   apkDownload?: string;
 }
 
