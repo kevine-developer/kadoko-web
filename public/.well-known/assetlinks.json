@@ -8,7 +8,8 @@
       "namespace": "android_app",
       "package_name": "com.kadokou.devengalere",
       "sha256_cert_fingerprints": [
-        "25:D8:92:32:56:70:05:3C:7A:EE:5A:FA:30:6B:90:44:08:E6:FF:E9:B3:BB:BE:58:1E:9C:F5:54:66:2C:25:E9"
+        "25:D8:92:32:56:70:05:3C:7A:EE:5A:FA:30:6B:90:44:08:E6:FF:E9:B3:BB:BE:58:1E:9C:F5:54:66:2C:25:E9",
+        "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C"
       ]
     }
   }
