@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 import netlify from '@astrojs/netlify';
 
 export default defineConfig({
-  site: import.meta.env.PUBLIC_SITE_URL || 'https://kadokou.gastsar.fr',
+  site: import.meta.env.PUBLIC_SITE_URL || 'https://kado-kou.fr',
   output: 'server',
   adapter: netlify(),
   image: {

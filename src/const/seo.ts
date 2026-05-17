@@ -1,5 +1,5 @@
 export const APP_NAME = "Kadô-kou";
-export const SITE_URL = "https://kadokou.gastsar.fr";
+export const SITE_URL = "https://kado-kou.fr";
 export const SITE_DESCRIPTION =
   "Kadô-kou (Kadokou, Kado-kou) est l'app gratuite de wishlist. Créez votre liste de mariage ou d'anniversaire, partagez vos idées cadeaux et organisez vos événements simplement.";
 

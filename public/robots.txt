@@ -4,4 +4,4 @@ Disallow: /confirmation-email
 Disallow: /verify-email-success
 Allow: /share/
 
-Sitemap: https://kadokou.gastsar.fr/sitemap.xml
+Sitemap: https://kado-kou.fr/sitemap.xml
