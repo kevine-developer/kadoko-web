@@ -7,6 +7,7 @@ export interface GlobalAlert {
   title: string;
   message: string;
   imageUrl: string | null;
+  buttonText: string | null;
   expiresAt: string | null;
 }
 
