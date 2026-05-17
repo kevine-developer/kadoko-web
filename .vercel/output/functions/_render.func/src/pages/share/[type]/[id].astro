@@ -1,0 +1,420 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { LINK_APP_ANDROID } from "../../../const/constant";
+import StoreBadges from "../../../components/StoreBadges.astro";
+import { WishlistService, GiftService, ReceptionService, SystemService, UserService } from "../../../api/services";
+
+export const prerender = false;
+
+const { type, id } = Astro.params;
+
+// Récupération des données selon le type
+let dynamicTitle = "";
+let dynamicDescription = "";
+let dynamicImage = "";
+let deepLinkPath = "";
+let isPublic = false;
+
+const config = await SystemService.getConfig();
+const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
+
+try {
+  if (type === "p") {
+    // Profil
+    const user = await UserService.getById(id!);
+    if (user) {
+      dynamicTitle = `Profil de ${user.name} (@${user.username}) — Kadô-kou`;
+      dynamicDescription = user.description || `Découvrez la liste de cadeaux et les envies de ${user.name} sur Kadô-kou, l'application gratuite de wishlist.`;
+      dynamicImage = user.image || "";
+      isPublic = true; // Les profils partagés sont généralement publics par design
+    } else {
+      dynamicTitle = "Profil Kadô-kou (Kadokou)";
+      dynamicDescription = "Découvrez ce profil sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `profile/friend/${id}`;
+  } else if (type === "g") {
+    // Cadeau
+    const gift = await GiftService.getById(id!);
+    if (gift) {
+      dynamicTitle = `${gift.name} — Idée Cadeau sur Kadô-kou`;
+      dynamicDescription = gift.description || `Découvrez ${gift.name} sur Kadô-kou. Ajoutez des idées cadeaux à votre propre wishlist gratuitement.`;
+      dynamicImage = gift.imageUrl || "";
+      isPublic = true;
+    } else {
+      dynamicTitle = "Cadeau Kadô-kou (Kadokou)";
+      dynamicDescription = "Découvrez ce cadeau sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `wishlist/gifts/${id}`;
+  } else if (type === "w") {
+    // Wishlist / Liste de cadeaux
+    const wishlist = await WishlistService.getById(id!);
+    if (wishlist) {
+      dynamicTitle = `${wishlist.title} — Liste de Cadeaux Kadô-kou`;
+      dynamicDescription = wishlist.description || `Consultez la liste de cadeaux "${wishlist.title}" sur Kadô-kou. Créez votre propre liste de mariage, naissance ou anniversaire.`;
+      isPublic = wishlist.visibility === "PUBLIC";
+    } else {
+      dynamicTitle = "Liste de Cadeaux Kadô-kou (Kadokou)";
+      dynamicDescription = "Découvrez cette wishlist sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `wishlist/wishlists/${id}`;
+  } else {
+    // Réception
+    const reception = await ReceptionService.getById(id!);
+    if (reception) {
+      dynamicTitle = `${reception.title} — Invitation Kadô-kou`;
+      dynamicDescription = reception.description || `Vous êtes invité à la réception "${reception.title}". Retrouvez tous les détails et la liste de cadeaux sur l'application.`;
+      isPublic = false; // Les réceptions sont privées par défaut
+    } else {
+      dynamicTitle = "Réception Kadô-kou (Kadokou)";
+      dynamicDescription = "Consultez cette réception sur l'application Kadô-kou.";
+    }
+    deepLinkPath = `reception/${id}`;
+  }
+} catch (error) {
+  console.error("[SharePage] Error fetching data:", error);
+  dynamicTitle = "Kadô-kou — Partage";
+  dynamicDescription = "Ouvrez l'application Kadô-kou pour voir ce contenu.";
+}
+
+const appScheme = `kadokou://${deepLinkPath}`;
+const noindex = !isPublic;
+
+// Préparation des schémas JSON-LD spécifiques
+const jsonLd = [];
+
+if (type === "p") {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": dynamicTitle.split(" — ")[0].replace("Profil de ", ""),
+      "description": dynamicDescription,
+      "image": dynamicImage,
+      "identifier": id
+    }
+  });
+} else if (type === "g") {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": dynamicTitle.split(" — ")[0],
+    "description": dynamicDescription,
+    "image": dynamicImage,
+    "brand": {
+      "@type": "Brand",
+      "name": "Kadô-kou"
+    }
+  });
+} else if (type === "w" || type === "r") {
+  jsonLd.push({
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": dynamicTitle.split(" — ")[0],
+    "description": dynamicDescription,
+    "startDate": new Date().toISOString(), // Fallback
+    "location": {
+      "@type": "VirtualLocation",
+      "url": Astro.url.href
+    },
+    "organizer": {
+      "@type": "Organization",
+      "name": "Kadô-kou"
+    }
+  });
+}
+---
+
+<Layout 
+  title={dynamicTitle} 
+  description={dynamicDescription} 
+  image={dynamicImage}
+  noindex={noindex}
+>
+  <!-- Données structurées spécifiques à la page -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  <main
+    class="min-h-screen bg-bonesilk flex items-center justify-center p-6 text-deepblack selection:bg-brushedgold selection:text-white"
+  >
+    <!-- Carte Centrale -->
+    <div
+      class="w-full max-w-md bg-white border border-hairline shadow-2xl shadow-deepblack/5 overflow-hidden animate-fade-in-up"
+    >
+      <!-- Logo Header -->
+      <div
+        class="pt-12 pb-8 text-center border-b border-hairline bg-white relative"
+      >
+        <div class="absolute top-0 left-0 w-full h-1 bg-brushedgold/20"></div>
+        <span
+          class="font-sans text-[10px] font-bold tracking-[0.4em] uppercase text-deepblack"
+        >
+          Kadô-Kou (Kadokou)
+        </span>
+      </div>
+
+      <!-- Contenu Principal -->
+      <div class="p-10 flex flex-col items-center text-center">
+        <!-- Icône dynamique (Cercle Bijou) -->
+        <div
+          class="w-20 h-20 rounded-full border border-brushedgold/20 flex items-center justify-center mb-8 bg-bonesilk relative group"
+        >
+          <div
+            class="absolute inset-0 rounded-full border border-brushedgold/10 scale-110 group-hover:scale-125 transition-transform duration-700"
+          >
+          </div>
+          {
+            type === "p" ? (
+              // Icône Profil (User)
+              <svg
+                class="w-8 h-8 text-brushedgold"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            ) : type === "g" ? (
+              // Icône Cadeau (Gift)
+              <svg
+                class="w-8 h-8 text-brushedgold"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 12 20 22 4 22 4 12" />
+                <rect x="2" y="7" width="20" height="5" />
+                <line x1="12" y1="22" x2="12" y2="7" />
+                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+              </svg>
+            ) : (
+              // Icône Réception (Invitation)
+              <svg
+                class="w-8 h-8 text-brushedgold"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            )
+          }
+        </div>
+
+        <h1 class="text-3xl font-serif text-deepblack mb-4">
+          {
+            type === "p"
+              ? "Profil Membre"
+              : type === "g"
+                ? "Cadeau Exclusif"
+                : "Invitation Privée"
+          }
+        </h1>
+
+        <div class="w-12 h-px bg-brushedgold mb-6 opacity-60"></div>
+
+        <p
+          class="font-sans text-sm text-coolgrey leading-relaxed mb-8 max-w-xs mx-auto font-light"
+        >
+          Pour accéder à ce contenu exclusif et confirmer votre présence,
+          veuillez ouvrir l'application mobile.
+        </p>
+
+        <!-- Action Principale -->
+        <button
+          id="openAppBtn"
+          data-scheme={appScheme}
+          class="w-full bg-deepblack text-white py-4 px-6 text-xs font-bold tracking-widest uppercase hover:bg-black transition-all duration-300 shadow-lg shadow-deepblack/10 active:scale-[0.98] mb-8 group"
+        >
+          <span class="flex items-center justify-center gap-3">
+            Ouvrir l'Application
+            <svg
+              class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              ><path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg
+            >
+          </span>
+        </button>
+
+        <!-- Séparateur "Ou" -->
+        <div class="relative w-full flex items-center justify-center mb-8">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-hairline"></div>
+          </div>
+          <span
+            class="relative bg-white px-4 text-[10px] uppercase tracking-widest text-coolgrey/60 font-bold"
+          >
+            Première visite ?
+          </span>
+        </div>
+
+        <!-- Liens Stores -->
+        <div class="w-full flex flex-col items-center gap-4 mb-10">
+          <a
+            href={playStoreUrl}
+            target="_blank"
+            class="transition-transform duration-300 hover:scale-105 active:scale-95"
+            aria-label="Télécharger sur Google Play"
+          >
+            <StoreBadges store="play" />
+          </a>
+
+          <div
+            class="opacity-40 grayscale cursor-not-allowed transition-all duration-300"
+            title="Bientôt disponible sur l'App Store"
+          >
+            <StoreBadges store="apple" />
+          </div>
+        </div>
+
+        <!-- Section Bêta-Testeur -->
+        <div class="relative w-full flex items-center justify-center mb-6">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-hairline border-dashed"></div>
+          </div>
+          <span
+            class="relative bg-white px-4 text-[9px] uppercase tracking-widest text-brushedgold font-black"
+          >
+            Accès Bêta Privé
+          </span>
+        </div>
+
+        <form id="share-beta-form" class="w-full space-y-3">
+          <!-- Honeypot -->
+          <div class="sr-only opacity-0 absolute -z-10 h-0 overflow-hidden" aria-hidden="true">
+            <input type="text" name="website" id="share-beta-website" tabindex="-1" autocomplete="off" />
+          </div>
+          
+          <input 
+            type="email" 
+            id="share-beta-email"
+            placeholder="Votre email pour la bêta..." 
+            required
+            class="w-full h-12 px-6 bg-bonesilk/50 border border-hairline rounded-xl outline-none focus:border-brushedgold/50 text-sm text-center font-medium placeholder:text-coolgrey/40"
+          />
+          <button 
+            type="submit"
+            id="share-beta-submit"
+            class="w-full h-12 bg-brushedgold text-white rounded-xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-deepblack transition-all duration-500 active:scale-[0.98] shadow-lg shadow-brushedgold/10"
+          >
+            Devenir Bêta-Testeur
+          </button>
+          
+          <p id="share-beta-success" class="hidden text-emerald-600 text-[10px] font-black uppercase tracking-widest mt-4 animate-in fade-in slide-in-from-top-1">
+            ✨ Inscription réussie !
+          </p>
+          <p id="share-beta-error" class="hidden text-rose-500 text-[10px] font-black uppercase tracking-widest mt-4 animate-in fade-in slide-in-from-top-1">
+            Une erreur est survenue.
+          </p>
+        </form>
+      </div>
+
+      <!-- Footer Carte -->
+      <div
+        class="bg-bonesilk border-t border-hairline py-4 px-6 flex justify-between items-center text-[10px] font-bold tracking-widest text-coolgrey/60 uppercase"
+      >
+        <span>© 2026 Kadô-Kou</span>
+        <span>L'Art d'Offrir</span>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { SystemService } from "../../../api/services/systemService";
+
+  const openAppBtn = document.getElementById("openAppBtn");
+  const appScheme = openAppBtn?.getAttribute("data-scheme");
+
+  // Logic pour l'ouverture de l'app
+  function tryOpenApp() {
+    if (!appScheme) return;
+    window.location.href = appScheme;
+  }
+
+  openAppBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    tryOpenApp();
+  });
+
+  // Logic pour le formulaire Bêta
+  const betaForm = document.getElementById('share-beta-form') as HTMLFormElement;
+  const emailInput = document.getElementById('share-beta-email') as HTMLInputElement;
+  const honeypot = document.getElementById('share-beta-website') as HTMLInputElement;
+  const submitBtn = document.getElementById('share-beta-submit') as HTMLButtonElement;
+  const successMsg = document.getElementById('share-beta-success');
+  const errorMsg = document.getElementById('share-beta-error');
+
+  betaForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (honeypot?.value) return;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'INSCRIPTION...';
+    }
+
+    successMsg?.classList.add('hidden');
+    errorMsg?.classList.add('hidden');
+
+    try {
+      const config = await SystemService.getConfig();
+      const success = await SystemService.registerBetaTester(emailInput.value, config?.registrationToken);
+
+      if (success) {
+        successMsg?.classList.remove('hidden');
+        betaForm.reset();
+        if (submitBtn) submitBtn.innerText = 'INSCRIT';
+      } else {
+        throw new Error();
+      }
+    } catch (err) {
+      errorMsg?.classList.remove('hidden');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'DEVENIR BÊTA-TESTEUR';
+      }
+    }
+  });
+
+  // Auto-open
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    setTimeout(tryOpenApp, 1000);
+  }
+</script>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+</style>

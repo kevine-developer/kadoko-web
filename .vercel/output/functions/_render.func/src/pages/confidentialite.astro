@@ -1,0 +1,67 @@
+---
+import LegalLayout from "../layouts/LegalLayout.astro";
+import { marked } from "marked";
+import { LEGAL_CONTENT } from "../const/legal-data";
+
+const apiUrl = import.meta.env.PUBLIC_API_URL || "http://localhost:3000";
+const response = await fetch(`${apiUrl}/api/config/legal/PRIVACY_POLICY`).catch(() => null);
+const data = response ? await response.json().catch(() => null) : null;
+
+const title = `Politique de <span class="italic text-coolgrey">Confidentialité.</span>`;
+const metaTitle = `Politique de Confidentialité | Kadô-kou`;
+const description =
+  "Politique de confidentialité de Kadô-kou. Découvrez comment nous protégeons vos données personnelles, gérons les permissions (caméra, photos), vos wishlists et respectons votre vie privée (RGPD).";
+
+let contentHtml = "";
+let lastUpdated = "08 Mai 2026";
+
+if (data?.success && data?.document) {
+  contentHtml = await marked.parse(data.document.content);
+  const date = new Date(data.document.updatedAt);
+  lastUpdated = date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+} else {
+  // Fallback : contenu statique conforme Google Play Store
+  const fallback = LEGAL_CONTENT.privacy;
+  contentHtml = fallback.sections
+    .map(
+      (section, idx) =>
+        `<h2>${section.title || ""}</h2>\n<p>${section.body}</p>`
+    )
+    .join("\n\n");
+}
+---
+
+<LegalLayout
+  title={title}
+  metaTitle={metaTitle}
+  description={description}
+  subtitle="Protection des Données"
+  lastUpdated={lastUpdated}
+>
+  <div class="prose prose-sm md:prose-base prose-gray max-w-none text-deepblack legal-content" set:html={contentHtml} />
+</LegalLayout>
+
+<style is:global>
+  .legal-content h1, .legal-content h2, .legal-content h3 {
+    color: #1A1A1A;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  .legal-content h2 {
+    font-size: 1.5rem;
+  }
+  .legal-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  .legal-content ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .legal-content a {
+    color: #AF9062;
+    text-decoration: underline;
+  }
+</style>

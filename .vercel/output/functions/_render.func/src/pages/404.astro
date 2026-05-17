@@ -1,0 +1,72 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { APP_NAME } from "../const/seo";
+
+const title = `404 - Page Introuvable | ${APP_NAME}`;
+---
+
+<Layout title={title} noindex={true}>
+  <main class="min-h-[80vh] bg-bonesilk text-deepblack flex flex-col items-center justify-center px-6 text-center relative overflow-hidden">
+    
+    <!-- Éléments décoratifs en arrière-plan -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[600px] md:h-[600px] border border-brushedgold/5 rounded-full pointer-events-none"></div>
+    <div class="absolute top-1/4 left-1/4 w-32 h-32 border border-brushedgold/10 rounded-full animate-pulse-slow pointer-events-none"></div>
+
+    <div class="space-y-8 relative z-10">
+      <header class="space-y-4">
+        <span class="text-xs font-bold text-brushedgold tracking-[0.4em] uppercase block animate-fade-in">
+          Erreur 404
+        </span>
+        <h1 class="text-6xl md:text-9xl font-serif text-deepblack animate-slide-up-fade">
+          Égaré.
+        </h1>
+        <div class="w-12 h-0.5 bg-brushedgold mx-auto animate-expand"></div>
+      </header>
+
+      <p class="text-sm md:text-base text-coolgrey/80 max-w-sm mx-auto leading-relaxed font-light animate-fade-in [animation-delay:400ms]">
+        Il semble que l'objet de votre quête n'existe pas ou ait été déplacé vers une autre collection.
+      </p>
+
+      <div class="pt-8 animate-fade-in [animation-delay:600ms]">
+        <a 
+          href="/" 
+          class="group relative inline-flex items-center gap-4 text-xs font-bold uppercase tracking-widest pb-2 border-b border-deepblack hover:border-brushedgold transition-colors duration-300"
+        >
+          <span>Retour à l'accueil</span>
+          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @keyframes expand {
+    from { width: 0; opacity: 0; }
+    to { width: 48px; opacity: 1; }
+  }
+  
+  .animate-expand {
+    animation: expand 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slide-up-fade {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .animate-slide-up-fade {
+      animation: slide-up-fade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+  }
+  
+  .animate-fade-in {
+      animation: fade-in 1.5s ease-out forwards;
+  }
+</style>

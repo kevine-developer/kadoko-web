@@ -4,12 +4,14 @@ import AstroPWA from '@vite-pwa/astro';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import netlify from '@astrojs/netlify';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: import.meta.env.PUBLIC_SITE_URL || 'https://kado-kou.fr',
   output: 'server',
-  adapter: netlify(),
+  adapter: vercel({
+    imageService: true
+  }),
   image: {
     remotePatterns: [{ protocol: 'https', hostname: 'res.cloudinary.com' }],
   },
