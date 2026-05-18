@@ -1,7 +1,7 @@
 {
-  "name": "Kadokou",
-  "short_name": "Kadokou",
-  "description": "L'application de liste de cadeaux qui simplifie vos événements",
+  "name": "Kadô-kou — Liste de Cadeaux",
+  "short_name": "Kadô-kou",
+  "description": "Kadô-kou (Kadokou) : L'application gratuite de wishlist et liste de cadeaux pour vos événements",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -47,7 +47,7 @@
     {
       "name": "Télécharger l'app",
       "short_name": "App",
-      "description": "Télécharger l'application mobile Kadokou",
+      "description": "Télécharger l'application mobile Kadô-kou",
       "url": "/app",
       "icons": [
         {

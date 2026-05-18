@@ -1,7 +1,13 @@
 User-agent: *
 Allow: /
+Allow: /news/
+Allow: /share/
+Allow: /centre-aide
 Disallow: /confirmation-email
 Disallow: /verify-email-success
-Allow: /share/
+Disallow: /404
+
+# Crawl delay recommandé
+Crawl-delay: 1
 
 Sitemap: https://kado-kou.fr/sitemap.xml

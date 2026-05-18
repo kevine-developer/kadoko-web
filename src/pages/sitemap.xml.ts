@@ -1,22 +1,46 @@
-export const prerender = true;
+import { apiFetch } from "../api/client";
+
+export const prerender = false;
 
 export async function GET({ site }: { site: URL }) {
-  const lastmod = "2026-03-15";
+  const today = new Date().toISOString().split("T")[0];
 
-  const pages = [
-    { url: "", changefreq: "weekly", priority: "1.0", lastmod },
-    { url: "/centre-aide", changefreq: "monthly", priority: "0.8", lastmod },
-    { url: "/licences", changefreq: "monthly", priority: "0.3", lastmod },
-    { url: "/cookies", changefreq: "monthly", priority: "0.3", lastmod },
-    { url: "/cgu", changefreq: "yearly", priority: "0.4", lastmod },
-    { url: "/confidentialite", changefreq: "yearly", priority: "0.4", lastmod },
-    { url: "/mentions-legales", changefreq: "yearly", priority: "0.4", lastmod },
-    { url: "/suppression-compte", changefreq: "yearly", priority: "0.2", lastmod },
+  // Pages statiques
+  const staticPages = [
+    { url: "", changefreq: "weekly", priority: "1.0", lastmod: today },
+    { url: "/news", changefreq: "daily", priority: "0.9", lastmod: today },
+    { url: "/centre-aide", changefreq: "monthly", priority: "0.7", lastmod: today },
+    { url: "/cgu", changefreq: "yearly", priority: "0.4", lastmod: today },
+    { url: "/confidentialite", changefreq: "yearly", priority: "0.4", lastmod: today },
+    { url: "/mentions-legales", changefreq: "yearly", priority: "0.4", lastmod: today },
+    { url: "/suppression-compte", changefreq: "yearly", priority: "0.2", lastmod: today },
+    { url: "/licences", changefreq: "yearly", priority: "0.3", lastmod: today },
+    { url: "/cookies", changefreq: "yearly", priority: "0.3", lastmod: today },
   ];
+
+  // Pages dynamiques : articles de news publiés
+  let newsPages: typeof staticPages = [];
+  try {
+    const data = await apiFetch<{ success: boolean; news: any[] }>("/news");
+    if (data?.success && data.news?.length > 0) {
+      newsPages = data.news.map((item) => ({
+        url: `/news/${item.id}`,
+        changefreq: "monthly",
+        priority: "0.7",
+        lastmod: item.updatedAt
+          ? new Date(item.updatedAt).toISOString().split("T")[0]
+          : today,
+      }));
+    }
+  } catch {
+    // Si l'API n'est pas joignable, on continue sans les news dynamiques
+  }
+
+  const allPages = [...staticPages, ...newsPages];
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${pages
+  ${allPages
     .map((page) => {
       return `
   <url>
