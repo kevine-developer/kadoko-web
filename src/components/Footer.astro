@@ -16,7 +16,7 @@ interface Props {
 const { config } = Astro.props;
 const currentYear = new Date().getFullYear();
 
-// On privilégie les liens de la config API
+// Privilégier les liens configurés dynamiquement
 const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
 const appStoreUrl = config?.appLinks?.appStore || LINK_APP_IOS;
 const instagramUrl = config?.social?.instagram || SOCIAL_LINKS.instagram;
@@ -24,237 +24,257 @@ const facebookUrl = config?.social?.facebook || SOCIAL_LINKS.facebook;
 ---
 
 <footer
-  class="bg-deepblack text-bonesilk py-16 md:py-24 px-6 md:px-20 relative overflow-hidden"
+  class="bg-deepblack text-bonesilk pt-20 pb-12 px-6 md:px-16 lg:px-24 border-t border-white/5 relative overflow-hidden font-sans"
 >
+  <!-- Trame de bruit et grains de luxe en arrière-plan -->
   <div
-    class="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay noise-overlay"
+    class="absolute inset-0 pointer-events-none opacity-[0.02] mix-blend-overlay noise-overlay"
   >
   </div>
 
-  <div
-    class="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center md:items-start md:flex-row md:justify-between gap-12 mb-12"
-  >
-    <div class="flex flex-col items-center md:items-start space-y-6 max-w-sm">
-      <div class="flex flex-col">
-        <span class="text-xl md:text-2xl font-serif italic tracking-tight mb-2"
-          >Kadô-Kou</span
-        >
-        <span
-          class="text-xs font-medium text-brushedgold tracking-[0.2em] uppercase leading-none"
-          >L'Art d'Offrir</span
-        >
-      </div>
-      <p
-        class="text-sm font-light text-bonesilk/60 text-center md:text-left leading-relaxed"
-      >
-        Réinventez l'art d'offrir et de recevoir avec une application conçue
-        pour l'élégance et la simplicité.
-      </p>
+  <div class="max-w-[1400px] mx-auto relative z-10">
+    
+    <!-- ── GRILLE PRINCIPALE DU PIED DE PAGE ── -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-12 gap-y-16 pb-16 border-b border-white/5">
+      
+      <!-- Colonne 1: Branding & Description (Prend 4 cols sur large) -->
+      <div class="lg:col-span-4 space-y-6 flex flex-col items-center md:items-start text-center md:text-left">
+        <div>
+          <span class="text-2xl md:text-3xl font-serif tracking-tight text-white block mb-1">
+            Kadô-Kou
+          </span>
+          <span class="text-[9px] font-black text-brushedgold tracking-[0.3em] uppercase block">
+            L&apos;Art d&apos;Offrir
+          </span>
+        </div>
+        
+        <p class="text-xs font-light text-bonesilk/60 leading-relaxed max-w-xs">
+          Une expérience de cadeau épurée et raffinée, conçue pour magnifier vos moments uniques de partage.
+        </p>
 
-      <div class="flex flex-wrap items-center justify-center md:justify-start gap-6 pt-4">
-        <a
-          href={SOCIAL_LINKS.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-[10px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
-        >
-          LinkedIn
-        </a>
-        <a
-          href={facebookUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-[10px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
-        >
-          Facebook
-        </a>
-        <a
-          href={instagramUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-[10px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
-        >
-          Instagram
-        </a>
-        <a
-          href={SOCIAL_LINKS.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-[10px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
-        >
-          GitHub
-        </a>
+        <!-- Social Icons (Luxury Spaced Text) -->
+        <div class="flex flex-wrap items-center gap-5 pt-3">
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link text-[9px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
+          >
+            LinkedIn
+          </a>
+          <a
+            href={facebookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link text-[9px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
+          >
+            Facebook
+          </a>
+          <a
+            href={instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link text-[9px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
+          >
+            Instagram
+          </a>
+          <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link text-[9px] font-black uppercase tracking-widest text-bonesilk/40 hover:text-brushedgold transition-colors duration-300"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
-    </div>
 
-    <nav
-      class="grid grid-cols-2 md:grid-cols-3 gap-x-10 gap-y-12 md:gap-x-20 text-center md:text-left"
-      aria-label="Liens du pied de page"
-    >
-      <div class="space-y-5">
-        <h3
-          class="text-xs font-bold tracking-[0.2em] uppercase text-bonesilk/40"
-        >
+      <!-- Colonne 2: Navigation Links (Prend 3 cols sur large) -->
+      <div class="lg:col-span-3 space-y-5 text-center md:text-left">
+        <h3 class="text-[9px] font-black tracking-[0.25em] uppercase text-white/40">
           Navigation
         </h3>
-        <ul class="space-y-3">
+        <ul class="space-y-3.5">
           <li>
             <a
               href="/#receptions"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Réceptions</a
+              class="footer-nav-link text-xs font-light text-bonesilk/70 hover:text-white transition-colors duration-300"
             >
+              Réceptions
+            </a>
           </li>
           <li>
             <a
               href="/#fonctionnalites"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Fonctionnalités</a
+              class="footer-nav-link text-xs font-light text-bonesilk/70 hover:text-white transition-colors duration-300"
             >
+              Fonctionnalités
+            </a>
           </li>
           <li>
             <a
-              href="/#manifesto"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Le Manifeste</a
+              href="/news"
+              class="footer-nav-link text-xs font-semibold text-brushedgold hover:text-white transition-colors duration-300 flex items-center justify-center md:justify-start gap-1.5"
             >
+              Le Journal
+              <span class="w-1.5 h-1.5 rounded-full bg-brushedgold"></span>
+            </a>
           </li>
         </ul>
       </div>
 
-      <div class="space-y-5">
-        <h3
-          class="text-xs font-bold tracking-[0.2em] uppercase text-bonesilk/40"
-        >
+      <!-- Colonne 3: Legal Links (Prend 3 cols sur large) -->
+      <div class="lg:col-span-2 space-y-5 text-center md:text-left">
+        <h3 class="text-[9px] font-black tracking-[0.25em] uppercase text-white/40">
           Légal
         </h3>
-        <ul class="space-y-3">
+        <ul class="space-y-3.5">
           <li>
             <a
               href="/mentions-legales"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Mentions légales</a
+              class="footer-nav-link text-xs font-light text-bonesilk/70 hover:text-white transition-colors duration-300"
             >
+              Mentions Légales
+            </a>
           </li>
           <li>
             <a
               href="/cgu"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Conditions d'utilisation</a
+              class="footer-nav-link text-xs font-light text-bonesilk/70 hover:text-white transition-colors duration-300"
             >
+              CGU
+            </a>
           </li>
           <li>
             <a
               href="/confidentialite"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Politique de confidentialité</a
+              class="footer-nav-link text-xs font-light text-bonesilk/70 hover:text-white transition-colors duration-300"
             >
+              Confidentialité
+            </a>
           </li>
           <li>
             <a
               href="/suppression-compte"
-              class="text-sm text-bonesilk/80 hover:text-brushedgold transition-all duration-300"
-              >Suppression de compte</a
+              class="footer-nav-link text-xs font-light text-bonesilk/70 hover:text-white transition-colors duration-300"
             >
+              Suppression Compte
+            </a>
           </li>
         </ul>
       </div>
 
-      <div class="space-y-5 col-span-2 md:col-span-1">
-        <h3
-          class="text-xs font-bold tracking-[0.2em] uppercase text-bonesilk/40"
-        >
+      <!-- Colonne 4: Store Badges (Prend 3 cols sur large) -->
+      <div class="lg:col-span-3 space-y-5 text-center md:text-left">
+        <h3 class="text-[9px] font-black tracking-[0.25em] uppercase text-white/40">
           Disponibilité
         </h3>
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-3.5 justify-center items-center md:items-start">
           <a
             href={playStoreUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="transition-transform duration-300 hover:scale-105 active:scale-95 self-center md:self-start"
+            class="transition-transform duration-300 hover:scale-103 active:scale-97 block"
             aria-label="Télécharger sur Google Play"
           >
-            <StoreBadges store="play" className="h-10" />
+            <StoreBadges store="play" className="h-9.5" />
           </a>
+          
           {appStoreUrl ? (
             <a
               href={appStoreUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="transition-transform duration-300 hover:scale-105 active:scale-95 self-center md:self-start"
+              class="transition-transform duration-300 hover:scale-103 active:scale-97 block"
               aria-label="Télécharger sur l'App Store"
             >
-              <StoreBadges store="apple" className="h-10" />
+              <StoreBadges store="apple" className="h-9.5" />
             </a>
           ) : (
             <div
-              class="opacity-40 grayscale cursor-not-allowed transition-all duration-300 self-center md:self-start"
+              class="opacity-40 grayscale cursor-not-allowed transition-all duration-300"
               title="Bientôt disponible sur l'App Store"
             >
-              <StoreBadges store="apple" className="h-10" />
+              <StoreBadges store="apple" className="h-9.5" />
             </div>
           )}
         </div>
       </div>
-    </nav>
-  </div>
 
-  <div
-    class="max-w-[1400px] mx-auto pt-8 border-t border-bonesilk/10 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10"
-  >
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-2">
-        <span class="w-1 h-1 rounded-full bg-brushedgold/40"></span>
-        <p class="text-xs tracking-[0.3em] uppercase text-bonesilk/60">
-          Toulouse • France
-        </p>
-      </div>
-      <span class="text-[9px] px-2 py-0.5 rounded-full border border-bonesilk/10 text-bonesilk/40 font-bold tracking-widest uppercase">Beta</span>
     </div>
-    <p class="text-xs tracking-widest text-bonesilk/40 text-center">
-      &copy; {currentYear} — <a
-        href={LINK_YVES_NARSON_KEVINE}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hover:text-brushedgold transition-colors duration-300"
-        >Yves Narson Kevine</a
-      > par <a
-        href={LINK_DEV_EN_GALERE}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hover:text-brushedgold transition-colors duration-300"
-        >Devengalere</a
-      >. Tous droits réservés.
-    </p>
+
+    <!-- ── PIED DE PAGE INFÉRIEUR (COPYRIGHT & SIGNATURES) ── -->
+    <div class="pt-10 flex flex-col lg:flex-row justify-between items-center gap-6 text-[10px] tracking-widest text-bonesilk/40 uppercase">
+      
+      <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-brushedgold/40"></span>
+          <span>Toulouse • France</span>
+        </div>
+        <span class="hidden sm:inline text-white/10">|</span>
+        <span class="px-2.5 py-0.5 rounded-full border border-white/5 text-[8px] font-black uppercase text-bonesilk/40 bg-white/2">
+          Beta Privée
+        </span>
+      </div>
+
+      <div class="text-center lg:text-right leading-loose">
+        <span>&copy; {currentYear} • </span>
+        <a
+          href={LINK_YVES_NARSON_KEVINE}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-brushedgold transition-colors duration-300 border-b border-transparent hover:border-brushedgold"
+        >
+          Yves Narson Kevine
+        </a>
+        <span> par </span>
+        <a
+          href={LINK_DEV_EN_GALERE}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hover:text-brushedgold transition-colors duration-300 border-b border-transparent hover:border-brushedgold"
+        >
+          Devengalere
+        </a>
+        <span>. Tous Droits Réservés.</span>
+      </div>
+
+    </div>
+
   </div>
 </footer>
 
 <style>
   footer {
-    font-feature-settings:
-      "kern" 1,
-      "tnum" 1;
+    font-feature-settings: "kern" 1, "tnum" 1;
     -webkit-font-smoothing: antialiased;
   }
 
-  a {
+  /* Luxury underlines for social links */
+  .social-link {
     position: relative;
-    display: inline-block;
   }
-
-  a::after {
+  .social-link::after {
     content: "";
     position: absolute;
     width: 0;
     height: 1px;
     bottom: -2px;
     left: 0;
-    background-color: currentColor;
-    transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    background-color: #D4AF37;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .social-link:hover::after {
+    width: 100%;
   }
 
-  a:hover::after {
-    width: 100%;
+  /* Elegant slight slide on list link hover */
+  .footer-nav-link {
+    display: inline-block;
+    transition: transform 0.30s ease, color 0.30s ease;
+  }
+  .footer-nav-link:hover {
+    transform: translateX(3px);
   }
 
   .noise-overlay {

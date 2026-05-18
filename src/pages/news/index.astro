@@ -1,0 +1,225 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import { SystemService } from "../../api/services";
+
+export const prerender = false;
+
+import { apiFetch } from "../../api/client";
+
+const data = await apiFetch<{ success: boolean; news: any[] }>("/news").catch(() => null);
+
+const newsList = data?.success ? data.news : [];
+
+const config = await SystemService.getConfig();
+
+const formatCategory = (cat: string | null) => {
+  if (!cat) return "ÉDITORIAL";
+  return cat.toUpperCase().split("").join(" ");
+};
+
+const formatDate = (dateStr: string) => {
+  try {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).toUpperCase();
+  } catch {
+    return dateStr;
+  }
+};
+
+// Séparer l'article à la Une (le dernier) et les autres articles
+interface NewsItem {
+  id: string;
+  title: string;
+  summary: string | null;
+  content: string;
+  imageUrl: string | null;
+  category: string | null;
+  published: boolean;
+  priority: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const heroNews = newsList[0] as NewsItem | undefined;
+const secondaryNews = newsList.slice(1) as NewsItem[];
+
+// Métadonnées SEO haut de gamme
+const metaTitle = "Journal & Actualités | Kadô-kou";
+const metaDescription = "Retrouvez les dernières nouveautés, mises à jour, astuces d'utilisation et conseils de l'équipe Kadô-kou pour sublimer vos listes cadeaux.";
+
+// Structured Data (JSON-LD) de type CollectionPage
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": metaTitle,
+  "description": metaDescription,
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kadô-kou",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kado-kou.fr/android-chrome-192x192.png"
+    }
+  }
+};
+---
+
+<Layout
+  title={metaTitle}
+  description={metaDescription}
+  noindex={false}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+
+  <div class="fixed inset-0 pointer-events-none opacity-[0.02] z-50 mix-blend-overlay noise-overlay"></div>
+
+  <main class="min-h-screen bg-bonesilk text-deepblack font-sans pb-24">
+    <Navbar />
+
+    <!-- En-tête de section -->
+    <header class="max-w-[1400px] mx-auto px-6 md:px-20 pt-32 md:pt-40 pb-12 border-b border-hairline relative">
+      <div class="absolute top-0 left-0 w-full h-1 bg-brushedgold/15"></div>
+      <span class="text-[9px] font-black tracking-[0.3em] text-brushedgold uppercase block mb-3">Perspectives & Annonces</span>
+      <h1 class="text-4xl md:text-6xl font-serif text-deepblack leading-tight tracking-tight">
+        Le <span class="italic text-brushedgold">Journal.</span>
+      </h1>
+      <p class="text-xs md:text-sm text-coolgrey/80 max-w-md font-light leading-relaxed mt-4">
+        Restez informé des dernières créations de l&apos;application, de nos inspirations éditoriales et conseils pour l&apos;art de recevoir.
+      </p>
+    </header>
+
+    <div class="max-w-[1400px] mx-auto px-6 md:px-20 py-16">
+      {newsList.length === 0 ? (
+        <div class="py-20 text-center border border-dashed border-hairline rounded-sm bg-white/40">
+          <svg class="w-12 h-12 text-coolgrey/30 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 4a2 2 0 012 2v5a2 2 0 01-2 2h-3m-6 0H9m1.5-4H12m-1.5-4H12" />
+          </svg>
+          <h3 class="font-serif text-lg font-bold text-deepblack mb-1">Silence éditorial</h3>
+          <p class="text-xs text-coolgrey/70 font-light">Aucune publication dans le journal pour le moment.</p>
+        </div>
+      ) : (
+        <div class="space-y-24">
+          
+          <!-- ── ARTICLE À LA UNE (HERO CARD ASYMETRIQUE) ── -->
+          {heroNews && (
+            <a 
+              href={`/news/${heroNews.id}`} 
+              class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center group cursor-pointer"
+            >
+              {heroNews.imageUrl && (
+                <div class="lg:col-span-7 aspect-1200/628 w-full rounded-sm overflow-hidden border border-hairline shadow-sm relative">
+                  <img 
+                    src={heroNews.imageUrl} 
+                    alt={heroNews.title} 
+                    class="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-102"
+                  />
+                  <div class="absolute inset-0 bg-deepblack/2 group-hover:opacity-0 transition-opacity duration-500"></div>
+                </div>
+              )}
+              
+              <div class="lg:col-span-5 flex flex-col justify-center space-y-6">
+                <div class="flex items-center space-x-3">
+                  <span class="text-[9px] font-black tracking-widest text-brushedgold">
+                    {formatCategory(heroNews.category)}
+                  </span>
+                  <div class="w-1 h-1 rounded-full bg-deepblack/10"></div>
+                  <span class="text-[9px] font-medium tracking-widest text-coolgrey/50">
+                    {formatDate(heroNews.createdAt)}
+                  </span>
+                </div>
+                
+                <h2 class="text-2xl md:text-3xl lg:text-4xl font-serif leading-tight text-deepblack tracking-tight group-hover:text-brushedgold transition-colors duration-300">
+                  {heroNews.title}
+                </h2>
+                
+                {heroNews.summary && (
+                  <p class="text-xs md:text-sm text-coolgrey/80 leading-relaxed font-light line-clamp-3">
+                    {heroNews.summary}
+                  </p>
+                )}
+                
+                <div class="inline-flex items-center space-x-2 text-[9px] font-black tracking-widest uppercase text-brushedgold pt-2">
+                  <span>DÉCOUVRIR L&apos;ARTICLE</span>
+                  <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          )}
+
+          <!-- Séparateur or discret -->
+          {secondaryNews.length > 0 && <div class="w-20 h-px bg-brushedgold/20 mx-auto"></div>}
+
+          <!-- ── SECONDAIRE GRILLE ÉPURÉE (AUTRES ARTICLES) ── -->
+          {secondaryNews.length > 0 && (
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+              {secondaryNews.map((item) => (
+                <a 
+                  href={`/news/${item.id}`} 
+                  class="group flex flex-col space-y-5 cursor-pointer"
+                >
+                  {item.imageUrl && (
+                    <div class="aspect-1200/628 w-full rounded-sm overflow-hidden border border-hairline shadow-sm relative">
+                      <img 
+                        src={item.imageUrl} 
+                        alt={item.title} 
+                        class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-102"
+                      />
+                      <div class="absolute inset-0 bg-deepblack/1 group-hover:opacity-0 transition-opacity"></div>
+                    </div>
+                  )}
+                  
+                  <div class="space-y-3">
+                    <div class="flex items-center space-x-3 text-[8px] font-bold tracking-widest text-coolgrey/60 uppercase">
+                      <span class="text-brushedgold">{formatCategory(item.category)}</span>
+                      <div class="w-1 h-1 rounded-full bg-deepblack/15"></div>
+                      <span>{formatDate(item.createdAt)}</span>
+                    </div>
+                    
+                    <h3 class="text-lg font-serif font-semibold text-deepblack leading-snug tracking-tight group-hover:text-brushedgold transition-colors duration-300 line-clamp-2">
+                      {item.title}
+                    </h3>
+                    
+                    {item.summary && (
+                      <p class="text-xs text-coolgrey/80 leading-relaxed font-light line-clamp-2">
+                        {item.summary}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+
+        </div>
+      )}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .noise-overlay {
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.05) 2px,
+        rgba(0, 0, 0, 0.05) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.05) 2px,
+        rgba(0, 0, 0, 0.05) 4px
+      );
+    background-size: 4px 4px;
+  }
+</style>
