@@ -1,5 +1,7 @@
 ---
 import { SEO, SITE_URL } from "../const/seo";
+import { SystemService } from "../api/services";
+import { LINK_APP_ANDROID, LINK_APP_IOS } from "../const/constant";
 
 interface Props {
   title?: string;
@@ -24,6 +26,11 @@ const {
   imageWidth,
   imageHeight,
 } = Astro.props;
+
+// Récupération dynamique de la configuration des liens de téléchargement de l'application
+const config = await SystemService.getConfig();
+const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
+const appStoreUrl = config?.appLinks?.appStore || LINK_APP_IOS;
 
 const rawCanonicalURL = canonical
   ? new URL(canonical, SITE_URL)
@@ -78,6 +85,9 @@ const twitterCardType = type === "profile" ? "summary" : "summary_large_image";
 <link rel="canonical" href={canonicalURL} />
 <link rel="alternate" hreflang="fr" href={canonicalURL} />
 <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+
+<!-- Google Play App Indexing (Permet à Google Search d'afficher l'application comme installable avec bouton 'Installer') -->
+<link rel="alternate" href="android-app://com.kadokou.devengalere/https/kado-kou.fr/" />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -174,13 +184,15 @@ const twitterCardType = type === "profile" ? "summary" : "summary_large_image";
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      name: "Kadô-kou — Application Wishlist & Liste de Cadeaux",
+      name: "Kadô-kou",
       alternateName: ["Kadokou", "Kado-kou", "Kado kou", "Kadô-kou wishlist"],
-      operatingSystem: "Android, iOS",
+      operatingSystem: "Android",
       applicationCategory: "LifestyleApplication",
       applicationSubCategory: "Wishlist & Liste de cadeaux",
+      downloadUrl: playStoreUrl,
+      installUrl: playStoreUrl,
       description:
-        "Kadô-kou est l'application gratuite de wishlist et liste de cadeaux. Créez votre liste de mariage, liste de naissance ou d'anniversaire, partagez vos idées cadeaux avec vos proches et organisez vos réceptions.",
+        "Kadô-kou est l'application gratuite de wishlist et liste de cadeaux. Créez votre liste de mariage, liste de naissance ou d'anniversaire, partagez vos idées cadeaux avec vos proches et organisez vos réceptions sur Android.",
       offers: {
         "@type": "Offer",
         price: "0",
@@ -188,15 +200,48 @@ const twitterCardType = type === "profile" ? "summary" : "summary_large_image";
         availability: "https://schema.org/InStock",
       },
       image: socialImageURL,
+      publisher: {
+        "@type": "Organization",
+        name: "Kadô-kou",
+        logo: new URL("/android-chrome-192x192.png", SITE_URL).toString(),
+      },
       keywords:
-        "wishlist, application wishlist, liste de cadeaux, liste de mariage, liste de naissance, app cadeaux, wishlist en ligne, cadeau anniversaire",
+        "wishlist, application wishlist, liste de cadeaux, play store, app android, kado-kou play store",
       featureList: [
         "Wishlist et liste de cadeaux en ligne",
         "Création de listes de mariage et de naissance",
-        "Collections de cadeaux curatées",
-        "Gestion d'événements et réceptions",
-        "Partage sécurisé avec code d'accès",
-        "Réseau social privé pour les proches",
+        "Application gratuite sans publicité",
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: "Kadô-kou",
+      alternateName: ["Kadokou", "Kado-kou", "Kado kou", "Kadô-kou wishlist"],
+      operatingSystem: "iOS",
+      applicationCategory: "LifestyleApplication",
+      applicationSubCategory: "Wishlist & Liste de cadeaux",
+      downloadUrl: appStoreUrl,
+      installUrl: appStoreUrl,
+      description:
+        "Kadô-kou est l'application gratuite de wishlist et liste de cadeaux. Créez votre liste de mariage, liste de naissance ou d'anniversaire, partagez vos idées cadeaux avec vos proches et organisez vos réceptions sur iOS.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "EUR",
+        availability: "https://schema.org/InStock",
+      },
+      image: socialImageURL,
+      publisher: {
+        "@type": "Organization",
+        name: "Kadô-kou",
+        logo: new URL("/android-chrome-192x192.png", SITE_URL).toString(),
+      },
+      keywords:
+        "wishlist, application wishlist, app store, app ios, kado-kou app store",
+      featureList: [
+        "Wishlist et liste de cadeaux en ligne",
+        "Création de listes de mariage et de naissance",
         "Application gratuite sans publicité",
       ],
     },
