@@ -119,58 +119,57 @@ import appIcon from "../assets/images/native-app/app-icon.png";
     </button>
 
   </div>
+</header>
 
-  <!-- ── MOBILE NAV DRAWER (FULL-SCREEN DE LUXE) ── -->
-  <div
-    id="mobile-drawer"
-    class="fixed inset-0 top-[72px] bg-bonesilk/98 backdrop-blur-2xl z-40 transform translate-x-full transition-transform duration-500 ease-out lg:hidden flex flex-col justify-between border-t border-hairline p-8"
-  >
-    <nav class="flex flex-col space-y-8 pt-8">
-      <a
-        href="/#receptions"
-        class="mobile-nav-link text-2xl font-serif text-deepblack hover:text-brushedgold transition-colors"
-      >
-        Réceptions
-      </a>
-      <a
-        href="/#fonctionnalites"
-        class="mobile-nav-link text-2xl font-serif text-deepblack hover:text-brushedgold transition-colors"
-      >
-        Fonctionnalités
-      </a>
-      <a
-        href="/news"
-        class="mobile-nav-link text-2xl font-serif text-deepblack hover:text-brushedgold transition-colors flex items-center justify-between"
-      >
-        Le Journal
-        <span class="text-[9px] px-2 py-0.5 rounded-full bg-brushedgold text-white font-sans tracking-widest uppercase">Nouveau</span>
-      </a>
-    </nav>
+<!-- ── MOBILE NAV DRAWER (FULL-SCREEN DE LUXE) ── -->
+<div
+  id="mobile-drawer"
+  class="fixed inset-0 top-[64px] md:top-[72px] bg-bonesilk z-40 transform translate-x-full transition-transform duration-500 ease-out lg:hidden flex flex-col justify-between border-t border-black/5 p-8"
+>
+  <nav class="flex flex-col space-y-8 pt-8">
+    <a
+      href="/#receptions"
+      class="mobile-nav-link text-2xl font-serif text-deepblack hover:text-brushedgold transition-colors"
+    >
+      Réceptions
+    </a>
+    <a
+      href="/#fonctionnalites"
+      class="mobile-nav-link text-2xl font-serif text-deepblack hover:text-brushedgold transition-colors"
+    >
+      Fonctionnalités
+    </a>
+    <a
+      href="/news"
+      class="mobile-nav-link text-2xl font-serif text-deepblack hover:text-brushedgold transition-colors flex items-center justify-between"
+    >
+      Le Journal
+      <span class="text-[9px] px-2 py-0.5 rounded-full bg-brushedgold text-white font-sans tracking-widest uppercase">Nouveau</span>
+    </a>
+  </nav>
 
-    <div class="space-y-6 pb-12">
-      <button
-        data-open-beta
-        class="w-full py-4 text-[10px] font-bold border border-brushedgold text-brushedgold text-center uppercase tracking-widest active:bg-brushedgold active:text-white transition-all rounded-sm"
-      >
-        Devenir Testeur
-      </button>
-      
-      <a
-        href={LINK_APP_ANDROID}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="block w-full py-4 bg-deepblack text-white text-[10px] font-bold text-center uppercase tracking-widest active:bg-black transition-all rounded-sm"
-      >
-        Télécharger l&apos;Application
-      </a>
+  <div class="space-y-6 pb-12">
+    <button
+      data-open-beta
+      class="w-full py-4 text-[10px] font-bold border border-brushedgold text-brushedgold text-center uppercase tracking-widest active:bg-brushedgold active:text-white transition-all rounded-sm"
+    >
+      Devenir Testeur
+    </button>
+    
+    <a
+      href={LINK_APP_ANDROID}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="block w-full py-4 bg-deepblack text-white text-[10px] font-bold text-center uppercase tracking-widest active:bg-black transition-all rounded-sm"
+    >
+      Télécharger l&apos;Application
+    </a>
 
-      <div class="text-center pt-4">
-        <span class="text-[8px] font-bold tracking-[0.25em] text-coolgrey/40 uppercase">Gastsar • L&apos;Art d&apos;Offrir</span>
-      </div>
+    <div class="text-center pt-4">
+      <span class="text-[8px] font-bold tracking-[0.25em] text-coolgrey/40 uppercase">Gastsar • L&apos;Art d&apos;Offrir</span>
     </div>
   </div>
-
-</header>
+</div>
 
 <script>
   // Dynamic Scroll Effect
@@ -199,10 +198,20 @@ import appIcon from "../assets/images/native-app/app-icon.png";
       mobileDrawer?.classList.remove("translate-x-full");
       hamburgerPath?.setAttribute("d", "M6 18L18 6M6 6l12 12");
       document.body.style.overflow = "hidden";
+      // Rendre le header opaque quand le menu est ouvert
+      navbar?.classList.add("bg-bonesilk", "border-b", "border-black/5");
+      navbar?.classList.remove("bg-bonesilk/85", "bg-bonesilk/95");
     } else {
       mobileDrawer?.classList.add("translate-x-full");
       hamburgerPath?.setAttribute("d", "M4 8h16M4 16h16");
       document.body.style.overflow = "";
+      // Rétablir l'état du scroll
+      navbar?.classList.remove("bg-bonesilk");
+      if (window.scrollY > 40) {
+        navbar?.classList.add("bg-bonesilk/95");
+      } else {
+        navbar?.classList.add("bg-bonesilk/85");
+      }
     }
   }
 

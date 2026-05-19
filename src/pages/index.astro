@@ -14,6 +14,7 @@ import StoreBadges from "../components/StoreBadges.astro";
 import BetaSignup from "../components/BetaSignup.astro";
 import { Image } from "astro:assets";
 import { SystemService } from "../api/services";
+import { apiFetch } from "../api/client";
 
 import appIcon from "../assets/images/native-app/app-icon.png";
 import wishlistsImg from "../assets/images/native-app/wishlists.jpg";
@@ -24,6 +25,67 @@ import socialImg from "../assets/images/native-app/social.jpg";
 const config = await SystemService.getConfig();
 const playStoreUrl = config?.appLinks?.playStore || LINK_APP_ANDROID;
 const appStoreUrl = config?.appLinks?.appStore || "";
+
+// Récupération dynamique des 3 dernières nouveautés publiées
+let homeNews: any[] = [];
+try {
+  const newsData = await apiFetch<{ success: boolean; news: any[] }>("/news").catch(() => null);
+  if (newsData?.success && newsData.news?.length > 0) {
+    homeNews = newsData.news.slice(0, 3);
+  }
+} catch {
+  // Ignoré : le fallback sera utilisé
+}
+
+// Articles d'actualité fictifs premium si l'API est indisponible ou vide
+const fallbackNews = [
+  {
+    id: "1",
+    title: "L'art d'offrir réinventé : L'expérience exclusive Kadô-kou",
+    summary: "Découvrez notre manifeste sur l'art délicat d'offrir. Pourquoi chaque attention mérite un écrin digital d'exception, sans bruit ni publicité parasite.",
+    imageUrl: wishlistsImg.src,
+    category: "ÉDITORIAL",
+    createdAt: new Date("2026-05-12").toISOString()
+  },
+  {
+    id: "2",
+    title: "Les réceptions d'exception : Guide pratique de l'organisateur",
+    summary: "Mariage, baby shower ou anniversaire privé. Notre guide exclusif pour créer des invitations inoubliables et coordonner vos convives avec aisance.",
+    imageUrl: receptionsImg.src,
+    category: "GUIDE",
+    createdAt: new Date("2026-05-08").toISOString()
+  },
+  {
+    id: "3",
+    title: "Bêta privée ouverte : Rejoignez le cercle des premiers initiés",
+    summary: "L'application mobile ouvre ses portes en version d'essai privée. Comment participer aux tests, suggérer des fonctionnalités et faire partie de l'histoire.",
+    imageUrl: socialImg.src,
+    category: "ANNONCE",
+    createdAt: new Date("2026-05-01").toISOString()
+  }
+];
+
+const finalNews = homeNews.length > 0 ? homeNews : fallbackNews;
+const isFallback = homeNews.length === 0;
+
+const formatCategory = (cat: string | null) => {
+  if (!cat) return "ÉDITORIAL";
+  return cat.toUpperCase().split("").join(" ");
+};
+
+const formatDate = (dateStr: string) => {
+  try {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).toUpperCase();
+  } catch {
+    return dateStr;
+  }
+};
+
 
 const slidesData = [
   {
@@ -250,6 +312,88 @@ const slidesData = [
 
     <!-- Features -->
     <FeaturesGrid />
+
+    <!-- Nouveautés Grid Section -->
+    <section 
+      class="py-16 md:py-20 px-6 md:px-12 bg-bonesilk/40 border-t border-black/3 relative"
+      aria-label="Dernières actualités et nouveautés"
+    >
+      <div class="max-w-6xl mx-auto">
+        <!-- En-tête de section style éditorial ultra-raffiné -->
+        <div class="text-center md:text-left space-y-2 max-w-xl reveal-on-scroll opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+          <span class="text-[8px] font-bold tracking-[0.4em] text-brushedgold uppercase block">PERSPECTIVES & CRÉATIONS</span>
+          <h2 class="text-2xl md:text-3xl font-serif text-deepblack font-light leading-tight tracking-tight">
+            Les dernières <span class="italic text-brushedgold font-normal">Nouveautés.</span>
+          </h2>
+          <p class="text-[11px] md:text-xs text-coolgrey/70 font-light leading-relaxed">
+            L&apos;art d&apos;offrir se réinvente au quotidien. Suivez nos récits d&apos;inspiration, guides pratiques et coulisses du projet.
+          </p>
+        </div>
+
+        <!-- Grille des articles compacte et réactive -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-12">
+          {finalNews.map((item, idx) => (
+            <a 
+              href={isFallback ? "/news" : `/news/${item.id}`}
+              class="group flex flex-col space-y-4 cursor-pointer reveal-on-scroll opacity-0 translate-y-10 transition-all duration-1000 ease-out"
+              style={`transition-delay: ${idx * 100}ms`}
+            >
+              {item.imageUrl && (
+                <div class="aspect-16/10 w-full rounded-sm overflow-hidden border border-black/5 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.03)] relative bg-white">
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.title} 
+                    class="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-102"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-deepblack/2 group-hover:opacity-0 transition-opacity duration-500"></div>
+                </div>
+              )}
+              
+              <div class="flex flex-col space-y-2.5">
+                <div class="flex items-center space-x-2">
+                  <span class="text-[8px] font-bold tracking-[0.2em] text-brushedgold uppercase">
+                    {formatCategory(item.category)}
+                  </span>
+                  <span class="text-[8px] text-coolgrey/30">•</span>
+                  <span class="text-[8px] font-medium tracking-[0.2em] text-coolgrey/40 uppercase">
+                    {formatDate(item.createdAt)}
+                  </span>
+                </div>
+                
+                <h3 class="text-sm font-serif font-medium text-deepblack leading-snug tracking-tight group-hover:text-brushedgold transition-colors duration-300 line-clamp-2">
+                  {item.title}
+                </h3>
+                
+                <p class="text-[11px] text-coolgrey/80 leading-relaxed font-light line-clamp-2">
+                  {item.summary}
+                </p>
+                
+                <div class="inline-flex items-center gap-1.5 text-[8px] font-bold tracking-[0.25em] uppercase text-brushedgold pt-1 group-hover:text-deepblack transition-colors duration-300 w-fit">
+                  <span>LIRE L'ARTICLE</span>
+                  <svg class="w-2.5 h-2.5 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L19 10m0 0l-5.5 5.5M19 10H5" />
+                  </svg>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <!-- Bouton Voir Plus compact et épuré -->
+        <div class="flex justify-center mt-12 reveal-on-scroll opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+          <a
+            href="/news"
+            class="group inline-flex items-center justify-center border border-deepblack/5 hover:border-deepblack/15 bg-white hover:bg-deepblack hover:text-white px-6 py-3 text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-300 active:scale-[0.98] shadow-sm rounded-sm"
+          >
+            Découvrir le Journal
+            <svg class="w-3.5 h-3.5 ml-2.5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
 
     <Manifesto />
     
