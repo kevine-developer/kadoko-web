@@ -12,9 +12,10 @@ interface Props {
   image?: string;
   noindex?: boolean;
   keywords?: string[];
+  type?: "website" | "article" | "profile";
 }
 
-const { title, description, image, noindex, keywords } = Astro.props;
+const { title, description, image, noindex, keywords, type } = Astro.props;
 
 // Récupération de la config globale (liens stores, etc.)
 const config = await SystemService.getConfig();
@@ -29,6 +30,7 @@ const config = await SystemService.getConfig();
       image={image}
       noindex={noindex}
       keywords={keywords}
+      type={type}
     />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

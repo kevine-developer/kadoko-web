@@ -9,6 +9,8 @@ interface Props {
   noindex?: boolean;
   type?: "website" | "article" | "profile";
   keywords?: string[];
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 const {
@@ -19,6 +21,8 @@ const {
   noindex = false,
   type = "website",
   keywords = SEO.keywords,
+  imageWidth,
+  imageHeight,
 } = Astro.props;
 
 const rawCanonicalURL = canonical
@@ -31,7 +35,38 @@ const canonicalURL =
     ? rawCanonicalURL.href.slice(0, -1)
     : rawCanonicalURL.href;
 
-const socialImageURL = new URL(image, SITE_URL);
+// Résolution robuste de l'image sociale avec fallback
+const resolvedImage = (image && image.trim() !== "") ? image : SEO.defaultImage;
+
+let socialImageURL = resolvedImage;
+if (!socialImageURL.startsWith("http://") && !socialImageURL.startsWith("https://")) {
+  socialImageURL = new URL(resolvedImage, SITE_URL).toString();
+}
+
+// Toujours forcer HTTPS pour assurer l'affichage sur WhatsApp, iMessage, Facebook, etc.
+if (socialImageURL.startsWith("http://")) {
+  socialImageURL = socialImageURL.replace("http://", "https://");
+}
+
+// Détection de l'extension pour le type MIME
+let ogImageType = "image/jpeg";
+const lowerUrl = socialImageURL.toLowerCase();
+if (lowerUrl.endsWith(".png")) {
+  ogImageType = "image/png";
+} else if (lowerUrl.endsWith(".webp")) {
+  ogImageType = "image/webp";
+} else if (lowerUrl.endsWith(".gif")) {
+  ogImageType = "image/gif";
+} else if (lowerUrl.endsWith(".svg")) {
+  ogImageType = "image/svg+xml";
+}
+
+// Choix de la taille de l'image (paysage pour les sites et articles, carré pour les profils)
+const ogWidth = imageWidth || (type === "profile" ? 500 : 1200);
+const ogHeight = imageHeight || (type === "profile" ? 500 : 630);
+
+// Type de carte Twitter : paysage (summary_large_image) ou carré (summary) pour les profils
+const twitterCardType = type === "profile" ? "summary" : "summary_large_image";
 ---
 
 <!-- Global Metadata -->
@@ -65,16 +100,28 @@ const socialImageURL = new URL(image, SITE_URL);
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={socialImageURL} />
+<meta property="og:image:secure_url" content={socialImageURL} />
+<meta property="og:image:type" content={ogImageType} />
+<meta property="og:image:width" content={String(ogWidth)} />
+<meta property="og:image:height" content={String(ogHeight)} />
 <meta property="og:image:alt" content={title} />
 <meta property="og:locale" content="fr_FR" />
 <meta property="og:site_name" content="Kadô-kou — Liste de Cadeaux" />
+<meta property="og:updated_time" content={new Date().toISOString()} />
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:card" content={twitterCardType} />
 <meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={socialImageURL} />
+<meta property="twitter:image:alt" content={title} />
+
+<!-- Discord & Slack Theme Color -->
+<meta name="theme-color" content="#AF9062" />
+
+<!-- Legacy / Fallbacks (Emails/Yahoo/Outlook) -->
+<link rel="image_src" href={socialImageURL} />
 
 <!-- Fonts Preload (Performance) -->
 <!-- Georgia est une police système safe, mais si on utilise une webfont : -->

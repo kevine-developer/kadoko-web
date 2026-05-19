@@ -130,6 +130,7 @@ if (type === "p") {
   description={dynamicDescription} 
   image={dynamicImage}
   noindex={noindex}
+  type={type === "p" ? "profile" : "website"}
 >
   <!-- Données structurées spécifiques à la page -->
   <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
