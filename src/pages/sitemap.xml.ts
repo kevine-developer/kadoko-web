@@ -18,13 +18,26 @@ export async function GET({ site }: { site: URL }) {
     { url: "/cookies", changefreq: "yearly", priority: "0.3", lastmod: today },
   ];
 
+  const slugify = (title: string | null | undefined, fallbackId: string) => {
+    if (!title) return fallbackId;
+    const cleanTitle = title
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+    return cleanTitle || fallbackId;
+  };
+
   // Pages dynamiques : articles de news publiés
   let newsPages: typeof staticPages = [];
   try {
     const data = await apiFetch<{ success: boolean; news: any[] }>("/news");
     if (data?.success && data.news?.length > 0) {
       newsPages = data.news.map((item) => ({
-        url: `/news/${item.id}`,
+        url: `/news/${slugify(item.title, item.id)}`,
         changefreq: "monthly",
         priority: "0.7",
         lastmod: item.updatedAt

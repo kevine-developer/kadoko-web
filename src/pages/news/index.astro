@@ -31,6 +31,19 @@ const formatDate = (dateStr: string) => {
   }
 };
 
+const slugify = (title: string | null | undefined, fallbackId: string) => {
+  if (!title) return fallbackId;
+  const cleanTitle = title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+  return cleanTitle || fallbackId;
+};
+
 // Séparer l'article à la Une (le dernier) et les autres articles
 interface NewsItem {
   id: string;
@@ -108,7 +121,7 @@ const jsonLd = {
           <!-- ── ARTICLE À LA UNE (HERO CARD ASYMETRIQUE) ── -->
           {heroNews && (
             <a 
-              href={`/news/${heroNews.id}`} 
+              href={`/news/${slugify(heroNews.title, heroNews.id)}`} 
               class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center group cursor-pointer"
             >
               {heroNews.imageUrl && (
@@ -161,7 +174,7 @@ const jsonLd = {
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
               {secondaryNews.map((item) => (
                 <a 
-                  href={`/news/${item.id}`} 
+                  href={`/news/${slugify(item.title, item.id)}`} 
                   class="group flex flex-col space-y-5 cursor-pointer"
                 >
                   {item.imageUrl && (

@@ -11,9 +11,34 @@ const { id } = Astro.params;
 
 import { apiFetch } from "../../api/client";
 
-const data = await apiFetch<{ success: boolean; news: any }>(`/news/${id}`).catch(() => null);
+// Récupération de tous les articles pour faire correspondre le slug pur en mémoire
+const dataList = await apiFetch<{ success: boolean; news: any[] }>("/news").catch(() => null);
+const newsList = dataList?.success ? dataList.news : [];
 
-const news = data?.success ? data.news : null;
+const slugify = (title: string | null | undefined) => {
+  if (!title) return "";
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+};
+
+// Recherche par correspondance de slug pur ou par identifiant brut (pour compatibilité)
+let news = newsList.find(
+  (item) => slugify(item.title) === id || item.id === id
+);
+
+// Fallback : si l'article n'a pas été trouvé (ex: vieil ID spécifique), on tente un fetch direct
+if (!news && id) {
+  const dataDirect = await apiFetch<{ success: boolean; news: any }>(`/news/${id}`).catch(() => null);
+  if (dataDirect?.success) {
+    news = dataDirect.news;
+  }
+}
 
 if (!news) {
   // Rediriger vers la page d'accueil ou une page 404 si l'actualité est introuvable

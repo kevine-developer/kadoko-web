@@ -86,6 +86,19 @@ const formatDate = (dateStr: string) => {
   }
 };
 
+const slugify = (title: string | null | undefined, fallbackId: string) => {
+  if (!title) return fallbackId;
+  const cleanTitle = title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+  return cleanTitle || fallbackId;
+};
+
 
 const slidesData = [
   {
@@ -334,7 +347,7 @@ const slidesData = [
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-12">
           {finalNews.map((item, idx) => (
             <a 
-              href={isFallback ? "/news" : `/news/${item.id}`}
+              href={isFallback ? "/news" : `/news/${slugify(item.title, item.id)}`}
               class="group flex flex-col space-y-4 cursor-pointer reveal-on-scroll opacity-0 translate-y-10 transition-all duration-1000 ease-out"
               style={`transition-delay: ${idx * 100}ms`}
             >
